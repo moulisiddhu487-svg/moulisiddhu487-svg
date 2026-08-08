@@ -1,18 +1,27 @@
 <div align="center">
 
-<img src="https://capsule-render.vercel.app/api?type=waving&color=0:0A0E27,50:151A3D,100:E63946&height=220&section=header&text=Mouli%20Godaba&fontSize=55&fontColor=FFFFFF&fontAlignY=38&desc=DevOps%20Engineer%20%7C%20Cloud%20%26%20Infrastructure%20Automation&descAlignY=58&descSize=18&animation=fadeIn" width="100%"/>
-
-<img src="https://capsule-render.vercel.app/api?type=rect&color=E63946&height=3" width="100%"/>
+<img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iOTAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDkwMCAyMDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CiAgPGRlZnM+CiAgICA8bGluZWFyR3JhZGllbnQgaWQ9ImJnIiB4MT0iMCUiIHkxPSIwJSIgeDI9IjEwMCUiIHkyPSIxMDAlIj4KICAgICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzBBMEUyNyIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjU1JSIgc3RvcC1jb2xvcj0iIzE1MUEzRCIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNFNjM5NDYiLz4KICAgIDwvbGluZWFyR3JhZGllbnQ+CiAgPC9kZWZzPgogIDxyZWN0IHdpZHRoPSI5MDAiIGhlaWdodD0iMjAwIiBmaWxsPSJ1cmwoI2JnKSIvPgogIDx0ZXh0IHg9IjQ1MCIgeT0iOTUiIGZvbnQtZmFtaWx5PSJTZWdvZSBVSSwgVmVyZGFuYSwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSI0OCIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iI0ZGRkZGRiIgdGV4dC1hbmNob3I9Im1pZGRsZSI+TW91bGkgR29kYWJhPC90ZXh0PgogIDx0ZXh0IHg9IjQ1MCIgeT0iMTMwIiBmb250LWZhbWlseT0iU2Vnb2UgVUksIFZlcmRhbmEsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTgiIGZpbGw9IiNFMEUwRTAiIHRleHQtYW5jaG9yPSJtaWRkbGUiPkRldk9wcyAmYW1wOyBDbG91ZCBFbmdpbmVlciAg4oCiICBLdWJlcm5ldGVzICDigKIgIFRlcnJhZm9ybSAg4oCiICBBenVyZTwvdGV4dD4KICA8cmVjdCB4PSIzNTAiIHk9IjE1MCIgd2lkdGg9IjIwMCIgaGVpZ2h0PSI0IiBmaWxsPSIjRTYzOTQ2Ii8+Cjwvc3ZnPgo=" width="100%"/>
 
 <br/>
 
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/mouli-godaba-121a4525a/)
-[![Portfolio](https://img.shields.io/badge/Portfolio-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://mouli-portfolio-six.vercel.app/)
 [![Gmail](https://img.shields.io/badge/Gmail-EA4335?style=for-the-badge&logo=gmail&logoColor=white)](mailto:moulisiddhu487@gmail.com)
 
 </div>
 
 <br/>
+
+## 👋 About Me
+
+Aspiring DevOps & Cloud Engineer with a BSc in Mathematics, Electronics & Computer Science, plus hands-on DevOps training covering containerization, orchestration, infrastructure as code, and CI/CD automation. Deployed and hosted a serverless application on Azure Functions with an automated GitHub Actions CI/CD pipeline, including auth and cross-origin configuration. Currently pursuing the Microsoft Azure AZ-104 certification.
+
+- 🔭 **Currently building:** Production-ready auto-healing K8s infrastructure with full-stack observability
+- 🌱 **Currently learning / certifying:** Microsoft Azure Administrator (AZ-104), AWS Cloud Practitioner
+- 🛠️ **Trained at:** Xtream Tech, Hyderabad — Docker, Kubernetes, Terraform, Ansible, AWS, Azure
+- 💬 **Ask me about:** Serverless deployments, GitHub Actions CI/CD, Kubernetes self-healing
+- 📫 **Reach me:** via the badges above
+
+<img src="https://capsule-render.vercel.app/api?type=rect&color=E63946&height=3" width="100%"/>
 
 ## 🛠️ Technical Stack
 
@@ -23,6 +32,7 @@
 ![AWS](https://img.shields.io/badge/AWS-FF9900?style=for-the-badge&logo=amazonaws&logoColor=white)
 ![Azure](https://img.shields.io/badge/Azure-0089D6?style=for-the-badge&logo=microsoftazure&logoColor=white)
 ![Terraform](https://img.shields.io/badge/Terraform-7B42BC?style=for-the-badge&logo=terraform&logoColor=white)
+![Ansible](https://img.shields.io/badge/Ansible-EE0000?style=for-the-badge&logo=ansible&logoColor=white)
 
 **Containers & Orchestration**
 
@@ -33,6 +43,7 @@
 **CI/CD & Observability**
 
 ![GitHub Actions](https://img.shields.io/badge/GitHub_Actions-2088FF?style=for-the-badge&logo=githubactions&logoColor=white)
+![Jenkins](https://img.shields.io/badge/Jenkins-D24939?style=for-the-badge&logo=jenkins&logoColor=white)
 ![Prometheus](https://img.shields.io/badge/Prometheus-E6522C?style=for-the-badge&logo=prometheus&logoColor=white)
 ![Grafana](https://img.shields.io/badge/Grafana-F46800?style=for-the-badge&logo=grafana&logoColor=white)
 ![Linux](https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black)
@@ -93,6 +104,13 @@ Production-grade infrastructure for a multi-service app, built to demonstrate re
 <img height="165" src="https://github-readme-streak-stats.herokuapp.com/?user=moulisiddhu487-svg&hide_border=true&background=0A0E27&stroke=E63946&ring=E63946&fire=E63946&currStreakLabel=E63946&sideNums=FFFFFF&sideLabels=FFFFFF&dates=FFFFFF"/>
 
 <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=moulisiddhu487-svg&layout=compact&hide_border=true&bg_color=0A0E27&title_color=E63946&text_color=FFFFFF"/>
+
+### 🐍 Contribution Snake
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/moulisiddhu487-svg/moulisiddhu487-svg/output/github-contribution-grid-snake-dark.svg">
+  <img alt="red contribution snake animation" src="https://raw.githubusercontent.com/moulisiddhu487-svg/moulisiddhu487-svg/output/github-contribution-grid-snake.svg">
+</picture>
 
 </div>
 

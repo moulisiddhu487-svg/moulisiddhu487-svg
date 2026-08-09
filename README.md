@@ -51,7 +51,6 @@ ask_me_about        : "Serverless deployments, GitHub Actions CI/CD, K8s self-he
 
 <img src="./assets/hdr-projects.png" width="600"/>
 
-**azure-resume-api** &nbsp; ![Done](https://img.shields.io/badge/DONE-2E7D32?style=flat-square) &nbsp;·&nbsp; **k8s-observability-suite** &nbsp; ![In Progress](https://img.shields.io/badge/IN_PROGRESS-FF2800?style=flat-square)
 
 ### azure-resume-api — Serverless Resume API
 

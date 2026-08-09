@@ -11,7 +11,7 @@
 
 <br/>
 
-### 👋 `about.md`
+<img src="./assets/hdr-about.png" width="420"/>
 
 Aspiring DevOps & Cloud Engineer with a BSc in Mathematics, Electronics & Computer Science, plus hands-on DevOps training covering containerization, orchestration, infrastructure as code, and CI/CD automation. Deployed and hosted a serverless application on Azure Functions with an automated GitHub Actions CI/CD pipeline, including auth and cross-origin configuration. Currently pursuing the Microsoft Azure AZ-104 certification.
 

@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="./assets/banner.svg" width="100%"/>
+<img src="./assets/banner.png" width="100%"/>
 
 <br/>
 
@@ -11,8 +11,7 @@
 
 <br/>
 
-🔴 🟡 🟢&nbsp; `about.md`
-### 👋 About Me
+### 👋 `about.md`
 
 Aspiring DevOps & Cloud Engineer with a BSc in Mathematics, Electronics & Computer Science, plus hands-on DevOps training covering containerization, orchestration, infrastructure as code, and CI/CD automation. Deployed and hosted a serverless application on Azure Functions with an automated GitHub Actions CI/CD pipeline, including auth and cross-origin configuration. Currently pursuing the Microsoft Azure AZ-104 certification.
 
@@ -24,10 +23,9 @@ Aspiring DevOps & Cloud Engineer with a BSc in Mathematics, Electronics & Comput
 📫 reach_me            : "via the badges above"
 ```
 
-<img src="https://capsule-render.vercel.app/api?type=rect&color=E63946&height=3" width="100%"/>
+<img src="https://capsule-render.vercel.app/api?type=rect&color=FF2800&height=3" width="100%"/>
 
-🔴 🟡 🟢&nbsp; `stack.yml`
-### 🛠️ Technical Stack
+### 🛠️ `stack.yml`
 
 <div align="center">
 
@@ -55,10 +53,9 @@ Aspiring DevOps & Cloud Engineer with a BSc in Mathematics, Electronics & Comput
 
 </div>
 
-<img src="https://capsule-render.vercel.app/api?type=rect&color=E63946&height=3" width="100%"/>
+<img src="https://capsule-render.vercel.app/api?type=rect&color=FF2800&height=3" width="100%"/>
 
-🔴 🟡 🟢&nbsp; `resume-api.md`
-### ⚡ Featured Project — Serverless Resume API
+### ⚡ `resume-api.md`  —  Featured Project: Serverless Resume API
 
 A cloud-native backend that serves my resume data as JSON over a REST endpoint — fully serverless on Azure, scales automatically, zero compute cost when idle.
 
@@ -70,15 +67,14 @@ A cloud-native backend that serves my resume data as JSON over a REST endpoint �
 
 <div align="center">
 
-[![Live Endpoint](https://img.shields.io/badge/Live_Endpoint-E63946?style=for-the-badge&logo=fastapi&logoColor=white)](https://resume-api-30847.azurewebsites.net/api/cv)
+[![Live Endpoint](https://img.shields.io/badge/Live_Endpoint-FF2800?style=for-the-badge&logo=fastapi&logoColor=white)](https://resume-api-30847.azurewebsites.net/api/cv)
 [![Source Code](https://img.shields.io/badge/Source_Code-24292F?style=for-the-badge&logo=github&logoColor=white)](https://github.com/moulisiddhu487-svg/azure-resume-api)
 
 </div>
 
-<img src="https://capsule-render.vercel.app/api?type=rect&color=E63946&height=3" width="100%"/>
+<img src="https://capsule-render.vercel.app/api?type=rect&color=FF2800&height=3" width="100%"/>
 
-🔴 🟡 🟢&nbsp; `k8s-suite.md`
-### 🚀 Production-Ready Auto-Healing K8s & Observability Suite
+### 🚀 `k8s-suite.md`  —  Production-Ready Auto-Healing K8s & Observability Suite
 
 Production-grade infrastructure for a multi-service app, built to demonstrate reliability engineering — not just "I ran a container."
 
@@ -89,14 +85,13 @@ Production-grade infrastructure for a multi-service app, built to demonstrate re
 
 <div align="center">
 
-![In Progress](https://img.shields.io/badge/Status-In_Progress-E63946?style=for-the-badge&logo=progress&logoColor=white)
+![In Progress](https://img.shields.io/badge/Status-In_Progress-FF2800?style=for-the-badge&logo=progress&logoColor=white)
 
 </div>
 
-<img src="https://capsule-render.vercel.app/api?type=rect&color=E63946&height=3" width="100%"/>
+<img src="https://capsule-render.vercel.app/api?type=rect&color=FF2800&height=3" width="100%"/>
 
-🔴 🟡 🟢&nbsp; `also-building.md`
-### 📌 Also Building
+### 📌 `also-building.md`
 
 - **[job-track-hub](https://github.com/moulisiddhu487-svg/job-track-hub)** — Full-stack job application tracker (React/TypeScript, Node.js/Express, Supabase), Docker-deployed on AWS EC2.
 - **[Mouli-Portfolio](https://github.com/moulisiddhu487-svg/Mouli-Portfolio)** — Personal portfolio site, live at [mouli-portfolio-six.vercel.app](https://mouli-portfolio-six.vercel.app/).
@@ -105,15 +100,11 @@ Production-grade infrastructure for a multi-service app, built to demonstrate re
 
 <div align="center">
 
-🔴 🟡 🟢&nbsp; `./stats.sh`
-### 📊 GitHub Stats
+### 📊 `stats.sh`
 
-<img height="165" src="https://github-readme-stats.vercel.app/api?username=moulisiddhu487-svg&show_icons=true&hide_border=true&bg_color=0A0E27&title_color=E63946&icon_color=E63946&text_color=FFFFFF&ring_color=E63946"/>
-<img height="165" src="https://github-readme-streak-stats.herokuapp.com/?user=moulisiddhu487-svg&hide_border=true&background=0A0E27&stroke=E63946&ring=E63946&fire=E63946&currStreakLabel=E63946&sideNums=FFFFFF&sideLabels=FFFFFF&dates=FFFFFF"/>
+<img src="https://github-readme-stats.vercel.app/api/top-langs/?username=moulisiddhu487-svg&layout=compact&hide_border=true&bg_color=0A0E27&title_color=FF2800&text_color=FFFFFF"/>
 
-<img src="https://github-readme-stats.vercel.app/api/top-langs/?username=moulisiddhu487-svg&layout=compact&hide_border=true&bg_color=0A0E27&title_color=E63946&text_color=FFFFFF"/>
-
-**🐍 `./contributions.sh` — output:**
+**🐍 `./contributions.sh` — live output:**
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/moulisiddhu487-svg/moulisiddhu487-svg/output/github-contribution-grid-snake-dark.svg">
@@ -122,4 +113,4 @@ Production-grade infrastructure for a multi-service app, built to demonstrate re
 
 </div>
 
-<img src="https://capsule-render.vercel.app/api?type=waving&color=0:E63946,100:0A0E27&height=100&section=footer" width="100%"/>
+<img src="https://capsule-render.vercel.app/api?type=waving&color=0:FF2800,100:0A0E27&height=100&section=footer" width="100%"/>

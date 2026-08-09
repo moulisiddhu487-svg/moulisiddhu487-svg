@@ -1,0 +1,57 @@
+<svg width="900" height="260" viewBox="0 0 900 260" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0A0E27"/>
+      <stop offset="60%" stop-color="#151A3D"/>
+      <stop offset="100%" stop-color="#2A1020"/>
+    </linearGradient>
+    <clipPath id="clipL1"><rect x="0" y="0" width="0" height="26"><animate attributeName="width" from="0" to="380" begin="0.6s" dur="0.8s" fill="freeze"/></rect></clipPath>
+    <clipPath id="clipL2"><rect x="0" y="0" width="0" height="26"><animate attributeName="width" from="0" to="300" begin="1.6s" dur="0.8s" fill="freeze"/></rect></clipPath>
+    <clipPath id="clipL3"><rect x="0" y="0" width="0" height="26"><animate attributeName="width" from="0" to="360" begin="2.5s" dur="0.9s" fill="freeze"/></rect></clipPath>
+  </defs>
+
+  <rect width="900" height="260" rx="10" fill="url(#bg)"/>
+
+  <!-- title bar -->
+  <rect width="900" height="34" rx="10" fill="#12162E"/>
+  <rect y="24" width="900" height="10" fill="#12162E"/>
+  <circle cx="24" cy="17" r="6" fill="#FF5F56"/>
+  <circle cx="46" cy="17" r="6" fill="#FFBD2E"/>
+  <circle cx="68" cy="17" r="6" fill="#27C93F"/>
+  <text x="450" y="22" font-family="Courier New, monospace" font-size="13" fill="#8A8FA8" text-anchor="middle">mouli@devops:~$ ./identity.sh</text>
+
+  <!-- ASCII infinity loop -->
+  <text x="60" y="90" font-family="Courier New, monospace" font-size="15" fill="#E63946" xml:space="preserve">
+    <tspan x="60" dy="0">  ####      ####  </tspan>
+    <tspan x="60" dy="18"> #    #    #    # </tspan>
+    <tspan x="60" dy="18">#      #  #      #</tspan>
+    <tspan x="60" dy="18">#       ##       #</tspan>
+    <tspan x="60" dy="18">#      #  #      #</tspan>
+    <tspan x="60" dy="18"> #    #    #    # </tspan>
+    <tspan x="60" dy="18">  ####      ####  </tspan>
+  </text>
+  <text x="60" y="228" font-family="Courier New, monospace" font-size="12" fill="#5C6180">devops.loop</text>
+
+  <!-- typed terminal output -->
+  <g font-family="Courier New, monospace" font-size="14" fill="#5C6180">
+    <text x="380" y="70">$ whoami</text>
+  </g>
+
+  <g clip-path="url(#clipL1)">
+    <text x="380" y="105" font-family="Courier New, monospace" font-size="30" font-weight="700" fill="#FFFFFF">Mouli Godaba</text>
+  </g>
+
+  <g clip-path="url(#clipL2)">
+    <text x="380" y="140" font-family="Courier New, monospace" font-size="17" fill="#E63946">DevOps &amp; Cloud Engineer</text>
+  </g>
+
+  <g clip-path="url(#clipL3)">
+    <text x="380" y="170" font-family="Courier New, monospace" font-size="13" fill="#8A8FA8">Kubernetes | Terraform | Azure | GitHub Actions</text>
+  </g>
+
+  <rect x="380" y="178" width="10" height="16" fill="#E63946" opacity="0">
+    <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.01;0.5;1" begin="3.4s" dur="1s" repeatCount="indefinite"/>
+  </rect>
+
+  <rect x="60" y="245" width="780" height="3" fill="#E63946"/>
+</svg>

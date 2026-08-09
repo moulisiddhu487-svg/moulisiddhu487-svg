@@ -14,13 +14,13 @@ jobs:
       contents: write
     runs-on: ubuntu-latest
     steps:
-      - name: Generate red snake SVG
+      - name: Generate snake SVG (light + dark)
         uses: Platane/snk@v3
         with:
           github_user_name: moulisiddhu487-svg
           outputs: |
-            dist/github-contribution-grid-snake.svg
-            dist/github-contribution-grid-snake-dark.svg?palette=github-dark&color_snake=%23FF2800
+            dist/github-contribution-grid-snake.svg?color_snake=%23FF2800&color_dots=%23151A3D,%233D1220,%23701A0F,%23B32410,%23FF2800&color_dots_border=%23151A3D
+            dist/github-contribution-grid-snake-dark.svg?palette=github-dark&color_snake=%23FF2800&color_dots=%23151A3D,%233D1220,%23701A0F,%23B32410,%23FF2800&color_dots_border=%23151A3D
 
       - name: Push output to the output branch
         uses: crazy-max/ghaction-github-pages@v4

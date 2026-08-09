@@ -2,30 +2,24 @@
 
 <img src="./assets/banner.png" width="100%"/>
 
-<br/>
-
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/mouli-godaba-121a4525a/)
-[![Gmail](https://img.shields.io/badge/Gmail-EA4335?style=for-the-badge&logo=gmail&logoColor=white)](mailto:moulisiddhu487@gmail.com)
-
 </div>
 
-<br/>
+<br/><br/>
 
-<img src="./assets/hdr-about.png" width="420"/>
+<img src="./assets/hdr-about.png" width="600"/>
 
 Aspiring DevOps & Cloud Engineer with a BSc in Mathematics, Electronics & Computer Science, plus hands-on DevOps training covering containerization, orchestration, infrastructure as code, and CI/CD automation. Deployed and hosted a serverless application on Azure Functions with an automated GitHub Actions CI/CD pipeline, including auth and cross-origin configuration. Currently pursuing the Microsoft Azure AZ-104 certification.
 
 ```
-🔭 currently_building : "Production-ready auto-healing K8s infrastructure"
-🌱 currently_learning  : "Azure AZ-104", "AWS Cloud Practitioner"
-🛠️  trained_at          : "Xtream Tech, Hyderabad — Docker, K8s, Terraform, Ansible, AWS, Azure"
-💬 ask_me_about        : "Serverless deployments, GitHub Actions CI/CD, K8s self-healing"
-📫 reach_me            : "via the badges above"
+currently_building : "Production-ready auto-healing K8s infrastructure"
+currently_learning  : "Azure AZ-104", "AWS Cloud Practitioner"
+trained_at          : "Xtream Tech, Hyderabad — Docker, K8s, Terraform, Ansible, AWS, Azure"
+ask_me_about        : "Serverless deployments, GitHub Actions CI/CD, K8s self-healing"
 ```
 
-<img src="https://capsule-render.vercel.app/api?type=rect&color=FF2800&height=3" width="100%"/>
+<img src="https://capsule-render.vercel.app/api?type=rect&color=FF2800&height=2" width="100%"/>
 
-### 🛠️ `stack.yml`
+<img src="./assets/hdr-skills.png" width="600"/>
 
 <div align="center">
 
@@ -53,9 +47,13 @@ Aspiring DevOps & Cloud Engineer with a BSc in Mathematics, Electronics & Comput
 
 </div>
 
-<img src="https://capsule-render.vercel.app/api?type=rect&color=FF2800&height=3" width="100%"/>
+<img src="https://capsule-render.vercel.app/api?type=rect&color=FF2800&height=2" width="100%"/>
 
-### ⚡ `resume-api.md`  —  Featured Project: Serverless Resume API
+<img src="./assets/hdr-projects.png" width="600"/>
+
+**azure-resume-api** &nbsp; ![Done](https://img.shields.io/badge/DONE-2E7D32?style=flat-square) &nbsp;·&nbsp; **k8s-observability-suite** &nbsp; ![In Progress](https://img.shields.io/badge/IN_PROGRESS-FF2800?style=flat-square)
+
+### azure-resume-api — Serverless Resume API
 
 A cloud-native backend that serves my resume data as JSON over a REST endpoint — fully serverless on Azure, scales automatically, zero compute cost when idle.
 
@@ -72,9 +70,9 @@ A cloud-native backend that serves my resume data as JSON over a REST endpoint �
 
 </div>
 
-<img src="https://capsule-render.vercel.app/api?type=rect&color=FF2800&height=3" width="100%"/>
+<br/>
 
-### 🚀 `k8s-suite.md`  —  Production-Ready Auto-Healing K8s & Observability Suite
+### k8s-observability-suite — Production-Ready Auto-Healing K8s & Observability Suite
 
 Production-grade infrastructure for a multi-service app, built to demonstrate reliability engineering — not just "I ran a container."
 
@@ -83,28 +81,25 @@ Production-grade infrastructure for a multi-service app, built to demonstrate re
 - **Zero-Downtime CI/CD:** Built a GitHub Actions pipeline that builds the Docker image, pushes it to a registry, and runs a rolling `helm upgrade` on every push — new pods come up before old ones go down.
 - **Full-Stack Observability:** Deployed Prometheus & Grafana via Helm to monitor live cluster CPU, memory, and pod network traffic on a real-time dashboard.
 
+<img src="https://capsule-render.vercel.app/api?type=rect&color=FF2800&height=2" width="100%"/>
+
+<img src="./assets/hdr-ping.png" width="600"/>
+
 <div align="center">
 
-![In Progress](https://img.shields.io/badge/Status-In_Progress-FF2800?style=for-the-badge&logo=progress&logoColor=white)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/mouli-godaba-121a4525a/)
+[![Gmail](https://img.shields.io/badge/Gmail-EA4335?style=for-the-badge&logo=gmail&logoColor=white)](mailto:moulisiddhu487@gmail.com)
+[![Portfolio](https://img.shields.io/badge/Portfolio-FF2800?style=for-the-badge&logo=vercel&logoColor=white)](https://mouli-portfolio-six.vercel.app/)
 
 </div>
 
-<img src="https://capsule-render.vercel.app/api?type=rect&color=FF2800&height=3" width="100%"/>
+<img src="https://capsule-render.vercel.app/api?type=rect&color=FF2800&height=2" width="100%"/>
 
-### 📌 `also-building.md`
-
-- **[job-track-hub](https://github.com/moulisiddhu487-svg/job-track-hub)** — Full-stack job application tracker (React/TypeScript, Node.js/Express, Supabase), Docker-deployed on AWS EC2.
-- **[Mouli-Portfolio](https://github.com/moulisiddhu487-svg/Mouli-Portfolio)** — Personal portfolio site, live at [mouli-portfolio-six.vercel.app](https://mouli-portfolio-six.vercel.app/).
-
-<br/>
+<img src="./assets/hdr-stats.png" width="600"/>
 
 <div align="center">
 
-### 📊 `stats.sh`
-
-<img src="https://github-readme-stats.vercel.app/api/top-langs/?username=moulisiddhu487-svg&layout=compact&hide_border=true&bg_color=0A0E27&title_color=FF2800&text_color=FFFFFF"/>
-
-**🐍 `./contributions.sh` — live output:**
+**`./contributions.sh` — live output:**
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/moulisiddhu487-svg/moulisiddhu487-svg/output/github-contribution-grid-snake-dark.svg">
@@ -113,4 +108,4 @@ Production-grade infrastructure for a multi-service app, built to demonstrate re
 
 </div>
 
-<img src="https://capsule-render.vercel.app/api?type=waving&color=0:FF2800,100:0A0E27&height=100&section=footer" width="100%"/>
+<img src="https://capsule-render.vercel.app/api?type=rect&color=0:FF2800,100:0A0E27&height=4" width="100%"/>

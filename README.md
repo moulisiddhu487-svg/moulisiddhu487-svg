@@ -51,6 +51,7 @@ ask_me_about        : "Serverless deployments, GitHub Actions CI/CD, K8s self-he
 
 <img src="./assets/hdr-projects.png" width="600"/>
 
+**azure-resume-api** &nbsp; ![Done](https://img.shields.io/badge/DONE-2E7D32?style=flat-square) &nbsp;·&nbsp; **k8s-observability-suite** &nbsp; ![In Progress](https://img.shields.io/badge/IN_PROGRESS-FF2800?style=flat-square)
 
 ### azure-resume-api — Serverless Resume API
 
@@ -88,7 +89,7 @@ Production-grade infrastructure for a multi-service app, built to demonstrate re
 
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/mouli-godaba-121a4525a/)
 [![Gmail](https://img.shields.io/badge/Gmail-EA4335?style=for-the-badge&logo=gmail&logoColor=white)](mailto:moulisiddhu487@gmail.com)
-[![Portfolio](https://img.shields.io/badge/Portfolio-FF2800?style=for-the-badge&logo=vercel&logoColor=white)](https://mouli-portfolio-six.vercel.app/)
+[![Portfolio](https://img.shields.io/badge/Portfolio-24292F?style=for-the-badge&logo=vercel&logoColor=white)](https://mouli-portfolio-six.vercel.app/)
 
 </div>
 
@@ -98,7 +99,6 @@ Production-grade infrastructure for a multi-service app, built to demonstrate re
 
 <div align="center">
 
-**`./contributions.sh` — live output:**
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/moulisiddhu487-svg/moulisiddhu487-svg/output/github-contribution-grid-snake-dark.svg">

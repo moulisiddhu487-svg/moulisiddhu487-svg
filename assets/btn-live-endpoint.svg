@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="200" height="50" viewBox="0 0 200 50">
+  <rect x="2" y="4" width="196" height="44" rx="10" fill="#000000" opacity="0.35"/>
+  <rect x="0" y="0" width="196" height="44" rx="10" fill="#159A48"/>
+  <g transform="translate(16,9)">
+    <path fill="#FFFFFF" d="M13.5 0L4 14h6l-1.5 12L18 12h-6z"/>
+  </g>
+  <text x="50" y="27" font-family="Segoe UI, Arial, sans-serif" font-size="15" font-weight="700" letter-spacing="0.5" fill="#FFFFFF">LIVE ENDPOINT</text>
+</svg>

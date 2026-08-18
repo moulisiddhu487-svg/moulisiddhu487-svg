@@ -51,7 +51,7 @@ ask_me_about        : "Serverless deployments, GitHub Actions CI/CD, K8s self-he
 
 <img src="./assets/hdr-projects.png" width="600"/>
 
-**azure-resume-api** &nbsp; ![Done](https://img.shields.io/badge/DONE-2E7D32?style=flat-square) &nbsp;·&nbsp; **k8s-observability-suite** &nbsp; ![In Progress](https://img.shields.io/badge/IN_PROGRESS-FF2800?style=flat-square)
+**azure-resume-api** &nbsp; ![Done](https://img.shields.io/badge/DONE-2E7D32?style=flat-square) &nbsp;·&nbsp; **Cloud-Native-Microservices-Observability-Auto-Scaling-Infrastructure** &nbsp; ![Done](https://img.shields.io/badge/DONE-2E7D32?style=flat-square)
 
 ### azure-resume-api — Serverless Resume API
 
@@ -72,14 +72,22 @@ A cloud-native backend that serves my resume data as JSON over a REST endpoint �
 
 <br/>
 
-### k8s-observability-suite — Production-Ready Auto-Healing K8s & Observability Suite
+### Cloud-Native-Microservices-Observability-Auto-Scaling-Infrastructure — Kubernetes Observability & Auto-Scaling Platform
 
-Production-grade infrastructure for a multi-service app, built to demonstrate reliability engineering — not just "I ran a container."
+Deploys and monitors an 11-service microservices app (Google's Online Boutique) on a Kubernetes cluster (K3s on AWS EC2), with automatic pod recovery, CPU-based autoscaling, and live Prometheus/Grafana monitoring — built to demonstrate real reliability engineering, not just "I ran a container."
 
-- **Infrastructure as Code:** Provisioned a managed AWS EKS cluster with dedicated VPC networking using modular Terraform scripts.
-- **Self-Healing:** Packaged microservices into versioned Helm charts, configuring Liveness/Readiness probes so Kubernetes automatically detects and restarts crashed pods — zero manual intervention.
-- **Zero-Downtime CI/CD:** Built a GitHub Actions pipeline that builds the Docker image, pushes it to a registry, and runs a rolling `helm upgrade` on every push — new pods come up before old ones go down.
-- **Full-Stack Observability:** Deployed Prometheus & Grafana via Helm to monitor live cluster CPU, memory, and pod network traffic on a real-time dashboard.
+- **Microservices Deployment:** 11 services (frontend, cart, catalog, currency, payment, shipping, email, checkout, recommendation, ad, load generator) running as isolated pods communicating over internal Kubernetes DNS.
+- **Auto-Scaling (HPA):** CPU-based Horizontal Pod Autoscaling on `frontend` (1–3 pods), `cartservice` (1–3 pods), and `recommendationservice` (1–2 pods) — replicas scale up automatically past an 80% CPU target.
+- **Self-Healing:** Configured Liveness/Readiness probes so Kubernetes detects and replaces unhealthy or deleted pods automatically, without manual intervention.
+- **Observability:** Prometheus and Node Exporter collecting cluster/pod-level metrics, visualized in real-time Grafana dashboards with alerting rules.
+- **Validated under load:** Ran controlled failure and load tests (pod deletion, load-generator traffic spikes) via `kubectl` to confirm self-healing and scaling behavior end-to-end.
+- **Lab setup, production-portable:** Runs on a single AWS EC2 instance using K3s — a lightweight, CNCF-certified Kubernetes distribution. All manifests, HPA rules, and Helm charts are directly portable to a managed cluster like AWS EKS with no changes.
+
+<div align="center">
+
+[![Source Code](https://img.shields.io/badge/Source_Code-24292F?style=for-the-badge&logo=github&logoColor=white)](https://github.com/moulisiddhu487-svg/Cloud-Native-Microservices-Observability-Auto-Scaling-Infrastructure)
+
+</div>
 
 <img src="https://capsule-render.vercel.app/api?type=rect&color=FF2800&height=2" width="100%"/>
 
@@ -87,9 +95,31 @@ Production-grade infrastructure for a multi-service app, built to demonstrate re
 
 <div align="center">
 
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/mouli-godaba-121a4525a/)
-[![Gmail](https://img.shields.io/badge/Gmail-EA4335?style=for-the-badge&logo=gmail&logoColor=white)](mailto:moulisiddhu487@gmail.com)
-[![Portfolio](https://img.shields.io/badge/Portfolio-24292F?style=for-the-badge&logo=vercel&logoColor=white)](https://mouli-portfolio-six.vercel.app/)
+<table>
+<tr>
+<td align="center" width="110">
+<a href="https://www.linkedin.com/in/mouli-godaba-121a4525a/">
+<img src="https://cdn.simpleicons.org/linkedin/FF2800" width="34" height="34" alt="LinkedIn"/>
+<br/>
+<sub><b>LinkedIn</b></sub>
+</a>
+</td>
+<td align="center" width="110">
+<a href="mailto:moulisiddhu487@gmail.com">
+<img src="https://cdn.simpleicons.org/gmail/FF2800" width="34" height="34" alt="Gmail"/>
+<br/>
+<sub><b>Gmail</b></sub>
+</a>
+</td>
+<td align="center" width="110">
+<a href="https://mouli-portfolio-six.vercel.app/">
+<img src="https://cdn.simpleicons.org/vercel/FF2800" width="34" height="34" alt="Portfolio"/>
+<br/>
+<sub><b>Portfolio</b></sub>
+</a>
+</td>
+</tr>
+</table>
 
 </div>
 

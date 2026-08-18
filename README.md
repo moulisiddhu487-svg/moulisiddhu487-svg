@@ -51,8 +51,6 @@ ask_me_about        : "Serverless deployments, GitHub Actions CI/CD, K8s self-he
 
 <img src="./assets/hdr-projects.png" width="600"/>
 
-**azure-resume-api** &nbsp; ![Done](https://img.shields.io/badge/DONE-2E7D32?style=flat-square) &nbsp;·&nbsp; **Cloud-Native-Microservices-Observability-Auto-Scaling-Infrastructure** &nbsp; ![Done](https://img.shields.io/badge/DONE-2E7D32?style=flat-square)
-
 ### azure-resume-api — Serverless Resume API
 
 A cloud-native backend that serves my resume data as JSON over a REST endpoint — fully serverless on Azure, scales automatically, zero compute cost when idle.
@@ -65,8 +63,9 @@ A cloud-native backend that serves my resume data as JSON over a REST endpoint �
 
 <div align="center">
 
-[![Live Endpoint](https://img.shields.io/badge/Live_Endpoint-FF2800?style=for-the-badge&logo=fastapi&logoColor=white)](https://resume-api-30847.azurewebsites.net/api/cv)
-[![Source Code](https://img.shields.io/badge/Source_Code-24292F?style=for-the-badge&logo=github&logoColor=white)](https://github.com/moulisiddhu487-svg/azure-resume-api)
+<a href="https://resume-api-30847.azurewebsites.net/api/cv"><img src="./assets/btn-live-endpoint.svg" height="44"/></a>
+&nbsp;&nbsp;
+<a href="https://github.com/moulisiddhu487-svg/azure-resume-api"><img src="./assets/btn-source-code.svg" height="44"/></a>
 
 </div>
 
@@ -85,7 +84,7 @@ Deploys and monitors an 11-service microservices app (Google's Online Boutique) 
 
 <div align="center">
 
-[![Source Code](https://img.shields.io/badge/Source_Code-24292F?style=for-the-badge&logo=github&logoColor=white)](https://github.com/moulisiddhu487-svg/Cloud-Native-Microservices-Observability-Auto-Scaling-Infrastructure)
+<a href="https://github.com/moulisiddhu487-svg/Cloud-Native-Microservices-Observability-Auto-Scaling-Infrastructure"><img src="./assets/btn-source-code.svg" height="44"/></a>
 
 </div>
 
@@ -95,31 +94,11 @@ Deploys and monitors an 11-service microservices app (Google's Online Boutique) 
 
 <div align="center">
 
-<table>
-<tr>
-<td align="center" width="110">
-<a href="https://www.linkedin.com/in/mouli-godaba-121a4525a/">
-<img src="https://cdn.simpleicons.org/linkedin/FF2800" width="34" height="34" alt="LinkedIn"/>
-<br/>
-<sub><b>LinkedIn</b></sub>
-</a>
-</td>
-<td align="center" width="110">
-<a href="mailto:moulisiddhu487@gmail.com">
-<img src="https://cdn.simpleicons.org/gmail/FF2800" width="34" height="34" alt="Gmail"/>
-<br/>
-<sub><b>Gmail</b></sub>
-</a>
-</td>
-<td align="center" width="110">
-<a href="https://mouli-portfolio-six.vercel.app/">
-<img src="https://cdn.simpleicons.org/vercel/FF2800" width="34" height="34" alt="Portfolio"/>
-<br/>
-<sub><b>Portfolio</b></sub>
-</a>
-</td>
-</tr>
-</table>
+<a href="https://www.linkedin.com/in/mouli-godaba-121a4525a/"><img src="./assets/icon-linkedin.svg" width="52" height="52"/></a>
+&nbsp;&nbsp;&nbsp;
+<a href="mailto:moulisiddhu487@gmail.com"><img src="./assets/icon-gmail.svg" width="52" height="52"/></a>
+&nbsp;&nbsp;&nbsp;
+<a href="https://mouli-portfolio-six.vercel.app/"><img src="./assets/icon-portfolio.svg" width="52" height="52"/></a>
 
 </div>
 

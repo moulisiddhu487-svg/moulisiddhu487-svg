@@ -116,4 +116,14 @@ Deploys and monitors an 11-service microservices app (Google's Online Boutique) 
 
 </div>
 
+<div align="center">
+<div style="display:inline-block; padding:16px; border:1px solid #2A2A2A; border-radius:0px; background:#0A0A0A;">
+
+<img alt="animated contribution snake" src="./assets/snake-fake-board.svg">
+
+</div>
+
+</div>
+
+
 <img src="https://capsule-render.vercel.app/api?type=rect&color=0:FF2800,100:0A0E27&height=4" width="100%"/>

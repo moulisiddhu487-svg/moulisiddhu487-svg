@@ -104,26 +104,3 @@ Deploys and monitors an 11-service microservices app (Google's Online Boutique) 
 </div>
 
 <img src="https://capsule-render.vercel.app/api?type=rect&color=FF2800&height=2" width="100%"/>
-
-<img src="./assets/hdr-stats.png" width="600"/>
-
-<div align="center">
-
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/moulisiddhu487-svg/moulisiddhu487-svg/output/github-snake.svg">
-  <img alt="contribution snake" src="https://raw.githubusercontent.com/moulisiddhu487-svg/moulisiddhu487-svg/output/github-snake.svg">
-</picture>
-
-</div>
-
-<div align="center">
-<div style="display:inline-block; padding:16px; border:1px solid #2A2A2A; border-radius:0px; background:#0A0A0A;">
-
-<img alt="animated contribution snake" src="./assets/snake-fake-board.svg">
-
-</div>
-
-</div>
-
-
-<img src="https://capsule-render.vercel.app/api?type=rect&color=0:FF2800,100:0A0E27&height=4" width="100%"/>

@@ -109,10 +109,9 @@ Deploys and monitors an 11-service microservices app (Google's Online Boutique) 
 
 <div align="center">
 
-
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/moulisiddhu487-svg/moulisiddhu487-svg/main/profile-3d-contrib/profile-night-view.svg">
-  <img alt="3D contribution graph" src="https://raw.githubusercontent.com/moulisiddhu487-svg/moulisiddhu487-svg/main/profile-3d-contrib/profile-night-view.svg">
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/moulisiddhu487-svg/moulisiddhu487-svg/output/github-snake.svg">
+  <img alt="contribution snake" src="https://raw.githubusercontent.com/moulisiddhu487-svg/moulisiddhu487-svg/output/github-snake.svg">
 </picture>
 
 </div>

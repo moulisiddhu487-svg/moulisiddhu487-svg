@@ -71,12 +71,13 @@ A cloud-native backend that serves my resume data as JSON over a REST endpoint �
 
 <br/>
 
-### Cloud-Native-Microservices-Observability-Auto-Scaling-Infrastructure — Kubernetes Observability & Auto-Scaling Platform
+### Cloud-Native Microservices Observability & Auto-Scaling Infrastructure
+*Production-Inspired Kubernetes & SRE Platform on AWS EC2*
 
-Deploys and monitors an 11-service microservices app (Google's Online Boutique) on a Kubernetes cluster (K3s on AWS EC2), with automatic pod recovery, CPU-based autoscaling, and live Prometheus/Grafana monitoring — built to demonstrate real reliability engineering, not just "I ran a container."
+Deploys and monitors an 11-service microservices app (Google's Online Boutique) on a Kubernetes cluster (K3s on AWS EC2), with automatic pod recovery, autoscaling, and live Prometheus/Grafana monitoring — built to demonstrate real reliability engineering, not just "I ran a container."
 
 - **Microservices Deployment:** 11 services (frontend, cart, catalog, currency, payment, shipping, email, checkout, recommendation, ad, load generator) running as isolated pods communicating over internal Kubernetes DNS.
-- **Auto-Scaling (HPA):** CPU-based Horizontal Pod Autoscaling on `frontend` (1–3 pods), `cartservice` (1–3 pods), and `recommendationservice` (1–2 pods) — replicas scale up automatically past an 80% CPU target.
+- **Auto-Scaling (HPA):** Horizontal Pod Autoscaling on `frontend` (1–3 pods), `cartservice` (1–3 pods), and `recommendationservice` (1–2 pods) — replicas scale up automatically past an 80% CPU target.
 - **Self-Healing:** Configured Liveness/Readiness probes so Kubernetes detects and replaces unhealthy or deleted pods automatically, without manual intervention.
 - **Observability:** Prometheus and Node Exporter collecting cluster/pod-level metrics, visualized in real-time Grafana dashboards with alerting rules.
 - **Validated under load:** Ran controlled failure and load tests (pod deletion, load-generator traffic spikes) via `kubectl` to confirm self-healing and scaling behavior end-to-end.

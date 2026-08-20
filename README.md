@@ -11,7 +11,6 @@
 Aspiring DevOps & Cloud Engineer with a BSc in Mathematics, Electronics & Computer Science, plus hands-on DevOps training covering containerization, orchestration, infrastructure as code, and CI/CD automation. Deployed and hosted a serverless application on Azure Functions with an automated GitHub Actions CI/CD pipeline, including auth and cross-origin configuration. Currently pursuing the Microsoft Azure AZ-104 certification.
 
 ```
-currently_building : "Production-ready auto-healing K8s infrastructure"
 currently_learning  : "Azure AZ-104", "AWS Cloud Practitioner"
 trained_at          : "Xtream Tech, Hyderabad — Docker, K8s, Terraform, Ansible, AWS, Azure"
 ask_me_about        : "Serverless deployments, GitHub Actions CI/CD, K8s self-healing"

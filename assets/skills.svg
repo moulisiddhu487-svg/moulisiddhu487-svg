@@ -1,0 +1,161 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 940 370" width="100%" height="auto" fill="none">
+  <defs>
+    <style>
+      @keyframes radarExpand {
+        0% { transform: scale(0.1); opacity: 0; }
+        70% { transform: scale(1.04); opacity: 0.95; }
+        100% { transform: scale(1); opacity: 1; }
+      }
+      @keyframes radarSweep {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+      @keyframes vertexPop {
+        0% { transform: scale(0); opacity: 0; }
+        100% { transform: scale(1); opacity: 1; }
+      }
+      @keyframes barGrow {
+        0% { transform: scaleX(0); }
+        100% { transform: scaleX(1); }
+      }
+      .radar-poly {
+        transform-origin: 245px 215px;
+        animation: radarExpand 1.0s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      }
+      .radar-sweep-beam {
+        transform-origin: 245px 215px;
+        animation: radarSweep 8s linear infinite;
+      }
+      .vertex-dot {
+        transform-box: fill-box;
+        transform-origin: center;
+        opacity: 0;
+        animation: vertexPop 0.4s ease-out forwards;
+      }
+      .hud-bar {
+        transform-origin: left center;
+        animation: barGrow 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
+      }
+    </style>
+    <linearGradient id="radarSweepGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.15"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0.0"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Card Background -->
+  <rect width="940" height="370" rx="12" fill="#0d1117" stroke="#30363d" stroke-width="1"/>
+
+  <!-- Card Header -->
+  <g transform="translate(24, 34)">
+    <rect x="0" y="0" width="28" height="20" rx="4" fill="#161b22" stroke="#30363d" stroke-width="1"/>
+    <text x="6" y="14" fill="#ffffff" font-family="monospace" font-size="12" font-weight="bold">~/</text>
+    <text x="38" y="15" fill="#ffffff" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="14" font-weight="600">Technical Capability &amp; Skill Radar</text>
+    <text x="892" y="14" text-anchor="end" fill="#8b949e" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11">Specialist Breakdown</text>
+    <line x1="0" y1="28" x2="892" y2="28" stroke="#21262d" stroke-width="1"/>
+  </g>
+
+  <!-- Left: Skill Radar -->
+  <g>
+    <!-- Background Rotating Sweep Beam -->
+    <path class="radar-sweep-beam" d="M 245 215 L 245 120 A 95 95 0 0 1 312.16499999999996 147.835 Z" fill="url(#radarSweepGrad)"/>
+    <polygon points="245.0,191.2 261.8,198.2 268.8,215.0 261.8,231.8 245.0,238.8 228.2,231.8 221.2,215.0 228.2,198.2" fill="none" stroke="#21262d" stroke-width="1" stroke-dasharray="3,3"/>
+    <polygon points="245.0,167.5 278.6,181.4 292.5,215.0 278.6,248.6 245.0,262.5 211.4,248.6 197.5,215.0 211.4,181.4" fill="none" stroke="#21262d" stroke-width="1" stroke-dasharray="3,3"/>
+    <polygon points="245.0,143.8 295.4,164.6 316.2,215.0 295.4,265.4 245.0,286.2 194.6,265.4 173.8,215.0 194.6,164.6" fill="none" stroke="#21262d" stroke-width="1" stroke-dasharray="3,3"/>
+    <polygon points="245.0,120.0 312.2,147.8 340.0,215.0 312.2,282.2 245.0,310.0 177.8,282.2 150.0,215.0 177.8,147.8" fill="none" stroke="#30363d" stroke-width="1" />
+    <line x1="245" y1="215" x2="245.0" y2="120.0" stroke="#21262d" stroke-width="1"/>
+    <line x1="245" y1="215" x2="312.2" y2="147.8" stroke="#21262d" stroke-width="1"/>
+    <line x1="245" y1="215" x2="340.0" y2="215.0" stroke="#21262d" stroke-width="1"/>
+    <line x1="245" y1="215" x2="312.2" y2="282.2" stroke="#21262d" stroke-width="1"/>
+    <line x1="245" y1="215" x2="245.0" y2="310.0" stroke="#21262d" stroke-width="1"/>
+    <line x1="245" y1="215" x2="177.8" y2="282.2" stroke="#21262d" stroke-width="1"/>
+    <line x1="245" y1="215" x2="150.0" y2="215.0" stroke="#21262d" stroke-width="1"/>
+    <line x1="245" y1="215" x2="177.8" y2="147.8" stroke="#21262d" stroke-width="1"/>
+    <!-- Radar Data Polygon -->
+    <polygon class="radar-poly" points="245.0,129.5 304.1,155.9 326.7,215.0 301.4,271.4 245.0,292.9 191.3,268.7 170.9,215.0 193.9,163.9" fill="rgba(255, 255, 255, 0.09)" stroke="#ffffff" stroke-width="1.8"/>
+
+    <circle class="vertex-dot" cx="245.0" cy="129.5" r="3.5" fill="#ffffff" stroke="#0d1117" stroke-width="1.5" style="animation-delay: 0.30s;"/>
+    <circle class="vertex-dot" cx="304.1" cy="155.9" r="3.5" fill="#ffffff" stroke="#0d1117" stroke-width="1.5" style="animation-delay: 0.38s;"/>
+    <circle class="vertex-dot" cx="326.7" cy="215.0" r="3.5" fill="#ffffff" stroke="#0d1117" stroke-width="1.5" style="animation-delay: 0.46s;"/>
+    <circle class="vertex-dot" cx="301.4" cy="271.4" r="3.5" fill="#ffffff" stroke="#0d1117" stroke-width="1.5" style="animation-delay: 0.54s;"/>
+    <circle class="vertex-dot" cx="245.0" cy="292.9" r="3.5" fill="#ffffff" stroke="#0d1117" stroke-width="1.5" style="animation-delay: 0.62s;"/>
+    <circle class="vertex-dot" cx="191.3" cy="268.7" r="3.5" fill="#ffffff" stroke="#0d1117" stroke-width="1.5" style="animation-delay: 0.70s;"/>
+    <circle class="vertex-dot" cx="170.9" cy="215.0" r="3.5" fill="#ffffff" stroke="#0d1117" stroke-width="1.5" style="animation-delay: 0.78s;"/>
+    <circle class="vertex-dot" cx="193.9" cy="163.9" r="3.5" fill="#ffffff" stroke="#0d1117" stroke-width="1.5" style="animation-delay: 0.86s;"/>
+    <text x="245.0" y="108.0" text-anchor="middle" fill="#c9d1d9" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11" font-weight="500">Kubernetes</text>
+    <text x="324.9" y="140.5" text-anchor="start" fill="#c9d1d9" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11" font-weight="500">Docker</text>
+    <text x="358.0" y="219.0" text-anchor="start" fill="#c9d1d9" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11" font-weight="500">Linux / Bash</text>
+    <text x="324.9" y="297.5" text-anchor="start" fill="#c9d1d9" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11" font-weight="500">Jenkins / GitHub Actions</text>
+    <text x="245.0" y="330.0" text-anchor="middle" fill="#c9d1d9" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11" font-weight="500">AWS</text>
+    <text x="165.1" y="297.5" text-anchor="end" fill="#c9d1d9" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11" font-weight="500">Azure</text>
+    <text x="132.0" y="219.0" text-anchor="end" fill="#c9d1d9" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11" font-weight="500">Prometheus / Grafana</text>
+    <text x="165.1" y="140.5" text-anchor="end" fill="#c9d1d9" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11" font-weight="500">Terraform / Ansible</text>
+  </g>
+
+  <!-- Center Divider -->
+  <line x1="455" y1="80" x2="455" y2="340" stroke="#21262d" stroke-width="1" stroke-dasharray="4,4"/>
+
+  <!-- Right: Proficiency Progress HUD -->
+  <g>
+
+    <!-- Skill 1: Kubernetes -->
+    <g transform="translate(480, 95)">
+      <text x="0" y="0" fill="#e6edf3" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12" font-weight="600">Kubernetes</text>
+      <text x="415" y="0" text-anchor="end" fill="#8b949e" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11">Cloud-Native • <tspan fill="#ffffff" font-weight="600">90%</tspan></text>
+      <!-- Track -->
+      <rect x="0" y="8" width="415" height="6" rx="3" fill="#161b22" stroke="#21262d" stroke-width="1"/>
+      <!-- Fill with CSS grow animation -->
+      <rect class="hud-bar bar-0" x="0" y="8" width="373.5" height="6" rx="3" fill="#ffffff" style="animation-delay: 0.20s;"/>
+    </g>
+
+    <!-- Skill 2: Docker -->
+    <g transform="translate(480, 135)">
+      <text x="0" y="0" fill="#e6edf3" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12" font-weight="600">Docker</text>
+      <text x="415" y="0" text-anchor="end" fill="#8b949e" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11">Containers • <tspan fill="#ffffff" font-weight="600">88%</tspan></text>
+      <!-- Track -->
+      <rect x="0" y="8" width="415" height="6" rx="3" fill="#161b22" stroke="#21262d" stroke-width="1"/>
+      <!-- Fill with CSS grow animation -->
+      <rect class="hud-bar bar-1" x="0" y="8" width="365.2" height="6" rx="3" fill="#ffffff" style="animation-delay: 0.32s;"/>
+    </g>
+
+    <!-- Skill 3: Linux / Bash -->
+    <g transform="translate(480, 175)">
+      <text x="0" y="0" fill="#e6edf3" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12" font-weight="600">Linux / Bash</text>
+      <text x="415" y="0" text-anchor="end" fill="#8b949e" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11">Systems • <tspan fill="#ffffff" font-weight="600">86%</tspan></text>
+      <!-- Track -->
+      <rect x="0" y="8" width="415" height="6" rx="3" fill="#161b22" stroke="#21262d" stroke-width="1"/>
+      <!-- Fill with CSS grow animation -->
+      <rect class="hud-bar bar-2" x="0" y="8" width="356.9" height="6" rx="3" fill="#ffffff" style="animation-delay: 0.44s;"/>
+    </g>
+
+    <!-- Skill 4: Jenkins / GitHub Actions -->
+    <g transform="translate(480, 215)">
+      <text x="0" y="0" fill="#e6edf3" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12" font-weight="600">Jenkins / GitHub Actions</text>
+      <text x="415" y="0" text-anchor="end" fill="#8b949e" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11">CI/CD • <tspan fill="#ffffff" font-weight="600">84%</tspan></text>
+      <!-- Track -->
+      <rect x="0" y="8" width="415" height="6" rx="3" fill="#161b22" stroke="#21262d" stroke-width="1"/>
+      <!-- Fill with CSS grow animation -->
+      <rect class="hud-bar bar-3" x="0" y="8" width="348.6" height="6" rx="3" fill="#ffffff" style="animation-delay: 0.56s;"/>
+    </g>
+
+    <!-- Skill 5: AWS -->
+    <g transform="translate(480, 255)">
+      <text x="0" y="0" fill="#e6edf3" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12" font-weight="600">AWS</text>
+      <text x="415" y="0" text-anchor="end" fill="#8b949e" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11">Cloud • <tspan fill="#ffffff" font-weight="600">82%</tspan></text>
+      <!-- Track -->
+      <rect x="0" y="8" width="415" height="6" rx="3" fill="#161b22" stroke="#21262d" stroke-width="1"/>
+      <!-- Fill with CSS grow animation -->
+      <rect class="hud-bar bar-4" x="0" y="8" width="340.3" height="6" rx="3" fill="#ffffff" style="animation-delay: 0.68s;"/>
+    </g>
+
+    <!-- Skill 6: Azure -->
+    <g transform="translate(480, 295)">
+      <text x="0" y="0" fill="#e6edf3" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="12" font-weight="600">Azure</text>
+      <text x="415" y="0" text-anchor="end" fill="#8b949e" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11">Cloud • <tspan fill="#ffffff" font-weight="600">80%</tspan></text>
+      <!-- Track -->
+      <rect x="0" y="8" width="415" height="6" rx="3" fill="#161b22" stroke="#21262d" stroke-width="1"/>
+      <!-- Fill with CSS grow animation -->
+      <rect class="hud-bar bar-5" x="0" y="8" width="332.0" height="6" rx="3" fill="#ffffff" style="animation-delay: 0.80s;"/>
+    </g>
+  </g>
+</svg>

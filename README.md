@@ -1,105 +1,124 @@
 <div align="center">
+  <img src="assets/portrait.svg" alt="Mouli Venkata Narsimha Godaba Dot-Matrix Portrait" width="340" />
+  
+  <br /><br />
 
-<img src="./assets/banner.png" width="100%"/>
+  # Mouli Venkata Narsimha Godaba
+  
+  <div align="center">
+    <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=16&pause=1000&color=FFFFFF&center=true&vCenter=true&width=500&height=36&lines=DevOps%20%26%20Cloud%20Engineer;AWS%20%26%20Azure%20Cloud;Kubernetes%20%26%20Docker;CI%2FCD%20%26%20Infrastructure%20Automation;Cloud-Native%20Engineering" alt="Typing Subtitle" />
+  </div>
+
+  ### Automating Infrastructure & Cloud Deployments
+  
+  **DevOps & Cloud Engineer • Cloud Automation • Kubernetes**
+
+  <br />
+
+  <a href="https://github.com/moulisiddhu487-svg" target="_blank">
+    <img src="https://img.shields.io/badge/GitHub-161b22?style=for-the-badge&logo=github&logoColor=ffffff" height="28" alt="GitHub"/>
+  </a>
+  &nbsp;
+  <a href="https://www.linkedin.com/in/mouli-godaba-121a4525a/" target="_blank">
+    <img src="https://img.shields.io/badge/LinkedIn-161b22?style=for-the-badge&logo=linkedin&logoColor=ffffff" height="28" alt="LinkedIn"/>
+  </a>
+  &nbsp;
+  <a href="mailto:moulisiddhu487@gmail.com" target="_blank">
+    <img src="https://img.shields.io/badge/Email-161b22?style=for-the-badge&logo=gmail&logoColor=ffffff" height="28" alt="Email"/>
+  </a>
+  &nbsp;
+  <a href="https://mouli-portfolio-six.vercel.app/" target="_blank">
+    <img src="https://img.shields.io/badge/Portfolio-161b22?style=for-the-badge&logo=safari&logoColor=ffffff" height="28" alt="Portfolio"/>
+  </a>
 
 </div>
 
-<br/><br/>
+---
 
-<img src="./assets/hdr-about.png" width="600"/>
+### 👨‍💻 About Me
 
-Aspiring DevOps & Cloud Engineer with a BSc in Mathematics, Electronics & Computer Science, plus hands-on DevOps training covering containerization, orchestration, infrastructure as code, and CI/CD automation. Deployed and hosted a serverless application on Azure Functions with an automated GitHub Actions CI/CD pipeline, including auth and cross-origin configuration. Currently pursuing the Microsoft Azure AZ-104 certification.
+I'm a **DevOps & Cloud Engineer** focused on building reliable, automated cloud infrastructure and cloud-native platforms.
 
-```
-currently_learning  : "Azure AZ-104", "AWS Cloud Practitioner"
-trained_at          : "Xtream Tech, Hyderabad — Docker, K8s, Terraform, Ansible, AWS, Azure"
-ask_me_about        : "Serverless deployments, GitHub Actions CI/CD, K8s self-healing"
-```
+* ☁️ **Cloud:** Hands-on with **AWS** and **Microsoft Azure**, including Azure Functions and cloud infrastructure on AWS EC2.
+* ☸️ **Cloud-Native:** Built and operated an **11-microservice Online Boutique** environment on **K3s**, with HPA-based auto-scaling and Kubernetes self-healing.
+* 🔄 **Automation:** Build CI/CD workflows with **Jenkins** and **GitHub Actions**, automating deployment and delivery from code changes.
+* 📊 **Observability:** Use **Prometheus** and **Grafana** for metrics, dashboards, alerting, and reliability monitoring.
+* 🎯 **Goal:** Grow into a strong DevOps/Cloud Engineer who turns manual infrastructure and deployment work into repeatable automation.
 
-<img src="https://capsule-render.vercel.app/api?type=rect&color=FF2800&height=2" width="100%"/>
+---
 
-<img src="./assets/hdr-skills.png" width="600"/>
+### 📡 Technical Capability & Skills Radar
+
+<div align="center">
+  <img src="assets/skills.svg" alt="Technical Capability & Skill Radar" width="100%" />
+</div>
+
+
+---
+
+### 🛠️ Core Tooling & Technologies
 
 <div align="center">
 
-**Cloud & Infrastructure as Code**
-
-![AWS](https://img.shields.io/badge/AWS-FF9900?style=for-the-badge&logo=amazonaws&logoColor=white)
-![Azure](https://img.shields.io/badge/Azure-0089D6?style=for-the-badge&logo=microsoftazure&logoColor=white)
-![Terraform](https://img.shields.io/badge/Terraform-7B42BC?style=for-the-badge&logo=terraform&logoColor=white)
-![Ansible](https://img.shields.io/badge/Ansible-EE0000?style=for-the-badge&logo=ansible&logoColor=white)
-
-**Containers & Orchestration**
-
-![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)
-![Kubernetes](https://img.shields.io/badge/Kubernetes-326CE5?style=for-the-badge&logo=kubernetes&logoColor=white)
-![Helm](https://img.shields.io/badge/Helm-0F1689?style=for-the-badge&logo=helm&logoColor=white)
-
-**CI/CD & Observability**
-
-![GitHub Actions](https://img.shields.io/badge/GitHub_Actions-2088FF?style=for-the-badge&logo=githubactions&logoColor=white)
-![Jenkins](https://img.shields.io/badge/Jenkins-D24939?style=for-the-badge&logo=jenkins&logoColor=white)
-![Prometheus](https://img.shields.io/badge/Prometheus-E6522C?style=for-the-badge&logo=prometheus&logoColor=white)
-![Grafana](https://img.shields.io/badge/Grafana-F46800?style=for-the-badge&logo=grafana&logoColor=white)
-![Linux](https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black)
-![Bash](https://img.shields.io/badge/Bash-4EAA25?style=for-the-badge&logo=gnubash&logoColor=white)
+| **Category** | **Technologies** |
+| :--- | :--- |
+| **Cloud & Infrastructure** | <img src="https://skillicons.dev/icons?i=aws,azure,terraform,ansible&theme=dark" /> |
+| **Containers & Orchestration** | <img src="https://skillicons.dev/icons?i=docker,kubernetes,helm&theme=dark" /> |
+| **CI/CD & Automation** | <img src="https://skillicons.dev/icons?i=jenkins,githubactions,git,github&theme=dark" /> |
+| **Monitoring & Systems** | <img src="https://skillicons.dev/icons?i=prometheus,grafana,linux,bash&theme=dark" /> |
 
 </div>
 
-<img src="https://capsule-render.vercel.app/api?type=rect&color=FF2800&height=2" width="100%"/>
+---
 
-<img src="./assets/hdr-projects.png" width="600"/>
-
-### azure-resume-api — Serverless Resume API
-
-A cloud-native backend that serves my resume data as JSON over a REST endpoint — fully serverless on Azure, scales automatically, zero compute cost when idle.
-
-- **Architecture:** Azure Function triggers on HTTP GET, retrieves structured resume JSON (experience, skills, certifications), returns it with a 200 OK response.
-- **CI/CD:** GitHub Actions workflow deploys to Azure automatically on every push to main — no manual deployment steps.
-- **API Security:** Configured CORS to explicitly allow only trusted origins after debugging a browser-side CORS block when calling the API from my portfolio frontend.
-- **Debugged a real production issue:** Resolved an SCM authentication failure between GitHub Actions and Azure by correctly wiring the Function App's publish profile into GitHub Secrets.
-- **Roadmap:** Migrating hardcoded data to Azure Cosmos DB, adding API Management for rate-limiting and view analytics.
+### 📈 Activity & Contribution Flow
 
 <div align="center">
-
-<a href="https://resume-api-30847.azurewebsites.net/api/cv"><img src="./assets/btn-live-endpoint.svg" height="44"/></a>
-&nbsp;&nbsp;
-<a href="https://github.com/moulisiddhu487-svg/azure-resume-api"><img src="./assets/btn-source-code.svg" height="44"/></a>
-
+  <img src="assets/contributions.svg" alt="Activity & Contribution Flow" width="100%" />
 </div>
 
-<br/>
+---
 
-### Cloud-Native Microservices Observability & Auto-Scaling Infrastructure
-*Production-Inspired Kubernetes & SRE Platform on AWS EC2*
-
-Deploys and monitors an 11-service microservices app (Google's Online Boutique) on a Kubernetes cluster (K3s on AWS EC2), with automatic pod recovery, autoscaling, and live Prometheus/Grafana monitoring — built to demonstrate real reliability engineering, not just "I ran a container."
-
-- **Microservices Deployment:** 11 services (frontend, cart, catalog, currency, payment, shipping, email, checkout, recommendation, ad, load generator) running as isolated pods communicating over internal Kubernetes DNS.
-- **Auto-Scaling (HPA):** Horizontal Pod Autoscaling on `frontend` (1–3 pods), `cartservice` (1–3 pods), and `recommendationservice` (1–2 pods) — replicas scale up automatically past an 80% CPU target.
-- **Self-Healing:** Configured Liveness/Readiness probes so Kubernetes detects and replaces unhealthy or deleted pods automatically, without manual intervention.
-- **Observability:** Prometheus and Node Exporter collecting cluster/pod-level metrics, visualized in real-time Grafana dashboards with alerting rules.
-- **Validated under load:** Ran controlled failure and load tests (pod deletion, load-generator traffic spikes) via `kubectl` to confirm self-healing and scaling behavior end-to-end.
-- **Lab setup, production-portable:** Runs on a single AWS EC2 instance using K3s — a lightweight, CNCF-certified Kubernetes distribution. All manifests, HPA rules, and Helm charts are directly portable to a managed cluster like AWS EKS with no changes.
+### ⚡ Engineering Showcase & Performance
 
 <div align="center">
-
-<a href="https://github.com/moulisiddhu487-svg/Cloud-Native-Microservices-Observability-Auto-Scaling-Infrastructure"><img src="./assets/btn-source-code.svg" height="44"/></a>
-
+  <img src="assets/bento.svg" alt="Engineering Showcase & Performance" width="100%" />
 </div>
 
-<img src="https://capsule-render.vercel.app/api?type=rect&color=FF2800&height=2" width="100%"/>
+---
 
-<img src="./assets/hdr-ping.png" width="600"/>
+### 🌐 Beyond the Terminal
+
+I'm not just a code machine. When the IDE closes, here is who I am:
+
+* **🎮 Free Fire:** I enjoy competitive gaming and unwinding with Free Fire when I'm away from the terminal.
+* **🌐 Curiosity Mode:** I like exploring new tools, technologies, ideas, and interesting corners of the internet.
+* **🍿 Anime Time:** Anime is one of my favorite ways to switch off after a long day of learning and building.
+
+
+---
+
+### 🚀 Featured Projects
+
+**Azure Resume API**  
+Serverless resume REST API deployed on Azure Functions with GitHub Actions CI/CD.  
+[Live API](https://resume-api-30847.azurewebsites.net/api/cv) • [GitHub Repository](https://github.com/moulisiddhu487-svg/azure-resume-api)
+
+**Cloud-Native Microservices Observability & Auto-Scaling Platform**  
+11-service Online Boutique on K3s/AWS with HPA, Prometheus, Grafana, alerts and Jenkins delivery.  
+[GitHub Repository](https://github.com/moulisiddhu487-svg/Cloud-Native-Microservices-Observability-Auto-Scaling-Infrastructure)
+
+
+---
+
+### 🎓 Education & Certification
+
+* BSc Computer Science (BSc MECS) — B.R.R. & G.K.R. Chambers Degree & PG College, Palakollu — July 2025
+* DevOps Training Program — Xtream Tech, Hyderabad — Feb 2026 to Jul 2026
+* 🏅 Microsoft Azure Administrator Associate (AZ-104) — In Progress
+
+---
 
 <div align="center">
-
-<a href="https://www.linkedin.com/in/mouli-godaba-121a4525a/"><img src="./assets/icon-linkedin.svg" width="52" height="52"/></a>
-&nbsp;&nbsp;&nbsp;
-<a href="mailto:moulisiddhu487@gmail.com"><img src="./assets/icon-gmail.svg" width="52" height="52"/></a>
-&nbsp;&nbsp;&nbsp;
-<a href="https://mouli-portfolio-six.vercel.app/"><img src="./assets/icon-portfolio.svg" width="52" height="52"/></a>
-
+  <sub>Building reliable infrastructure. Automating the path to production.</sub>
 </div>
-
-<img src="https://capsule-render.vercel.app/api?type=rect&color=FF2800&height=2" width="100%"/>

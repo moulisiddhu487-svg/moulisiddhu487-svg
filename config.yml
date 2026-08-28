@@ -1,0 +1,120 @@
+# ============================================================================
+# Mouli's GitHub Profile Configuration
+# Design inspired by the original fork; all identity/data below is Mouli's.
+# ============================================================================
+
+github_username: "moulisiddhu487-svg"
+display_name: "Mouli Venkata Narsimha Godaba"
+headline: "Automating Infrastructure & Cloud Deployments"
+tagline: "DevOps & Cloud Engineer • Cloud Automation • Kubernetes"
+
+typing_lines:
+  - "DevOps & Cloud Engineer"
+  - "AWS & Azure Cloud"
+  - "Kubernetes & Docker"
+  - "CI/CD & Infrastructure Automation"
+  - "Cloud-Native Engineering"
+
+bio: |
+  I'm a **DevOps & Cloud Engineer** focused on building reliable, automated cloud infrastructure and cloud-native platforms.
+
+  * ☁️ **Cloud:** Hands-on with **AWS** and **Microsoft Azure**, including Azure Functions and cloud infrastructure on AWS EC2.
+  * ☸️ **Cloud-Native:** Built and operated an **11-microservice Online Boutique** environment on **K3s**, with HPA-based auto-scaling and Kubernetes self-healing.
+  * 🔄 **Automation:** Build CI/CD workflows with **Jenkins** and **GitHub Actions**, automating deployment and delivery from code changes.
+  * 📊 **Observability:** Use **Prometheus** and **Grafana** for metrics, dashboards, alerting, and reliability monitoring.
+  * 🎯 **Goal:** Grow into a strong DevOps/Cloud Engineer who turns manual infrastructure and deployment work into repeatable automation.
+
+links:
+  github: "https://github.com/moulisiddhu487-svg"
+  linkedin: "https://www.linkedin.com/in/mouli-godaba-121a4525a/"
+  email: "moulisiddhu487@gmail.com"
+  portfolio: "https://mouli-portfolio-six.vercel.app/"
+
+skills:
+  - name: "Kubernetes"
+    level: 90
+    category: "Cloud-Native"
+  - name: "Docker"
+    level: 88
+    category: "Containers"
+  - name: "Linux / Bash"
+    level: 86
+    category: "Systems"
+  - name: "Jenkins / GitHub Actions"
+    level: 84
+    category: "CI/CD"
+  - name: "AWS"
+    level: 82
+    category: "Cloud"
+  - name: "Azure"
+    level: 80
+    category: "Cloud"
+  - name: "Prometheus / Grafana"
+    level: 78
+    category: "Observability"
+  - name: "Terraform / Ansible"
+    level: 76
+    category: "Automation"
+
+tech_stack:
+  - category: "Cloud & Infrastructure"
+    icons: "aws,azure,terraform,ansible"
+  - category: "Containers & Orchestration"
+    icons: "docker,kubernetes,helm"
+  - category: "CI/CD & Automation"
+    icons: "jenkins,githubactions,git,github"
+  - category: "Monitoring & Systems"
+    icons: "prometheus,grafana,linux,bash"
+
+human_side:
+  - title: "🎮 Free Fire"
+    desc: "I enjoy competitive gaming and unwinding with Free Fire when I'm away from the terminal."
+  - title: "🌐 Curiosity Mode"
+    desc: "I like exploring new tools, technologies, ideas, and interesting corners of the internet."
+  - title: "🍿 Anime Time"
+    desc: "Anime is one of my favorite ways to switch off after a long day of learning and building."
+
+bento:
+  production_focus:
+    - title: "☁️ Cloud Infrastructure"
+      desc: "AWS EC2, Azure Functions & cloud-native environments"
+    - title: "☸️ Kubernetes Platforms"
+      desc: "K3s, Docker, Helm, HPA & self-healing workloads"
+    - title: "🔄 Delivery Automation"
+      desc: "Jenkins & GitHub Actions for repeatable CI/CD"
+  projects:
+    - title: "☁️ Azure Resume API"
+      desc: "Serverless REST API with Azure Functions + GitHub Actions"
+      stack: "Azure Functions • REST • CI/CD"
+      url: "https://github.com/moulisiddhu487-svg/azure-resume-api"
+    - title: "☸️ Cloud-Native Platform"
+      desc: "11 microservices on K3s with HPA, monitoring & alerting"
+      stack: "K3s • AWS EC2 • Jenkins • Prometheus • Grafana"
+      url: "https://github.com/moulisiddhu487-svg/Cloud-Native-Microservices-Observability-Auto-Scaling-Infrastructure"
+
+featured_projects:
+  - name: "Azure Resume API"
+    description: "Serverless resume REST API deployed on Azure Functions with GitHub Actions CI/CD."
+    api_url: "https://resume-api-30847.azurewebsites.net/api/cv"
+    repo_url: "https://github.com/moulisiddhu487-svg/azure-resume-api"
+  - name: "Cloud-Native Microservices Observability & Auto-Scaling Platform"
+    description: "11-service Online Boutique on K3s/AWS with HPA, Prometheus, Grafana, alerts and Jenkins delivery."
+    repo_url: "https://github.com/moulisiddhu487-svg/Cloud-Native-Microservices-Observability-Auto-Scaling-Infrastructure"
+
+education:
+  - "BSc Computer Science (BSc MECS) — B.R.R. & G.K.R. Chambers Degree & PG College, Palakollu — July 2025"
+  - "DevOps Training Program — Xtream Tech, Hyderabad — Feb 2026 to Jul 2026"
+
+certifications:
+  - "Microsoft Azure Administrator Associate (AZ-104) — In Progress"
+
+footer_text: "Building reliable infrastructure. Automating the path to production."
+
+portrait:
+  source_image: "assets/source-photo.jpg"
+  grid_spacing_px: 8
+  canvas_size_px: 1000
+  color_palette: "duotone"
+  duotone_light: "#ffffff"
+  duotone_dark: "#0d1117"
+  reveal_style: "rows"

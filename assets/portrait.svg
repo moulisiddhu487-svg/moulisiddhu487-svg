@@ -157,7 +157,6 @@
 .g-152{animation-delay:2.736s}
 .g-153{animation-delay:2.754s}
 </style><clipPath id="portraitClip"><circle cx="350" cy="350" r="332"/></clipPath></defs>
-<rect width="700" height="700" fill="#fff"/>
 <g clip-path="url(#portraitClip)">
 <g transform="translate(0,8)" class="dot-group g-15"><circle cx="376.74" cy="94.34" r="1.38" fill="rgb(131,127,126)"/></g>
 <g transform="translate(0,8)" class="dot-group g-16"><circle cx="360.13" cy="98.49" r="1.38" fill="rgb(112,105,103)"/><circle cx="364.28" cy="98.49" r="1.52" fill="rgb(75,67,66)"/><circle cx="368.43" cy="98.49" r="1.52" fill="rgb(58,53,52)"/><circle cx="372.59" cy="98.49" r="1.52" fill="rgb(78,73,71)"/><circle cx="376.74" cy="98.49" r="1.52" fill="rgb(28,21,20)"/><circle cx="380.89" cy="98.49" r="1.52" fill="rgb(25,20,17)"/><circle cx="385.05" cy="98.49" r="1.52" fill="rgb(34,27,25)"/><circle cx="389.20" cy="98.49" r="1.52" fill="rgb(42,33,31)"/><circle cx="393.35" cy="98.49" r="1.52" fill="rgb(85,79,77)"/><circle cx="397.50" cy="98.49" r="1.38" fill="rgb(137,132,130)"/></g>

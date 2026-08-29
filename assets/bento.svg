@@ -36,7 +36,7 @@
     <line x1="16" y1="34" x2="414" y2="34" stroke="#30363d" stroke-width="1"/>
     <g transform="translate(16, 48)">
       <rect width="190" height="46" rx="6" fill="#0d1117" stroke="#30363d" stroke-width="1"/>
-      <text x="12" y="20" fill="#ffffff" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="16" font-weight="bold">114</text>
+      <text x="12" y="20" fill="#ffffff" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="16" font-weight="bold">124</text>
       <text x="12" y="36" fill="#8b949e" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="10">Contributions / year</text>
     </g>
     <g transform="translate(224, 48)">
@@ -90,27 +90,27 @@
     <line x1="16" y1="34" x2="414" y2="34" stroke="#30363d" stroke-width="1"/>
     <g transform="translate(22, 52)">
       <rect x="0" y="0" width="385" height="10" rx="4" fill="#0d1117" stroke="#30363d" stroke-width="1"/>
-      <rect x="0.0" y="0" width="161.7" height="10" rx="2" fill="#ffffff"/><rect x="161.7" y="0" width="73.5" height="10" rx="2" fill="#8b949e"/><rect x="235.2" y="0" width="63.9" height="10" rx="2" fill="#565e69"/><rect x="299.1" y="0" width="20.8" height="10" rx="2" fill="#30363d"/><rect x="319.9" y="0" width="17.7" height="10" rx="2" fill="#21262d"/>
+      <rect x="0.0" y="0" width="151.7" height="10" rx="2" fill="#ffffff"/><rect x="151.7" y="0" width="77.0" height="10" rx="2" fill="#8b949e"/><rect x="228.7" y="0" width="67.0" height="10" rx="2" fill="#565e69"/><rect x="295.7" y="0" width="21.6" height="10" rx="2" fill="#30363d"/><rect x="317.2" y="0" width="18.5" height="10" rx="2" fill="#21262d"/>
       <g transform="translate(0, 18)"><g transform="translate(0, 24)">
           <circle cx="5" cy="5" r="4" fill="#ffffff"/>
           <text x="16" y="9" fill="#e6edf3" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="11" font-weight="500">Python</text>
-          <text x="180" y="9" text-anchor="end" fill="#8b949e" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="10">42.0%</text>
+          <text x="180" y="9" text-anchor="end" fill="#8b949e" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="10">39.4%</text>
         </g><g transform="translate(200, 24)">
           <circle cx="5" cy="5" r="4" fill="#8b949e"/>
           <text x="16" y="9" fill="#e6edf3" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="11" font-weight="500">Go</text>
-          <text x="180" y="9" text-anchor="end" fill="#8b949e" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="10">19.1%</text>
+          <text x="180" y="9" text-anchor="end" fill="#8b949e" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="10">20.0%</text>
         </g><g transform="translate(0, 48)">
           <circle cx="5" cy="5" r="4" fill="#565e69"/>
           <text x="16" y="9" fill="#e6edf3" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="11" font-weight="500">HTML</text>
-          <text x="180" y="9" text-anchor="end" fill="#8b949e" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="10">16.6%</text>
+          <text x="180" y="9" text-anchor="end" fill="#8b949e" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="10">17.4%</text>
         </g><g transform="translate(200, 48)">
           <circle cx="5" cy="5" r="4" fill="#30363d"/>
           <text x="16" y="9" fill="#e6edf3" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="11" font-weight="500">C#</text>
-          <text x="180" y="9" text-anchor="end" fill="#8b949e" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="10">5.4%</text>
+          <text x="180" y="9" text-anchor="end" fill="#8b949e" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="10">5.6%</text>
         </g><g transform="translate(0, 72)">
           <circle cx="5" cy="5" r="4" fill="#21262d"/>
           <text x="16" y="9" fill="#e6edf3" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="11" font-weight="500">Shell</text>
-          <text x="180" y="9" text-anchor="end" fill="#8b949e" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="10">4.6%</text>
+          <text x="180" y="9" text-anchor="end" fill="#8b949e" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="10">4.8%</text>
         </g></g>
     </g>
     <text x="22" y="168" fill="#8b949e" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="9.5">Language distribution is calculated from your public GitHub repositories.</text>

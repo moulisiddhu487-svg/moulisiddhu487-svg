@@ -89,12 +89,11 @@ I'm a **DevOps & Cloud Engineer** focused on building reliable, automated cloud 
 
 ### 🌐 Beyond the Terminal
 
-I'm not just a code machine. When the IDE closes, here is who I am:
+I enjoy staying curious beyond day-to-day engineering and continuously exploring new ways to learn, create, and recharge.
 
-* **🎮 Free Fire:** I enjoy competitive gaming and unwinding with Free Fire when I'm away from the terminal.
-* **🌐 Curiosity Mode:** I like exploring new tools, technologies, ideas, and interesting corners of the internet.
-* **🍿 Anime Time:** Anime is one of my favorite ways to switch off after a long day of learning and building.
-
+* 🎮 **Competitive Gaming:** Enjoy competitive gaming as a way to reset, stay focused, and have fun outside engineering.
+* 🌐 **Technology & Exploration:** Naturally curious about emerging technologies, developer tools, cloud platforms, and interesting ideas.
+* 🍿 **Anime & Entertainment:** Enjoy anime and entertainment during downtime, especially after long periods of learning and building.
 
 
 ### 🚀 Featured Projects

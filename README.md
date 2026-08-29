@@ -89,7 +89,7 @@ I'm a **DevOps & Cloud Engineer** focused on building reliable, automated cloud 
 
 ### 🌐 Beyond the Terminal
 
-I'm not just a code machine. When the IDE closes, here is who I am:
+I enjoy staying curious beyond day-to-day engineering and continuously exploring new ways to learn, create, and recharge.
 
 * **🎮 Competitive Gaming:** Enjoy competitive gaming as a way to reset, stay focused, and have fun outside engineering.
 * **🌐 Technology & Exploration:** Naturally curious about emerging technologies, developer tools, cloud platforms, and interesting ideas.

@@ -116,6 +116,16 @@ def generate_skills_svg(config_path="config.yml", output_path="assets/skills.svg
     bar_width = 415
     
     top_skills = sorted(skills_data, key=lambda s: s.get("level", 0), reverse=True)[:6]
+
+    # Brand colors for the six displayed technologies.
+    brand_colors = {
+        "Kubernetes": "#326CE5",
+        "Docker": "#2496ED",
+        "Linux / Bash": "#FCC624",
+        "Jenkins / GitHub Actions": "#D24939",
+        "AWS": "#FF9900",
+        "Azure": "#0078D4",
+    }
     
     for idx, s in enumerate(top_skills):
         y_offset = hud_start_y + idx * 40
@@ -123,6 +133,7 @@ def generate_skills_svg(config_path="config.yml", output_path="assets/skills.svg
         cat = s.get("category", "General")
         fill_w = (bar_width * (lvl / 100.0))
         delay = 0.2 + idx * 0.12
+        bar_color = brand_colors.get(s["name"], "#ffffff")
         
         bars_svg.append(f'''
     <!-- Skill {idx+1}: {s["name"]} -->
@@ -132,7 +143,7 @@ def generate_skills_svg(config_path="config.yml", output_path="assets/skills.svg
       <!-- Track -->
       <rect x="0" y="8" width="{bar_width}" height="6" rx="3" fill="#161b22" stroke="#21262d" stroke-width="1"/>
       <!-- Fill with CSS grow animation -->
-      <rect class="hud-bar bar-{idx}" x="0" y="8" width="{fill_w:.1f}" height="6" rx="3" fill="#ffffff" style="animation-delay: {delay:.2f}s;"/>
+      <rect class="hud-bar bar-{idx}" x="0" y="8" width="{fill_w:.1f}" height="6" rx="3" fill="{bar_color}" style="animation-delay: {delay:.2f}s;"/>
     </g>''')
 
     svg_content = f'''<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {width} {height}" width="100%" height="auto" fill="none">
@@ -175,7 +186,7 @@ def generate_skills_svg(config_path="config.yml", output_path="assets/skills.svg
       }}
     </style>
     <linearGradient id="radarSweepGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#39ff88" stop-opacity="0.24"/>
+      <stop offset="0%" stop-color="#39ff88" stop-opacity="0.42"/>
       <stop offset="100%" stop-color="#39ff88" stop-opacity="0.0"/>
     </linearGradient>
   </defs>
@@ -196,6 +207,7 @@ def generate_skills_svg(config_path="config.yml", output_path="assets/skills.svg
   <g>
     <!-- Background Rotating Sweep Beam -->
     <path class="radar-sweep-beam" d="M {rcx} {rcy} L {rcx} {rcy - max_r} A {max_r} {max_r} 0 0 1 {rcx + max_r * 0.707} {rcy - max_r * 0.707} Z" fill="url(#radarSweepGrad)"/>
+    <path class="radar-sweep-beam" d="M {rcx} {rcy} L {rcx} {rcy - max_r}" fill="none" stroke="#39ff88" stroke-width="1.6" stroke-linecap="round" opacity="0.7"/>
 {chr(10).join(rings_svg)}
 {chr(10).join(axes_svg)}
 {radar_polygon}

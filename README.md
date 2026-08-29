@@ -13,23 +13,23 @@
   
   **DevOps & Cloud Engineer • Cloud Automation • Kubernetes**
 
-  <br />  <a href="https://github.com/moulisiddhu487-svg" target="_blank">
-    <img src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white" height="30" alt="GitHub"/>
+  <br />
+
+  <a href="https://github.com/moulisiddhu487-svg" target="_blank">
+    <img src="https://img.shields.io/badge/GitHub-161b22?style=for-the-badge&logo=github&logoColor=ffffff" height="28" alt="GitHub"/>
   </a>
   &nbsp;
   <a href="https://www.linkedin.com/in/mouli-godaba-121a4525a/" target="_blank">
-    <img src="https://img.shields.io/badge/LinkedIn-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white" height="30" alt="LinkedIn"/>
+    <img src="https://img.shields.io/badge/LinkedIn-161b22?style=for-the-badge&logo=linkedin&logoColor=ffffff" height="28" alt="LinkedIn"/>
   </a>
   &nbsp;
-  <a href="mailto:moulisiddhu487@gmail.com">
-    <img src="https://img.shields.io/badge/Email-EA4335?style=for-the-badge&logo=gmail&logoColor=white" height="30" alt="Email"/>
+  <a href="mailto:moulisiddhu487@gmail.com" target="_blank">
+    <img src="https://img.shields.io/badge/Email-161b22?style=for-the-badge&logo=gmail&logoColor=ffffff" height="28" alt="Email"/>
   </a>
   &nbsp;
   <a href="https://mouli-portfolio-six.vercel.app/" target="_blank">
-    <img src="https://img.shields.io/badge/Portfolio-00A86B?style=for-the-badge&logo=googlechrome&logoColor=white" height="30" alt="Portfolio"/>
+    <img src="https://img.shields.io/badge/Portfolio-161b22?style=for-the-badge&logo=safari&logoColor=ffffff" height="28" alt="Portfolio"/>
   </a>
-
- 
 
 </div>
 
@@ -108,7 +108,6 @@ Serverless resume REST API deployed on Azure Functions with GitHub Actions CI/CD
 11-service Online Boutique on K3s/AWS with HPA, Prometheus, Grafana, alerts and Jenkins delivery.  
 [GitHub Repository](https://github.com/moulisiddhu487-svg/Cloud-Native-Microservices-Observability-Auto-Scaling-Infrastructure)
 
-*Explore the implementation and source code through the links above.*
 
 ---
 

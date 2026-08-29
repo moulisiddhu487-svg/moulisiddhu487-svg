@@ -128,12 +128,12 @@ def format_human_side(human_side):
         items.append(f"* **{title}:** {desc}")
 
     body = "\n".join(items)
-    return (
-        "\n---\n\n"
-        "### 🌐 Beyond the Terminal\n\n"
-        "I'm not just a code machine. When the IDE closes, here is who I am:\n\n"
-        f"{body}\n"
-    )
+   return (
+    "\n---\n\n"
+    "### 🌐 Beyond the Terminal\n\n"
+    "I enjoy staying curious beyond day-to-day engineering and continuously exploring new ways to learn, create, and recharge.\n\n"
+    f"{body}\n"
+)
 
 
 def format_typing_svg(typing_lines):

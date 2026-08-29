@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+import os
 GITHUB_TOKEN = os.getenv("GITHUB_TOKEN", "")
 """Generate Mouli's project-focused Engineering Showcase SVG."""
 

@@ -1,6 +1,9 @@
 #!/usr/bin/env python3
 import os
 GITHUB_TOKEN = os.getenv("GITHUB_TOKEN", "")
+GITHUB_HEADERS = {"Accept": "application/vnd.github+json"}
+if GITHUB_TOKEN:
+    GITHUB_HEADERS["Authorization"] = f"Bearer {GITHUB_TOKEN}"
 """Generate Mouli's project-focused Engineering Showcase SVG."""
 
 import html
@@ -61,7 +64,7 @@ def fetch_bento_metrics(username):
         print(f"[Bento] Repo metrics notice: {e}")
 
     if not lang_totals:
-        lang_totals = {"Python": 1, "Shell": 1, "HTML": 1, "JavaScript": 1}
+        lang_totals = {}
 
     total_bytes = sum(lang_totals.values()) or 1
     palette = ["#ffffff", "#8b949e", "#565e69", "#30363d", "#21262d"]

@@ -38,7 +38,7 @@
       }
     </style>
     <linearGradient id="radarSweepGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#39ff88" stop-opacity="0.24"/>
+      <stop offset="0%" stop-color="#39ff88" stop-opacity="0.42"/>
       <stop offset="100%" stop-color="#39ff88" stop-opacity="0.0"/>
     </linearGradient>
   </defs>
@@ -59,6 +59,7 @@
   <g>
     <!-- Background Rotating Sweep Beam -->
     <path class="radar-sweep-beam" d="M 245 215 L 245 120 A 95 95 0 0 1 312.16499999999996 147.835 Z" fill="url(#radarSweepGrad)"/>
+    <path class="radar-sweep-beam" d="M 245 215 L 245 120" fill="none" stroke="#39ff88" stroke-width="1.6" stroke-linecap="round" opacity="0.7"/>
     <polygon points="245.0,191.2 261.8,198.2 268.8,215.0 261.8,231.8 245.0,238.8 228.2,231.8 221.2,215.0 228.2,198.2" fill="none" stroke="#21262d" stroke-width="1" stroke-dasharray="3,3"/>
     <polygon points="245.0,167.5 278.6,181.4 292.5,215.0 278.6,248.6 245.0,262.5 211.4,248.6 197.5,215.0 211.4,181.4" fill="none" stroke="#21262d" stroke-width="1" stroke-dasharray="3,3"/>
     <polygon points="245.0,143.8 295.4,164.6 316.2,215.0 295.4,265.4 245.0,286.2 194.6,265.4 173.8,215.0 194.6,164.6" fill="none" stroke="#21262d" stroke-width="1" stroke-dasharray="3,3"/>
@@ -105,7 +106,7 @@
       <!-- Track -->
       <rect x="0" y="8" width="415" height="6" rx="3" fill="#161b22" stroke="#21262d" stroke-width="1"/>
       <!-- Fill with CSS grow animation -->
-      <rect class="hud-bar bar-0" x="0" y="8" width="373.5" height="6" rx="3" fill="#ffffff" style="animation-delay: 0.20s;"/>
+      <rect class="hud-bar bar-0" x="0" y="8" width="373.5" height="6" rx="3" fill="#326CE5" style="animation-delay: 0.20s;"/>
     </g>
 
     <!-- Skill 2: Docker -->
@@ -115,7 +116,7 @@
       <!-- Track -->
       <rect x="0" y="8" width="415" height="6" rx="3" fill="#161b22" stroke="#21262d" stroke-width="1"/>
       <!-- Fill with CSS grow animation -->
-      <rect class="hud-bar bar-1" x="0" y="8" width="365.2" height="6" rx="3" fill="#ffffff" style="animation-delay: 0.32s;"/>
+      <rect class="hud-bar bar-1" x="0" y="8" width="365.2" height="6" rx="3" fill="#2496ED" style="animation-delay: 0.32s;"/>
     </g>
 
     <!-- Skill 3: Linux / Bash -->
@@ -125,7 +126,7 @@
       <!-- Track -->
       <rect x="0" y="8" width="415" height="6" rx="3" fill="#161b22" stroke="#21262d" stroke-width="1"/>
       <!-- Fill with CSS grow animation -->
-      <rect class="hud-bar bar-2" x="0" y="8" width="356.9" height="6" rx="3" fill="#ffffff" style="animation-delay: 0.44s;"/>
+      <rect class="hud-bar bar-2" x="0" y="8" width="356.9" height="6" rx="3" fill="#FCC624" style="animation-delay: 0.44s;"/>
     </g>
 
     <!-- Skill 4: Jenkins / GitHub Actions -->
@@ -135,7 +136,7 @@
       <!-- Track -->
       <rect x="0" y="8" width="415" height="6" rx="3" fill="#161b22" stroke="#21262d" stroke-width="1"/>
       <!-- Fill with CSS grow animation -->
-      <rect class="hud-bar bar-3" x="0" y="8" width="348.6" height="6" rx="3" fill="#ffffff" style="animation-delay: 0.56s;"/>
+      <rect class="hud-bar bar-3" x="0" y="8" width="348.6" height="6" rx="3" fill="#D24939" style="animation-delay: 0.56s;"/>
     </g>
 
     <!-- Skill 5: AWS -->
@@ -145,7 +146,7 @@
       <!-- Track -->
       <rect x="0" y="8" width="415" height="6" rx="3" fill="#161b22" stroke="#21262d" stroke-width="1"/>
       <!-- Fill with CSS grow animation -->
-      <rect class="hud-bar bar-4" x="0" y="8" width="340.3" height="6" rx="3" fill="#ffffff" style="animation-delay: 0.68s;"/>
+      <rect class="hud-bar bar-4" x="0" y="8" width="340.3" height="6" rx="3" fill="#FF9900" style="animation-delay: 0.68s;"/>
     </g>
 
     <!-- Skill 6: Azure -->
@@ -155,7 +156,7 @@
       <!-- Track -->
       <rect x="0" y="8" width="415" height="6" rx="3" fill="#161b22" stroke="#21262d" stroke-width="1"/>
       <!-- Fill with CSS grow animation -->
-      <rect class="hud-bar bar-5" x="0" y="8" width="332.0" height="6" rx="3" fill="#ffffff" style="animation-delay: 0.80s;"/>
+      <rect class="hud-bar bar-5" x="0" y="8" width="332.0" height="6" rx="3" fill="#0078D4" style="animation-delay: 0.80s;"/>
     </g>
   </g>
 </svg>

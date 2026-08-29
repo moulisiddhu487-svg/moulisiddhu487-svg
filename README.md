@@ -96,7 +96,6 @@ I'm not just a code machine. When the IDE closes, here is who I am:
 * **🍿 Anime Time:** Anime is one of my favorite ways to switch off after a long day of learning and building.
 
 
----
 
 ### 🚀 Featured Projects
 
@@ -108,6 +107,7 @@ Serverless resume REST API deployed on Azure Functions with GitHub Actions CI/CD
 11-service Online Boutique on K3s/AWS with HPA, Prometheus, Grafana, alerts and Jenkins delivery.  
 [GitHub Repository](https://github.com/moulisiddhu487-svg/Cloud-Native-Microservices-Observability-Auto-Scaling-Infrastructure)
 
+*Explore the implementation and source code through the links above.*
 
 ---
 

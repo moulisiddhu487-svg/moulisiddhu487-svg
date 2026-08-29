@@ -175,8 +175,8 @@ def generate_skills_svg(config_path="config.yml", output_path="assets/skills.svg
       }}
     </style>
     <linearGradient id="radarSweepGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.15"/>
-      <stop offset="100%" stop-color="#ffffff" stop-opacity="0.0"/>
+      <stop offset="0%" stop-color="#39ff88" stop-opacity="0.24"/>
+      <stop offset="100%" stop-color="#39ff88" stop-opacity="0.0"/>
     </linearGradient>
   </defs>
 

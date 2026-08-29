@@ -169,7 +169,8 @@ def format_featured_projects(projects):
             parts.append(f'**{name}**  \n{desc}  \n{suffix}\n')
         else:
             parts.append(f'**{name}**  \n{desc}\n')
-    return "\n".join(parts)
+    parts.append("*Explore the implementation and source code through the links above.*")
+return "\n".join(parts)
 
 
 def format_profile_details(education, certifications):

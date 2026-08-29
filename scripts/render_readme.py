@@ -11,7 +11,7 @@ import yaml
 BADGE_CONFIGS = {
     "linkedin": {
         "label": "LinkedIn",
-        "color": "161b22",
+        "color": "0A66C2",
         "logo": "linkedin",
         "logo_color": "ffffff"
     },
@@ -29,13 +29,13 @@ BADGE_CONFIGS = {
     },
     "email": {
         "label": "Email",
-        "color": "161b22",
+        "color": "EA4335",
         "logo": "gmail",
         "logo_color": "ffffff"
     },
     "portfolio": {
         "label": "Portfolio",
-        "color": "161b22",
+        "color": "00A86B",
         "logo": "safari",
         "logo_color": "ffffff"
     },
@@ -47,7 +47,7 @@ BADGE_CONFIGS = {
     },
     "github": {
         "label": "GitHub",
-        "color": "161b22",
+        "color": "181717",
         "logo": "github",
         "logo_color": "ffffff"
     }
@@ -87,7 +87,7 @@ def format_link_badges(links):
         )
         badge_tag = (
             f'<a href="{target_url}" target="_blank">\n'
-            f'    <img src="{badge_url}" height="28" alt="{badge_info["label"]}"/>\n'
+            f'    <img src="{badge_url}" height="30" alt="{badge_info["label"]}"/>\n'
             f'  </a>'
         )
         badge_tags.append(badge_tag)

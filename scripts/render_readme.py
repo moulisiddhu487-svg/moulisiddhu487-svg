@@ -155,23 +155,29 @@ def format_typing_svg(typing_lines):
 def format_featured_projects(projects):
     if not projects:
         return ""
-    parts = ["\n---\n\n### 🚀 Featured Projects\n"]
+
+    parts = ["\n\n### 🚀 Featured Projects\n"]
+
     for project in projects:
         name = project.get("name", "Project")
         desc = project.get("description", "")
         links = []
+
         if project.get("api_url"):
             links.append(f'[Live API]({project["api_url"]})')
+
         if project.get("repo_url"):
             links.append(f'[GitHub Repository]({project["repo_url"]})')
-        suffix = " • ".join(links)
-        if suffix:
-            parts.append(f'**{name}**  \n{desc}  \n{suffix}\n')
-        else:
-            parts.append(f'**{name}**  \n{desc}\n')
-    parts.append("*Explore the implementation and source code through the links above.*")
-return "\n".join(parts)
 
+        suffix = " • ".join(links)
+
+        if suffix:
+            parts.append(f"**{name}**  \n{desc}  \n{suffix}\n")
+        else:
+            parts.append(f"**{name}**  \n{desc}\n")
+
+    parts.append("*Explore the implementation and source code through the links above.*")
+    return "\n".join(parts)
 
 def format_profile_details(education, certifications):
     if not education and not certifications:

@@ -1,16 +1,17 @@
 #!/usr/bin/env python3
-
 import os
+
 GITHUB_TOKEN = os.getenv("GITHUB_TOKEN", "")
 GITHUB_HEADERS = {"Accept": "application/vnd.github+json"}
+
 if GITHUB_TOKEN:
     GITHUB_HEADERS["Authorization"] = f"Bearer {GITHUB_TOKEN}"
+
 
 """Generate Mouli's project-focused Engineering Showcase SVG."""
 
 import html
 import json
-import os
 import re
 import urllib.request
 import yaml
@@ -73,9 +74,14 @@ def fetch_bento_metrics(username):
             for r in repos
         )
 
-        # Collect real language byte totals from every public repository.
+        # GitHub's repo listing does not contain language byte totals,
+        # so collect language totals from each public repo when possible.
         for repo in repos:
-            owner = repo.get("owner", {}).get("login", username)
+            owner = repo.get("owner", {}).get(
+                "login",
+                username
+            )
+
             name = repo.get("name")
 
             if not name:
@@ -92,8 +98,13 @@ def fetch_bento_metrics(username):
                     headers={"User-Agent": "Mozilla/5.0"}
                 )
 
-                with urllib.request.urlopen(lang_url, timeout=5) as resp2:
-                    langs = json.loads(resp2.read().decode("utf-8"))
+                with urllib.request.urlopen(
+                    req2,
+                    timeout=5
+                ) as resp2:
+                    langs = json.loads(
+                        resp2.read().decode("utf-8")
+                    )
 
                 for lang, count in langs.items():
                     lang_totals[lang] = (
@@ -111,39 +122,58 @@ def fetch_bento_metrics(username):
 
     total_bytes = sum(lang_totals.values()) or 1
 
-    # GitHub-style language colors.
-    # Colors are generated deterministically so new languages
-    # automatically receive a color without hardcoding language names.
-    palette = [
-        "#3178c6",
-        "#00add8",
-        "#e34c26",
-        "#6f42c1",
-        "#89e051",
-        "#563d7c",
-        "#f1e05a",
-        "#b07219",
-        "#384d54",
-        "#8250df",
-        "#427819",
-        "#701516",
-        "#ecdebe",
-        "#dea584",
-        "#555555",
-    ]
+    # GitHub Linguist is GitHub's source of truth for language colors.
+    # Percentages remain calculated from the real GitHub language byte totals.
+    language_colors = {}
+
+    try:
+        linguist_url = (
+            "https://raw.githubusercontent.com/"
+            "github-linguist/linguist/"
+            "main/lib/linguist/languages.yml"
+        )
+
+        linguist_req = urllib.request.Request(
+            linguist_url,
+            headers={"User-Agent": "Mozilla/5.0"}
+        )
+
+        with urllib.request.urlopen(
+            linguist_req,
+            timeout=8
+        ) as resp:
+            linguist_data = yaml.safe_load(
+                resp.read().decode("utf-8")
+            ) or {}
+
+        for language_name, language_info in linguist_data.items():
+            if isinstance(language_info, dict):
+                color = language_info.get("color")
+
+                if isinstance(color, str) and color.strip():
+                    language_colors[language_name] = color.strip()
+
+    except Exception as e:
+        print(f"[Bento] Language color fetch notice: {e}")
 
     languages = []
 
-    sorted_languages = sorted(
+    # Show every language returned by GitHub.
+    # No hardcoded language limit.
+    for lang, count in sorted(
         lang_totals.items(),
         key=lambda x: -x[1]
-    )
-
-    for idx, (lang, count) in enumerate(sorted_languages):
+    ):
         languages.append({
             "name": lang,
-            "pct": round(count / total_bytes * 100, 1),
-            "color": palette[idx % len(palette)]
+            "pct": round(
+                count / total_bytes * 100,
+                1
+            ),
+            "color": language_colors.get(
+                lang,
+                "#8b949e"
+            )
         })
 
     return {
@@ -180,38 +210,10 @@ def generate_bento_svg(
     )[:2]
 
     width = 940
-
-    # Dynamically determine language rows.
-    language_count = len(metrics["languages"])
-
-    # Three columns make the language section scale cleanly.
-    language_columns = 3
-
-    language_rows = max(
-        1,
-        (language_count + language_columns - 1)
-        // language_columns
-    )
-
-    row_height = 24
-
-    # Base height plus extra space for additional language rows.
-    language_card_height = max(
-        190,
-        112 + language_rows * row_height
-    )
-
-    # The whole bento card grows with the language card.
-    content_bottom = 255 + language_card_height
-    height = max(
-        470,
-        content_bottom + 25
-    )
-
     bar_w = 385
 
     # ---------------------------------------------------------
-    # Production focus
+    # Production Focus
     # ---------------------------------------------------------
 
     prod_svg = []
@@ -226,22 +228,17 @@ def generate_bento_svg(
                 fill="#e6edf3"
                 font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
                 font-size="12"
-                font-weight="600">
-            {html.escape(item.get("title", ""))}
-          </text>
+                font-weight="600">{html.escape(item.get("title", ""))}</text>
 
           <text x="0" y="25"
                 fill="#8b949e"
                 font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
-                font-size="11">
-            {html.escape(item.get("desc", ""))}
-          </text>
-        </g>
-        '''
+                font-size="11">{html.escape(item.get("desc", ""))}</text>
+        </g>'''
         )
 
     # ---------------------------------------------------------
-    # Project cards
+    # Project Cards
     # ---------------------------------------------------------
 
     project_svg = []
@@ -283,39 +280,30 @@ def generate_bento_svg(
                   fill="#ffffff"
                   font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
                   font-size="12"
-                  font-weight="700">
-              {title}
-            </text>
+                  font-weight="700">{title}</text>
 
             <text x="12" y="33"
                   fill="#c9d1d9"
                   font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
-                  font-size="10.5">
-              {desc}
-            </text>
+                  font-size="10.5">{desc}</text>
 
             <text x="12" y="48"
                   fill="#8b949e"
                   font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
-                  font-size="9.5">
-              {stack}
-            </text>
+                  font-size="9.5">{stack}</text>
 
             <text x="398" y="18"
                   text-anchor="end"
                   fill="#8b949e"
                   font-family="monospace"
-                  font-size="10">
-              ↗
-            </text>
+                  font-size="10">↗</text>
 
           </g>
-        </a>
-        '''
+        </a>'''
         )
 
     # ---------------------------------------------------------
-    # Language spectrum
+    # Repository Language Spectrum
     # ---------------------------------------------------------
 
     segments = []
@@ -323,6 +311,8 @@ def generate_bento_svg(
 
     curr_x = 0
 
+    # GitHub language bar.
+    # Every language is included automatically.
     for lang in metrics["languages"]:
 
         seg_w = (
@@ -330,108 +320,149 @@ def generate_bento_svg(
         ) * bar_w
 
         if seg_w > 0:
+
             segments.append(
-                f'''
-                <rect
-                    x="{curr_x:.1f}"
-                    y="0"
-                    width="{seg_w:.1f}"
-                    height="10"
-                    rx="2"
-                    fill="{lang["color"]}"
-                />
-                '''
+                f'<rect '
+                f'x="{curr_x:.1f}" '
+                f'y="0" '
+                f'width="{seg_w:.1f}" '
+                f'height="10" '
+                f'rx="2" '
+                f'fill="{lang["color"]}"/>'
             )
 
             curr_x += seg_w
 
-    # Three-column responsive-style legend.
-    legend_width = 120
+    # ---------------------------------------------------------
+    # Dynamic Language Layout
+    # ---------------------------------------------------------
 
-    for idx, lang in enumerate(metrics["languages"]):
+    language_count = len(
+        metrics["languages"]
+    )
 
-        col = idx % language_columns
-        row = idx // language_columns
+    # Keep the current 3-column visual design.
+    legend_columns = 3
 
-        lx = col * legend_width
-        ly = 24 + row * row_height
+    legend_width = (
+        bar_w / legend_columns
+    )
+
+    # Automatically calculate how many rows are needed.
+    legend_rows = max(
+        1,
+        (
+            language_count
+            + legend_columns
+            - 1
+        )
+        // legend_columns
+    )
+
+    # Keep the current clean row spacing.
+    row_height = 22
+
+    legend_font_size = 10.5
+
+    # ---------------------------------------------------------
+    # Build Language Legend
+    # ---------------------------------------------------------
+
+    for idx, lang in enumerate(
+        metrics["languages"]
+    ):
+
+        col = (
+            idx
+            % legend_columns
+        )
+
+        row = (
+            idx
+            // legend_columns
+        )
+
+        lx = (
+            col
+            * legend_width
+        )
+
+        ly = (
+            18
+            + row * row_height
+        )
 
         legend.append(
-            f'''
-            <g transform="translate({lx}, {ly})">
+            f"""
+<g transform="translate({lx:.1f}, {ly:.1f})">
 
-              <circle
-                  cx="5"
-                  cy="5"
-                  r="4"
-                  fill="{lang["color"]}"
-              />
+  <circle
+      cx="5"
+      cy="5"
+      r="4"
+      fill="{lang["color"]}"
+  />
 
-              <text
-                  x="16"
-                  y="9"
-                  fill="#e6edf3"
-                  font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
-                  font-size="11"
-                  font-weight="500">
-                {html.escape(lang["name"])}
-              </text>
+  <text
+      x="16"
+      y="9"
+      fill="#e6edf3"
+      font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+      font-size="{legend_font_size}"
+      font-weight="500">{html.escape(lang["name"])}</text>
 
-              <text
-                  x="112"
-                  y="9"
-                  text-anchor="end"
-                  fill="#8b949e"
-                  font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
-                  font-size="10">
-                {lang["pct"]}%
-              </text>
+  <text
+      x="{legend_width - 10:.1f}"
+      y="9"
+      text-anchor="end"
+      fill="#8b949e"
+      font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+      font-size="9.5">{lang["pct"]}%</text>
 
-            </g>
-            '''
+</g>"""
         )
 
     # ---------------------------------------------------------
-    # Dynamic positions
+    # Dynamic Card Height
     # ---------------------------------------------------------
+    #
+    # The card grows when GitHub returns more language rows.
+    # There is NO footer anymore.
+    #
 
-    language_footer_y = (
-        72 + language_rows * row_height
+    language_card_height = max(
+        190,
+        90
+        + legend_rows * row_height
     )
 
-    # Separator height automatically follows the number
-    # of language rows.
-    separator_top = 16
-
-    separator_bottom = (
-        18
-        + language_rows * row_height
-        - 5
+    overall_height = (
+        255
+        + language_card_height
+        + 25
     )
 
     # ---------------------------------------------------------
     # SVG
     # ---------------------------------------------------------
 
-    svg = f'''
-<svg xmlns="http://www.w3.org/2000/svg"
-     viewBox="0 0 {width} {height}"
-     width="100%"
-     height="auto"
-     fill="none">
-
-  <!-- Main background -->
+    svg = f'''<svg xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 {width} {overall_height}"
+    width="100%"
+    height="auto"
+    fill="none">
 
   <rect
       width="{width}"
-      height="{height}"
+      height="{overall_height}"
       rx="12"
       fill="#0d1117"
       stroke="#30363d"
-      stroke-width="1"
-  />
+      stroke-width="1"/>
 
+  <!-- ===================================================== -->
   <!-- Header -->
+  <!-- ===================================================== -->
 
   <g transform="translate(24, 34)">
 
@@ -443,8 +474,7 @@ def generate_bento_svg(
         rx="4"
         fill="#161b22"
         stroke="#30363d"
-        stroke-width="1"
-    />
+        stroke-width="1"/>
 
     <text
         x="6"
@@ -452,9 +482,7 @@ def generate_bento_svg(
         fill="#ffffff"
         font-family="monospace"
         font-size="12"
-        font-weight="bold">
-      ~/
-    </text>
+        font-weight="bold">~/</text>
 
     <text
         x="38"
@@ -482,12 +510,13 @@ def generate_bento_svg(
         x2="868"
         y2="26"
         stroke="#21262d"
-        stroke-width="1"
-    />
+        stroke-width="1"/>
 
   </g>
 
+  <!-- ===================================================== -->
   <!-- Production Focus -->
+  <!-- ===================================================== -->
 
   <g transform="translate(24, 75)">
 
@@ -497,15 +526,14 @@ def generate_bento_svg(
         rx="8"
         fill="#161b22"
         stroke="#21262d"
-        stroke-width="1"
-    />
+        stroke-width="1"/>
 
     <text
         x="16"
         y="24"
         fill="#ffffff"
         font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
-        font-size="13"
+        font-size="14"
         font-weight="600">
       🚀 Production Focus
     </text>
@@ -526,16 +554,17 @@ def generate_bento_svg(
         x2="414"
         y2="34"
         stroke="#30363d"
-        stroke-width="1"
-    />
+        stroke-width="1"/>
 
-    <g transform="translate(16, 46)">
+    <g transform="translate(16, 48)">
       {''.join(prod_svg)}
     </g>
 
   </g>
 
+  <!-- ===================================================== -->
   <!-- GitHub Telemetry -->
+  <!-- ===================================================== -->
 
   <g transform="translate(486, 75)">
 
@@ -545,15 +574,14 @@ def generate_bento_svg(
         rx="8"
         fill="#161b22"
         stroke="#21262d"
-        stroke-width="1"
-    />
+        stroke-width="1"/>
 
     <text
         x="16"
         y="24"
         fill="#ffffff"
         font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
-        font-size="13"
+        font-size="14"
         font-weight="600">
       ⚡ GitHub Telemetry
     </text>
@@ -575,8 +603,9 @@ def generate_bento_svg(
         x2="414"
         y2="34"
         stroke="#30363d"
-        stroke-width="1"
-    />
+        stroke-width="1"/>
+
+    <!-- Contributions -->
 
     <g transform="translate(16, 48)">
 
@@ -586,8 +615,7 @@ def generate_bento_svg(
           rx="6"
           fill="#0d1117"
           stroke="#30363d"
-          stroke-width="1"
-      />
+          stroke-width="1"/>
 
       <text
           x="12"
@@ -610,6 +638,8 @@ def generate_bento_svg(
 
     </g>
 
+    <!-- Public repositories -->
+
     <g transform="translate(224, 48)">
 
       <rect
@@ -618,8 +648,7 @@ def generate_bento_svg(
           rx="6"
           fill="#0d1117"
           stroke="#30363d"
-          stroke-width="1"
-      />
+          stroke-width="1"/>
 
       <text
           x="12"
@@ -642,6 +671,8 @@ def generate_bento_svg(
 
     </g>
 
+    <!-- Stars -->
+
     <g transform="translate(16, 102)">
 
       <rect
@@ -650,8 +681,7 @@ def generate_bento_svg(
           rx="6"
           fill="#0d1117"
           stroke="#30363d"
-          stroke-width="1"
-      />
+          stroke-width="1"/>
 
       <text
           x="12"
@@ -660,7 +690,11 @@ def generate_bento_svg(
           font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
           font-size="16"
           font-weight="bold">
-        {metrics["total_stars"]} ★
+
+        {metrics["total_stars"]}
+
+        <tspan fill="#FFD700">★</tspan>
+
       </text>
 
       <text
@@ -674,6 +708,8 @@ def generate_bento_svg(
 
     </g>
 
+    <!-- Detected languages -->
+
     <g transform="translate(224, 102)">
 
       <rect
@@ -682,8 +718,7 @@ def generate_bento_svg(
           rx="6"
           fill="#0d1117"
           stroke="#30363d"
-          stroke-width="1"
-      />
+          stroke-width="1"/>
 
       <text
           x="12"
@@ -692,7 +727,11 @@ def generate_bento_svg(
           font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
           font-size="16"
           font-weight="bold">
-        {len(metrics["languages"])}+
+
+        {len(metrics["languages"])}
+
+        <tspan fill="#39d353">+</tspan>
+
       </text>
 
       <text
@@ -708,25 +747,26 @@ def generate_bento_svg(
 
   </g>
 
+  <!-- ===================================================== -->
   <!-- Featured Engineering Projects -->
+  <!-- ===================================================== -->
 
   <g transform="translate(24, 255)">
 
     <rect
         width="430"
-        height="190"
+        height="{language_card_height}"
         rx="8"
         fill="#161b22"
         stroke="#21262d"
-        stroke-width="1"
-    />
+        stroke-width="1"/>
 
     <text
         x="16"
         y="24"
         fill="#ffffff"
         font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
-        font-size="13"
+        font-size="14"
         font-weight="600">
       🚀 Featured Engineering Projects
     </text>
@@ -747,16 +787,17 @@ def generate_bento_svg(
         x2="414"
         y2="34"
         stroke="#30363d"
-        stroke-width="1"
-    />
+        stroke-width="1"/>
 
-    <g transform="translate(8, 46)">
+    <g transform="translate(8, 48)">
       {''.join(project_svg)}
     </g>
 
   </g>
 
+  <!-- ===================================================== -->
   <!-- Repository Language Spectrum -->
+  <!-- ===================================================== -->
 
   <g transform="translate(486, 255)">
 
@@ -766,15 +807,14 @@ def generate_bento_svg(
         rx="8"
         fill="#161b22"
         stroke="#21262d"
-        stroke-width="1"
-    />
+        stroke-width="1"/>
 
     <text
         x="16"
         y="24"
         fill="#ffffff"
         font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
-        font-size="13"
+        font-size="14"
         font-weight="600">
       📊 Repository Language Spectrum
     </text>
@@ -795,12 +835,11 @@ def generate_bento_svg(
         x2="414"
         y2="34"
         stroke="#30363d"
-        stroke-width="1"
-    />
+        stroke-width="1"/>
+
+    <!-- Language bar -->
 
     <g transform="translate(22, 52)">
-
-      <!-- Language distribution bar -->
 
       <rect
           x="0"
@@ -810,10 +849,38 @@ def generate_bento_svg(
           rx="4"
           fill="#0d1117"
           stroke="#30363d"
-          stroke-width="1"
-      />
+          stroke-width="1"/>
 
       {''.join(segments)}
+
+      <!-- ================================================= -->
+      <!-- Dynamic white column separators -->
+      <!-- ================================================= -->
+      <!--
+           X positions stay tied to the 3 language columns.
+           Top begins below the language bar.
+           Bottom grows automatically with the language rows.
+      -->
+
+      <g opacity="0.90">
+
+        <line
+            x1="{legend_width - 8:.1f}"
+            y1="22"
+            x2="{legend_width - 8:.1f}"
+            y2="{18 + legend_rows * row_height - 6:.1f}"
+            stroke="#ffffff"
+            stroke-width="1"/>
+
+        <line
+            x1="{legend_width * 2 - 8:.1f}"
+            y1="22"
+            x2="{legend_width * 2 - 8:.1f}"
+            y2="{18 + legend_rows * row_height - 6:.1f}"
+            stroke="#ffffff"
+            stroke-width="1"/>
+
+      </g>
 
       <!-- Language legend -->
 
@@ -821,49 +888,11 @@ def generate_bento_svg(
         {''.join(legend)}
       </g>
 
-      <!-- Vertical separators between language columns -->
-      <!-- Clearly visible, thin white lines -->
-      <!-- Height automatically follows language row count -->
-
-      <g
-          opacity="0.75"
-          pointer-events="none">
-
-        <line
-            x1="{legend_width}"
-            y1="{separator_top}"
-            x2="{legend_width}"
-            y2="{separator_bottom}"
-            stroke="#ffffff"
-            stroke-width="1"
-        />
-
-        <line
-            x1="{legend_width * 2}"
-            y1="{separator_top}"
-            x2="{legend_width * 2}"
-            y2="{separator_bottom}"
-            stroke="#ffffff"
-            stroke-width="1"
-        />
-
-      </g>
-
     </g>
-
-    <text
-        x="22"
-        y="{language_footer_y:.1f}"
-        fill="#8b949e"
-        font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
-        font-size="9.5">
-      Language distribution is calculated from your public GitHub repositories.
-    </text>
 
   </g>
 
-</svg>
-'''
+</svg>'''
 
     os.makedirs(
         os.path.dirname(output_path),

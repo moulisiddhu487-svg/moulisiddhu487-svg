@@ -104,6 +104,7 @@ def fetch_bento_metrics(username):
     total_stars = "SYNC"
     public_repos_count = "SYNC"
     lang_totals = {}
+    language_fetch_failures = 0
 
     try:
         repos_url = (
@@ -163,7 +164,9 @@ def fetch_bento_metrics(username):
                         lang_totals.get(lang, 0) + count
                     )
 
-            except Exception:
+            except Exception as e:
+                language_fetch_failures += 1
+                print(f"[Bento] Language fetch notice for {name}: {e}")
                 continue
 
     except Exception as e:
@@ -232,7 +235,11 @@ def fetch_bento_metrics(username):
         "total_year": total_year,
         "public_repos": public_repos_count,
         "total_stars": total_stars,
-        "languages": languages
+        "languages": languages,
+        "_data_complete": (
+            public_repos_count != "SYNC"
+            and language_fetch_failures == 0
+        )
     }
 
 
@@ -256,10 +263,6 @@ def generate_bento_svg(
         []
     )[:3]
 
-    projects = bento_cfg.get(
-        "projects",
-        []
-    )[:2]
 
     width = 940
     bar_w = 385
@@ -287,71 +290,6 @@ def generate_bento_svg(
                 font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
                 font-size="11">{html.escape(item.get("desc", ""))}</text>
         </g>'''
-        )
-
-    # ---------------------------------------------------------
-    # Project Cards
-    # ---------------------------------------------------------
-
-    project_svg = []
-
-    for idx, item in enumerate(projects):
-        y = idx * 70
-
-        title = html.escape(
-            item.get("title", "")
-        )
-
-        desc = html.escape(
-            item.get("desc", "")
-        )
-
-        stack = html.escape(
-            item.get("stack", "")
-        )
-
-        url = html.escape(
-            item.get("url", ""),
-            quote=True
-        )
-
-        project_svg.append(
-            f'''
-        <a href="{url}" target="_blank">
-          <g transform="translate(0, {y})">
-
-            <rect x="0" y="0"
-                  width="414"
-                  height="58"
-                  rx="6"
-                  fill="#0d1117"
-                  stroke="#30363d"
-                  stroke-width="1"/>
-
-            <text x="12" y="17"
-                  fill="#ffffff"
-                  font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
-                  font-size="12"
-                  font-weight="700">{title}</text>
-
-            <text x="12" y="33"
-                  fill="#c9d1d9"
-                  font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
-                  font-size="10.5">{desc}</text>
-
-            <text x="12" y="48"
-                  fill="#8b949e"
-                  font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
-                  font-size="9.5">{stack}</text>
-
-            <text x="398" y="18"
-                  text-anchor="end"
-                  fill="#8b949e"
-                  font-family="monospace"
-                  font-size="10">↗</text>
-
-          </g>
-        </a>'''
         )
 
     # ---------------------------------------------------------
@@ -800,54 +738,6 @@ def generate_bento_svg(
   </g>
 
   <!-- ===================================================== -->
-  <!-- Featured Engineering Projects -->
-  <!-- ===================================================== -->
-
-  <g transform="translate(24, 255)">
-
-    <rect
-        width="430"
-        height="{language_card_height}"
-        rx="8"
-        fill="#161b22"
-        stroke="#21262d"
-        stroke-width="1"/>
-
-    <text
-        x="16"
-        y="24"
-        fill="#ffffff"
-        font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
-        font-size="14"
-        font-weight="600">
-      🚀 Featured Engineering Projects
-    </text>
-
-    <text
-        x="414"
-        y="24"
-        text-anchor="end"
-        fill="#8b949e"
-        font-family="monospace"
-        font-size="10">
-      OPEN REPO ↗
-    </text>
-
-    <line
-        x1="16"
-        y1="34"
-        x2="414"
-        y2="34"
-        stroke="#30363d"
-        stroke-width="1"/>
-
-    <g transform="translate(8, 48)">
-      {''.join(project_svg)}
-    </g>
-
-  </g>
-
-  <!-- ===================================================== -->
   <!-- Repository Language Spectrum -->
   <!-- ===================================================== -->
 
@@ -945,24 +835,4 @@ def generate_bento_svg(
 
   </g>
 
-</svg>'''
-
-    os.makedirs(
-        os.path.dirname(output_path),
-        exist_ok=True
-    )
-
-    with open(
-        output_path,
-        "w",
-        encoding="utf-8"
-    ) as f:
-        f.write(svg)
-
-    print(
-        f"[Bento Showcase] Saved project-focused SVG to '{output_path}'"
-    )
-
-
-if __name__ == "__main__":
-    generate_bento_svg()
+</svg>''

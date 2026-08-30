@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
-import os
 
+import os
 GITHUB_TOKEN = os.getenv("GITHUB_TOKEN", "")
 GITHUB_HEADERS = {"Accept": "application/vnd.github+json"}
 if GITHUB_TOKEN:
@@ -10,6 +10,7 @@ if GITHUB_TOKEN:
 
 import html
 import json
+import os
 import re
 import urllib.request
 import yaml
@@ -18,23 +19,32 @@ import yaml
 def load_config(config_path="config.yml"):
     if not os.path.exists(config_path):
         return {}
+
     with open(config_path, "r", encoding="utf-8") as f:
         return yaml.safe_load(f) or {}
 
 
 def fetch_bento_metrics(username):
     total_year = "SYNC"
+
     try:
         url = f"https://github.com/users/{username}/contributions"
-        req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
+        req = urllib.request.Request(
+            url,
+            headers={"User-Agent": "Mozilla/5.0"}
+        )
+
         with urllib.request.urlopen(req, timeout=8) as resp:
             text = resp.read().decode("utf-8")
+
         match = re.search(
             r'([0-9,]+)\s+contributions?\s+in\s+the\s+last\s+year',
             text
         )
+
         if match:
             total_year = match.group(1)
+
     except Exception as e:
         print(f"[Bento] Contribution fetch notice: {e}")
 
@@ -47,18 +57,22 @@ def fetch_bento_metrics(username):
             f"https://api.github.com/users/{username}/repos"
             f"?per_page=100&sort=updated"
         )
+
         req = urllib.request.Request(
             repos_url,
             headers={"User-Agent": "Mozilla/5.0"}
         )
+
         with urllib.request.urlopen(req, timeout=8) as resp:
             repos = json.loads(resp.read().decode("utf-8"))
 
         public_repos_count = len(repos)
-        total_stars = sum(r.get("stargazers_count", 0) for r in repos)
+        total_stars = sum(
+            r.get("stargazers_count", 0)
+            for r in repos
+        )
 
-        # GitHub's repo listing does not contain language byte totals,
-        # so collect language totals from each public repo when possible.
+        # Collect real language byte totals from every public repository.
         for repo in repos:
             owner = repo.get("owner", {}).get("login", username)
             name = repo.get("name")
@@ -68,17 +82,22 @@ def fetch_bento_metrics(username):
 
             try:
                 lang_url = (
-                    f"https://api.github.com/repos/{owner}/{name}/languages"
+                    f"https://api.github.com/repos/"
+                    f"{owner}/{name}/languages"
                 )
+
                 req2 = urllib.request.Request(
                     lang_url,
                     headers={"User-Agent": "Mozilla/5.0"}
                 )
+
                 with urllib.request.urlopen(req2, timeout=5) as resp2:
                     langs = json.loads(resp2.read().decode("utf-8"))
 
                 for lang, count in langs.items():
-                    lang_totals[lang] = lang_totals.get(lang, 0) + count
+                    lang_totals[lang] = (
+                        lang_totals.get(lang, 0) + count
+                    )
 
             except Exception:
                 continue
@@ -91,45 +110,39 @@ def fetch_bento_metrics(username):
 
     total_bytes = sum(lang_totals.values()) or 1
 
-    # GitHub Linguist is GitHub's source of truth for language colors.
-    # Percentages remain calculated from the real GitHub language byte totals.
-    language_colors = {}
-
-    try:
-        linguist_url = (
-            "https://raw.githubusercontent.com/github-linguist/linguist/"
-            "main/lib/linguist/languages.yml"
-        )
-        linguist_req = urllib.request.Request(
-            linguist_url,
-            headers={"User-Agent": "Mozilla/5.0"}
-        )
-
-        with urllib.request.urlopen(linguist_req, timeout=8) as resp:
-            linguist_data = yaml.safe_load(
-                resp.read().decode("utf-8")
-            ) or {}
-
-        for language_name, language_info in linguist_data.items():
-            if isinstance(language_info, dict):
-                color = language_info.get("color")
-                if isinstance(color, str) and color.strip():
-                    language_colors[language_name] = color.strip()
-
-    except Exception as e:
-        print(f"[Bento] Language color fetch notice: {e}")
+    # GitHub-style language colors.
+    # Colors are generated deterministically so new languages
+    # automatically receive a color without hardcoding language names.
+    palette = [
+        "#3178c6",
+        "#00add8",
+        "#e34c26",
+        "#6f42c1",
+        "#89e051",
+        "#563d7c",
+        "#f1e05a",
+        "#b07219",
+        "#384d54",
+        "#8250df",
+        "#427819",
+        "#701516",
+        "#ecdebe",
+        "#dea584",
+        "#555555",
+    ]
 
     languages = []
 
-    # Show every language returned by GitHub. No hardcoded language limit.
-    for lang, count in sorted(
+    sorted_languages = sorted(
         lang_totals.items(),
         key=lambda x: -x[1]
-    ):
+    )
+
+    for idx, (lang, count) in enumerate(sorted_languages):
         languages.append({
             "name": lang,
             "pct": round(count / total_bytes * 100, 1),
-            "color": language_colors.get(lang, "#8b949e")
+            "color": palette[idx % len(palette)]
         })
 
     return {
@@ -145,17 +158,57 @@ def generate_bento_svg(
     output_path="assets/bento.svg"
 ):
     config = load_config(config_path)
-    username = config.get("github_username", "octocat")
+
+    username = config.get(
+        "github_username",
+        "octocat"
+    )
+
     metrics = fetch_bento_metrics(username)
 
     bento_cfg = config.get("bento", {})
-    prod_items = bento_cfg.get("production_focus", [])[:3]
-    projects = bento_cfg.get("projects", [])[:2]
 
-    width, height = 940, 470
+    prod_items = bento_cfg.get(
+        "production_focus",
+        []
+    )[:3]
+
+    projects = bento_cfg.get(
+        "projects",
+        []
+    )[:2]
+
+    width = 940
+
+    # Dynamically determine language rows.
+    language_count = len(metrics["languages"])
+
+    # Three columns make the language section scale cleanly.
+    language_columns = 3
+    language_rows = max(
+        1,
+        (language_count + language_columns - 1)
+        // language_columns
+    )
+
+    row_height = 24
+
+    # Base height plus extra space for additional language rows.
+    language_card_height = max(
+        190,
+        112 + language_rows * row_height
+    )
+
+    # The whole bento card grows with the language card.
+    content_bottom = 255 + language_card_height
+    height = max(470, content_bottom + 25)
+
     bar_w = 385
 
+    # ---------------------------------------------------------
     # Production focus
+    # ---------------------------------------------------------
+
     prod_svg = []
 
     for idx, item in enumerate(prod_items):
@@ -168,424 +221,614 @@ def generate_bento_svg(
                 fill="#e6edf3"
                 font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
                 font-size="12"
-                font-weight="600">{html.escape(item.get("title", ""))}</text>
+                font-weight="600">
+            {html.escape(item.get("title", ""))}
+          </text>
+
           <text x="0" y="25"
                 fill="#8b949e"
                 font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
-                font-size="11">{html.escape(item.get("desc", ""))}</text>
-        </g>'''
+                font-size="11">
+            {html.escape(item.get("desc", ""))}
+          </text>
+        </g>
+        '''
         )
 
+    # ---------------------------------------------------------
     # Project cards
+    # ---------------------------------------------------------
+
     project_svg = []
 
     for idx, item in enumerate(projects):
         y = idx * 70
 
-        title = html.escape(item.get("title", ""))
-        desc = html.escape(item.get("desc", ""))
-        stack = html.escape(item.get("stack", ""))
-        url = html.escape(item.get("url", ""), quote=True)
+        title = html.escape(
+            item.get("title", "")
+        )
+
+        desc = html.escape(
+            item.get("desc", "")
+        )
+
+        stack = html.escape(
+            item.get("stack", "")
+        )
+
+        url = html.escape(
+            item.get("url", ""),
+            quote=True
+        )
 
         project_svg.append(
             f'''
         <a href="{url}" target="_blank">
           <g transform="translate(0, {y})">
-            <rect x="0" y="0" width="414" height="58"
-                  rx="6" fill="#0d1117" stroke="#30363d" stroke-width="1"/>
+
+            <rect x="0" y="0"
+                  width="414"
+                  height="58"
+                  rx="6"
+                  fill="#0d1117"
+                  stroke="#30363d"
+                  stroke-width="1"/>
 
             <text x="12" y="17"
                   fill="#ffffff"
                   font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
                   font-size="12"
-                  font-weight="700">{title}</text>
+                  font-weight="700">
+              {title}
+            </text>
 
             <text x="12" y="33"
                   fill="#c9d1d9"
                   font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
-                  font-size="10.5">{desc}</text>
+                  font-size="10.5">
+              {desc}
+            </text>
 
             <text x="12" y="48"
                   fill="#8b949e"
                   font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
-                  font-size="9.5">{stack}</text>
+                  font-size="9.5">
+              {stack}
+            </text>
 
             <text x="398" y="18"
                   text-anchor="end"
                   fill="#8b949e"
                   font-family="monospace"
-                  font-size="10">↗</text>
+                  font-size="10">
+              ↗
+            </text>
+
           </g>
-        </a>'''
+        </a>
+        '''
         )
 
+    # ---------------------------------------------------------
     # Language spectrum
+    # ---------------------------------------------------------
+
     segments = []
     legend = []
+
     curr_x = 0
 
     for lang in metrics["languages"]:
-        seg_w = lang["pct"] / 100 * bar_w
+
+        seg_w = (
+            lang["pct"] / 100
+        ) * bar_w
 
         if seg_w > 0:
             segments.append(
-                f'<rect x="{curr_x:.1f}" y="0" '
-                f'width="{seg_w:.1f}" height="10" rx="2" '
-                f'fill="{lang["color"]}"/>'
+                f'''
+                <rect
+                    x="{curr_x:.1f}"
+                    y="0"
+                    width="{seg_w:.1f}"
+                    height="10"
+                    rx="2"
+                    fill="{lang["color"]}"
+                />
+                '''
             )
+
             curr_x += seg_w
 
-    # Dynamically fit every detected language into the spectrum card.
-    language_count = len(metrics["languages"])
-    legend_columns = (
-        2 if language_count <= 6
-        else 3 if language_count <= 12
-        else 4
-    )
-    legend_width = bar_w / legend_columns
-    legend_rows = max(
-        1,
-        (language_count + legend_columns - 1) // legend_columns
-    )
-
-    available_legend_height = 108
-    row_height = min(
-        24,
-        max(12, available_legend_height / legend_rows)
-    )
-    legend_font_size = (
-        11 if row_height >= 20
-        else 10 if row_height >= 15
-        else 9
-    )
+    # Three-column responsive-style legend.
+    legend_width = 120
 
     for idx, lang in enumerate(metrics["languages"]):
-        col = idx % legend_columns
-        row = idx // legend_columns
+
+        col = idx % language_columns
+        row = idx // language_columns
+
         lx = col * legend_width
         ly = 24 + row * row_height
 
         legend.append(
-            f"""
-<g transform="translate({lx:.1f}, {ly:.1f})">
-  <circle cx="5" cy="5" r="4" fill="{lang["color"]}"/>
-  <text x="16" y="9"
-        fill="#e6edf3"
-        font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
-        font-size="{legend_font_size}"
-        font-weight="500">{html.escape(lang["name"])}</text>
-  <text x="{legend_width - 10:.1f}" y="9"
-        text-anchor="end"
-        fill="#8b949e"
-        font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
-        font-size="{max(8, legend_font_size - 1)}">{lang["pct"]}%</text>
-</g>"""
+            f'''
+            <g transform="translate({lx}, {ly})">
+
+              <circle
+                  cx="5"
+                  cy="5"
+                  r="4"
+                  fill="{lang["color"]}"
+              />
+
+              <text
+                  x="16"
+                  y="9"
+                  fill="#e6edf3"
+                  font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+                  font-size="11"
+                  font-weight="500">
+                {html.escape(lang["name"])}
+              </text>
+
+              <text
+                  x="112"
+                  y="9"
+                  text-anchor="end"
+                  fill="#8b949e"
+                  font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+                  font-size="10">
+                {lang["pct"]}%
+              </text>
+
+            </g>
+            '''
         )
 
-    svg = f'''<svg xmlns="http://www.w3.org/2000/svg"
-    viewBox="0 0 {width} {height}"
-    width="100%"
-    height="auto"
-    fill="none">
+    # ---------------------------------------------------------
+    # SVG
+    # ---------------------------------------------------------
 
-  <rect width="{width}" height="{height}"
-        rx="12"
-        fill="#0d1117"
-        stroke="#30363d"
-        stroke-width="1"/>
+    language_footer_y = (
+        72 + language_rows * row_height
+    )
+
+    svg = f'''
+<svg xmlns="http://www.w3.org/2000/svg"
+     viewBox="0 0 {width} {height}"
+     width="100%"
+     height="auto"
+     fill="none">
+
+  <!-- Main background -->
+
+  <rect
+      width="{width}"
+      height="{height}"
+      rx="12"
+      fill="#0d1117"
+      stroke="#30363d"
+      stroke-width="1"
+  />
 
   <!-- Header -->
+
   <g transform="translate(24, 34)">
-    <rect x="0" y="0"
-          width="28"
-          height="20"
-          rx="4"
-          fill="#161b22"
-          stroke="#30363d"
-          stroke-width="1"/>
 
-    <text x="6" y="14"
-          fill="#ffffff"
-          font-family="monospace"
-          font-size="12"
-          font-weight="bold">~/</text>
+    <rect
+        x="0"
+        y="0"
+        width="28"
+        height="20"
+        rx="4"
+        fill="#161b22"
+        stroke="#30363d"
+        stroke-width="1"
+    />
 
-    <text x="38" y="15"
-          fill="#ffffff"
-          font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
-          font-size="14"
-          font-weight="600">
+    <text
+        x="6"
+        y="14"
+        fill="#ffffff"
+        font-family="monospace"
+        font-size="12"
+        font-weight="bold">
+      ~/
+    </text>
+
+    <text
+        x="38"
+        y="15"
+        fill="#ffffff"
+        font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+        font-size="14"
+        font-weight="600">
       Engineering Showcase &amp; Performance
     </text>
 
-    <text x="868" y="14"
-          text-anchor="end"
-          fill="#8b949e"
-          font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
-          font-size="10.5">
+    <text
+        x="868"
+        y="14"
+        text-anchor="end"
+        fill="#8b949e"
+        font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+        font-size="10.5">
       Cloud • Automation • Reliability • Projects
     </text>
 
-    <line x1="0" y1="26"
-          x2="868" y2="26"
-          stroke="#21262d"
-          stroke-width="1"/>
+    <line
+        x1="0"
+        y1="26"
+        x2="868"
+        y2="26"
+        stroke="#21262d"
+        stroke-width="1"
+    />
+
   </g>
 
   <!-- Production Focus -->
-  <g transform="translate(24, 75)">
-    <rect width="430" height="160"
-          rx="8"
-          fill="#161b22"
-          stroke="#21262d"
-          stroke-width="1"/>
 
-    <text x="16" y="24"
-          fill="#ffffff"
-          font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
-          font-size="14"
-          font-weight="600">
+  <g transform="translate(24, 75)">
+
+    <rect
+        width="430"
+        height="160"
+        rx="8"
+        fill="#161b22"
+        stroke="#21262d"
+        stroke-width="1"
+    />
+
+    <text
+        x="16"
+        y="24"
+        fill="#ffffff"
+        font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+        font-size="13"
+        font-weight="600">
       🚀 Production Focus
     </text>
 
-    <text x="414" y="24"
-          text-anchor="end"
-          fill="#8b949e"
-          font-family="monospace"
-          font-size="10">
+    <text
+        x="414"
+        y="24"
+        text-anchor="end"
+        fill="#8b949e"
+        font-family="monospace"
+        font-size="10">
       BUILD → SHIP → OBSERVE
     </text>
 
-    <line x1="16" y1="34"
-          x2="414" y2="34"
-          stroke="#30363d"
-          stroke-width="1"/>
+    <line
+        x1="16"
+        y1="34"
+        x2="414"
+        y2="34"
+        stroke="#30363d"
+        stroke-width="1"
+    />
 
-    <g transform="translate(16, 48)">
+    <g transform="translate(16, 46)">
       {''.join(prod_svg)}
     </g>
+
   </g>
 
   <!-- GitHub Telemetry -->
-  <g transform="translate(486, 75)">
-    <rect width="430" height="160"
-          rx="8"
-          fill="#161b22"
-          stroke="#21262d"
-          stroke-width="1"/>
 
-    <text x="16" y="24"
-          fill="#ffffff"
-          font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
-          font-size="14"
-          font-weight="600">
+  <g transform="translate(486, 75)">
+
+    <rect
+        width="430"
+        height="160"
+        rx="8"
+        fill="#161b22"
+        stroke="#21262d"
+        stroke-width="1"
+    />
+
+    <text
+        x="16"
+        y="24"
+        fill="#ffffff"
+        font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+        font-size="13"
+        font-weight="600">
       ⚡ GitHub Telemetry
     </text>
 
-    <text x="414" y="24"
-          text-anchor="end"
-          fill="#3fb950"
-          font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
-          font-size="10.5"
-          font-weight="600">
+    <text
+        x="414"
+        y="24"
+        text-anchor="end"
+        fill="#3fb950"
+        font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+        font-size="10.5"
+        font-weight="600">
       ● LIVE DATA
     </text>
 
-    <line x1="16" y1="34"
-          x2="414" y2="34"
-          stroke="#30363d"
-          stroke-width="1"/>
+    <line
+        x1="16"
+        y1="34"
+        x2="414"
+        y2="34"
+        stroke="#30363d"
+        stroke-width="1"
+    />
 
     <g transform="translate(16, 48)">
-      <rect width="190" height="46"
-            rx="6"
-            fill="#0d1117"
-            stroke="#30363d"
-            stroke-width="1"/>
 
-      <text x="12" y="20"
-            fill="#ffffff"
-            font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
-            font-size="16"
-            font-weight="bold">
+      <rect
+          width="190"
+          height="46"
+          rx="6"
+          fill="#0d1117"
+          stroke="#30363d"
+          stroke-width="1"
+      />
+
+      <text
+          x="12"
+          y="20"
+          fill="#ffffff"
+          font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+          font-size="16"
+          font-weight="bold">
         {metrics["total_year"]}
       </text>
 
-      <text x="12" y="36"
-            fill="#8b949e"
-            font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
-            font-size="10">
+      <text
+          x="12"
+          y="36"
+          fill="#8b949e"
+          font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+          font-size="10">
         Contributions / year
       </text>
+
     </g>
 
     <g transform="translate(224, 48)">
-      <rect width="190" height="46"
-            rx="6"
-            fill="#0d1117"
-            stroke="#30363d"
-            stroke-width="1"/>
 
-      <text x="12" y="20"
-            fill="#ffffff"
-            font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
-            font-size="16"
-            font-weight="bold">
+      <rect
+          width="190"
+          height="46"
+          rx="6"
+          fill="#0d1117"
+          stroke="#30363d"
+          stroke-width="1"
+      />
+
+      <text
+          x="12"
+          y="20"
+          fill="#ffffff"
+          font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+          font-size="16"
+          font-weight="bold">
         {metrics["public_repos"]}
       </text>
 
-      <text x="12" y="36"
-            fill="#8b949e"
-            font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
-            font-size="10">
+      <text
+          x="12"
+          y="36"
+          fill="#8b949e"
+          font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+          font-size="10">
         Public repositories
       </text>
+
     </g>
 
     <g transform="translate(16, 102)">
-      <rect width="190" height="46"
-            rx="6"
-            fill="#0d1117"
-            stroke="#30363d"
-            stroke-width="1"/>
 
-      <text x="12" y="20"
-            fill="#ffffff"
-            font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
-            font-size="16"
-            font-weight="bold">
-        {metrics["total_stars"]}
-        <tspan fill="#FFD700">★</tspan>
+      <rect
+          width="190"
+          height="46"
+          rx="6"
+          fill="#0d1117"
+          stroke="#30363d"
+          stroke-width="1"
+      />
+
+      <text
+          x="12"
+          y="20"
+          fill="#ffffff"
+          font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+          font-size="16"
+          font-weight="bold">
+        {metrics["total_stars"]} ★
       </text>
 
-      <text x="12" y="36"
-            fill="#8b949e"
-            font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
-            font-size="10">
+      <text
+          x="12"
+          y="36"
+          fill="#8b949e"
+          font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+          font-size="10">
         Total GitHub stars
       </text>
+
     </g>
 
     <g transform="translate(224, 102)">
-      <rect width="190" height="46"
-            rx="6"
-            fill="#0d1117"
-            stroke="#30363d"
-            stroke-width="1"/>
 
-      <text x="12" y="20"
-            fill="#ffffff"
-            font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
-            font-size="16"
-            font-weight="bold">
-        {len(metrics["languages"])}
-        <tspan fill="#39d353">+</tspan>
+      <rect
+          width="190"
+          height="46"
+          rx="6"
+          fill="#0d1117"
+          stroke="#30363d"
+          stroke-width="1"
+      />
+
+      <text
+          x="12"
+          y="20"
+          fill="#ffffff"
+          font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+          font-size="16"
+          font-weight="bold">
+        {len(metrics["languages"])}+
       </text>
 
-      <text x="12" y="36"
-            fill="#8b949e"
-            font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
-            font-size="10">
+      <text
+          x="12"
+          y="36"
+          fill="#8b949e"
+          font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+          font-size="10">
         Detected languages
       </text>
+
     </g>
+
   </g>
 
   <!-- Featured Engineering Projects -->
-  <g transform="translate(24, 255)">
-    <rect width="430" height="190"
-          rx="8"
-          fill="#161b22"
-          stroke="#21262d"
-          stroke-width="1"/>
 
-    <text x="16" y="24"
-          fill="#ffffff"
-          font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
-          font-size="14"
-          font-weight="600">
+  <g transform="translate(24, 255)">
+
+    <rect
+        width="430"
+        height="190"
+        rx="8"
+        fill="#161b22"
+        stroke="#21262d"
+        stroke-width="1"
+    />
+
+    <text
+        x="16"
+        y="24"
+        fill="#ffffff"
+        font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+        font-size="13"
+        font-weight="600">
       🚀 Featured Engineering Projects
     </text>
 
-    <text x="414" y="24"
-          text-anchor="end"
-          fill="#8b949e"
-          font-family="monospace"
-          font-size="10">
+    <text
+        x="414"
+        y="24"
+        text-anchor="end"
+        fill="#8b949e"
+        font-family="monospace"
+        font-size="10">
       OPEN REPO ↗
     </text>
 
-    <line x1="16" y1="34"
-          x2="414" y2="34"
-          stroke="#30363d"
-          stroke-width="1"/>
+    <line
+        x1="16"
+        y1="34"
+        x2="414"
+        y2="34"
+        stroke="#30363d"
+        stroke-width="1"
+    />
 
-    <g transform="translate(8, 48)">
+    <g transform="translate(8, 46)">
       {''.join(project_svg)}
     </g>
+
   </g>
 
   <!-- Repository Language Spectrum -->
-  <g transform="translate(486, 255)">
-    <rect width="430" height="190"
-          rx="8"
-          fill="#161b22"
-          stroke="#21262d"
-          stroke-width="1"/>
 
-    <text x="16" y="24"
-          fill="#ffffff"
-          font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
-          font-size="14"
-          font-weight="600">
+  <g transform="translate(486, 255)">
+
+    <rect
+        width="430"
+        height="{language_card_height}"
+        rx="8"
+        fill="#161b22"
+        stroke="#21262d"
+        stroke-width="1"
+    />
+
+    <text
+        x="16"
+        y="24"
+        fill="#ffffff"
+        font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+        font-size="13"
+        font-weight="600">
       📊 Repository Language Spectrum
     </text>
 
-    <text x="414" y="24"
-          text-anchor="end"
-          fill="#8b949e"
-          font-family="monospace"
-          font-size="10">
+    <text
+        x="414"
+        y="24"
+        text-anchor="end"
+        fill="#8b949e"
+        font-family="monospace"
+        font-size="10">
       PUBLIC REPOS
     </text>
 
-    <line x1="16" y1="34"
-          x2="414" y2="34"
-          stroke="#30363d"
-          stroke-width="1"/>
+    <line
+        x1="16"
+        y1="34"
+        x2="414"
+        y2="34"
+        stroke="#30363d"
+        stroke-width="1"
+    />
 
     <g transform="translate(22, 52)">
-      <rect x="0" y="0"
-            width="{bar_w}"
-            height="10"
-            rx="4"
-            fill="#0d1117"
-            stroke="#30363d"
-            stroke-width="1"/>
+
+      <rect
+          x="0"
+          y="0"
+          width="{bar_w}"
+          height="10"
+          rx="4"
+          fill="#0d1117"
+          stroke="#30363d"
+          stroke-width="1"
+      />
 
       {''.join(segments)}
 
       <g transform="translate(0, 18)">
         {''.join(legend)}
       </g>
+
     </g>
 
-    <text x="22" y="168"
-          fill="#8b949e"
-          font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
-          font-size="9.5">
+    <text
+        x="22"
+        y="{language_footer_y:.1f}"
+        fill="#8b949e"
+        font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+        font-size="9.5">
       Language distribution is calculated from your public GitHub repositories.
     </text>
+
   </g>
 
-</svg>'''
+</svg>
+'''
 
-    os.makedirs(os.path.dirname(output_path), exist_ok=True)
+    os.makedirs(
+        os.path.dirname(output_path),
+        exist_ok=True
+    )
 
-    with open(output_path, "w", encoding="utf-8") as f:
+    with open(
+        output_path,
+        "w",
+        encoding="utf-8"
+    ) as f:
         f.write(svg)
 
-    print(f"[Bento Showcase] Saved project-focused SVG to '{output_path}'")
+    print(
+        f"[Bento Showcase] Saved project-focused SVG to '{output_path}'"
+    )
 
 
 if __name__ == "__main__":

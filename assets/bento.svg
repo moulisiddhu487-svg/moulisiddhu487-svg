@@ -368,7 +368,7 @@
             stroke="#30363d"
             stroke-width="1"/>
 
-      <rect x="0.0" y="0" width="148.6" height="10" rx="2" fill="#3572A5"/><rect x="148.6" y="0" width="78.2" height="10" rx="2" fill="#00ADD8"/><rect x="226.8" y="0" width="67.8" height="10" rx="2" fill="#e34c26"/><rect x="294.5" y="0" width="21.9" height="10" rx="2" fill="#7355dd"/><rect x="316.5" y="0" width="18.9" height="10" rx="2" fill="#89e051"/><rect x="335.3" y="0" width="12.3" height="10" rx="2" fill="#384d54"/><rect x="347.7" y="0" width="12.3" height="10" rx="2" fill="#663399"/><rect x="360.0" y="0" width="11.2" height="10" rx="2" fill="#f1e05a"/><rect x="371.1" y="0" width="8.1" height="10" rx="2" fill="#b07219"/><rect x="379.2" y="0" width="5.8" height="10" rx="2" fill="#844FBA"/>
+      <rect x="0.0" y="0" width="149.4" height="10" rx="2" fill="#3572A5"/><rect x="149.4" y="0" width="77.8" height="10" rx="2" fill="#00ADD8"/><rect x="227.1" y="0" width="67.8" height="10" rx="2" fill="#e34c26"/><rect x="294.9" y="0" width="21.9" height="10" rx="2" fill="#7355dd"/><rect x="316.9" y="0" width="18.9" height="10" rx="2" fill="#89e051"/><rect x="335.7" y="0" width="12.3" height="10" rx="2" fill="#384d54"/><rect x="348.0" y="0" width="12.3" height="10" rx="2" fill="#663399"/><rect x="360.4" y="0" width="11.2" height="10" rx="2" fill="#f1e05a"/><rect x="371.5" y="0" width="8.1" height="10" rx="2" fill="#b07219"/><rect x="379.6" y="0" width="5.8" height="10" rx="2" fill="#844FBA"/>
 
       <g transform="translate(0, 18)">
         
@@ -383,7 +383,7 @@
         text-anchor="end"
         fill="#8b949e"
         font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
-        font-size="10">38.6%</text>
+        font-size="10">38.8%</text>
 </g>
 <g transform="translate(128.3, 24.0)">
   <circle cx="5" cy="5" r="4" fill="#00ADD8"/>
@@ -396,7 +396,7 @@
         text-anchor="end"
         fill="#8b949e"
         font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
-        font-size="10">20.3%</text>
+        font-size="10">20.2%</text>
 </g>
 <g transform="translate(256.7, 24.0)">
   <circle cx="5" cy="5" r="4" fill="#e34c26"/>

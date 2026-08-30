@@ -147,7 +147,7 @@ def generate_bento_svg(config_path="config.yml", output_path="assets/bento.svg")
 
   <g transform="translate(24, 75)">
     <rect width="430" height="160" rx="8" fill="#161b22" stroke="#21262d" stroke-width="1"/>
-    <text x="16" y="24" fill="#ffffff" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="13" font-weight="600">🚀 Production Focus</text>
+    <text x="16" y="24" fill="#ffffff" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="14" font-weight="600">🚀 Production Focus</text>
     <text x="414" y="24" text-anchor="end" fill="#8b949e" font-family="monospace" font-size="10">BUILD → SHIP → OBSERVE</text>
     <line x1="16" y1="34" x2="414" y2="34" stroke="#30363d" stroke-width="1"/>
     <g transform="translate(16, 46)">{''.join(prod_svg)}
@@ -156,7 +156,7 @@ def generate_bento_svg(config_path="config.yml", output_path="assets/bento.svg")
 
   <g transform="translate(486, 75)">
     <rect width="430" height="160" rx="8" fill="#161b22" stroke="#21262d" stroke-width="1"/>
-    <text x="16" y="24" fill="#ffffff" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="13" font-weight="600">⚡ GitHub Telemetry</text>
+    <text x="16" y="24" fill="#ffffff" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="14" font-weight="600">⚡ GitHub Telemetry</text>
     <text x="414" y="24" text-anchor="end" fill="#3fb950" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="10.5" font-weight="600">● LIVE DATA</text>
     <line x1="16" y1="34" x2="414" y2="34" stroke="#30363d" stroke-width="1"/>
     <g transform="translate(16, 48)">
@@ -183,7 +183,7 @@ def generate_bento_svg(config_path="config.yml", output_path="assets/bento.svg")
 
   <g transform="translate(24, 255)">
     <rect width="430" height="190" rx="8" fill="#161b22" stroke="#21262d" stroke-width="1"/>
-    <text x="16" y="24" fill="#ffffff" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="13" font-weight="600">🚀 Featured Engineering Projects</text>
+    <text x="16" y="24" fill="#ffffff" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="14" font-weight="600">🚀 Featured Engineering Projects</text>
     <text x="414" y="24" text-anchor="end" fill="#8b949e" font-family="monospace" font-size="10">OPEN REPO ↗</text>
     <line x1="16" y1="34" x2="414" y2="34" stroke="#30363d" stroke-width="1"/>
     <g transform="translate(8, 46)">{''.join(project_svg)}
@@ -192,7 +192,7 @@ def generate_bento_svg(config_path="config.yml", output_path="assets/bento.svg")
 
   <g transform="translate(486, 255)">
     <rect width="430" height="190" rx="8" fill="#161b22" stroke="#21262d" stroke-width="1"/>
-    <text x="16" y="24" fill="#ffffff" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="13" font-weight="600">📊 Repository Language Spectrum</text>
+    <text x="16" y="24" fill="#ffffff" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="14" font-weight="600">📊 Repository Language Spectrum</text>
     <text x="414" y="24" text-anchor="end" fill="#8b949e" font-family="monospace" font-size="10">PUBLIC REPOS</text>
     <line x1="16" y1="34" x2="414" y2="34" stroke="#30363d" stroke-width="1"/>
     <g transform="translate(22, 52)">

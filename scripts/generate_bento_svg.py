@@ -90,23 +90,46 @@ def fetch_bento_metrics(username):
         lang_totals = {}
 
     total_bytes = sum(lang_totals.values()) or 1
-    palette = [
-        "#ffffff",
-        "#8b949e",
-        "#565e69",
-        "#30363d",
-        "#21262d"
-    ]
+
+    # GitHub Linguist is GitHub's source of truth for language colors.
+    # Percentages remain calculated from the real GitHub language byte totals.
+    language_colors = {}
+
+    try:
+        linguist_url = (
+            "https://raw.githubusercontent.com/github-linguist/linguist/"
+            "main/lib/linguist/languages.yml"
+        )
+        linguist_req = urllib.request.Request(
+            linguist_url,
+            headers={"User-Agent": "Mozilla/5.0"}
+        )
+
+        with urllib.request.urlopen(linguist_req, timeout=8) as resp:
+            linguist_data = yaml.safe_load(
+                resp.read().decode("utf-8")
+            ) or {}
+
+        for language_name, language_info in linguist_data.items():
+            if isinstance(language_info, dict):
+                color = language_info.get("color")
+                if isinstance(color, str) and color.strip():
+                    language_colors[language_name] = color.strip()
+
+    except Exception as e:
+        print(f"[Bento] Language color fetch notice: {e}")
 
     languages = []
 
-    for idx, (lang, count) in enumerate(
-        sorted(lang_totals.items(), key=lambda x: -x[1])[:5]
+    # Show every language returned by GitHub. No hardcoded language limit.
+    for lang, count in sorted(
+        lang_totals.items(),
+        key=lambda x: -x[1]
     ):
         languages.append({
             "name": lang,
             "pct": round(count / total_bytes * 100, 1),
-            "color": palette[idx % len(palette)]
+            "color": language_colors.get(lang, "#8b949e")
         })
 
     return {
@@ -212,25 +235,51 @@ def generate_bento_svg(
             )
             curr_x += seg_w
 
+    # Dynamically fit every detected language into the spectrum card.
+    language_count = len(metrics["languages"])
+    legend_columns = (
+        2 if language_count <= 6
+        else 3 if language_count <= 12
+        else 4
+    )
+    legend_width = bar_w / legend_columns
+    legend_rows = max(
+        1,
+        (language_count + legend_columns - 1) // legend_columns
+    )
+
+    available_legend_height = 108
+    row_height = min(
+        24,
+        max(12, available_legend_height / legend_rows)
+    )
+    legend_font_size = (
+        11 if row_height >= 20
+        else 10 if row_height >= 15
+        else 9
+    )
+
     for idx, lang in enumerate(metrics["languages"]):
-        col, row = idx % 2, idx // 2
-        lx, ly = col * 200, 24 + row * 24
+        col = idx % legend_columns
+        row = idx // legend_columns
+        lx = col * legend_width
+        ly = 24 + row * row_height
 
         legend.append(
-            f'''
-<g transform="translate({lx}, {ly})">
+            f"""
+<g transform="translate({lx:.1f}, {ly:.1f})">
   <circle cx="5" cy="5" r="4" fill="{lang["color"]}"/>
   <text x="16" y="9"
         fill="#e6edf3"
         font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
-        font-size="11"
+        font-size="{legend_font_size}"
         font-weight="500">{html.escape(lang["name"])}</text>
-  <text x="180" y="9"
+  <text x="{legend_width - 10:.1f}" y="9"
         text-anchor="end"
         fill="#8b949e"
         font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
-        font-size="10">{lang["pct"]}%</text>
-</g>'''
+        font-size="{max(8, legend_font_size - 1)}">{lang["pct"]}%</text>
+</g>"""
         )
 
     svg = f'''<svg xmlns="http://www.w3.org/2000/svg"

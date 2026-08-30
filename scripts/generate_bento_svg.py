@@ -864,24 +864,25 @@ def generate_bento_svg(
 
       <g opacity="0.90">
 
-        <line
-            x1="{legend_width - 8:.1f}"
-            y1="22"
-            x2="{legend_width - 8:.1f}"
-            y2="{18 + legend_rows * row_height - 6:.1f}"
-            stroke="#ffffff"
-            stroke-width="1"/>
+  <!-- Separator between language columns -->
+  <line
+      x1="{legend_width - 2:.1f}"
+      y1="30"
+      x2="{legend_width - 2:.1f}"
+      y2="{18 + legend_rows * row_height - 4:.1f}"
+      stroke="#ffffff"
+      stroke-width="1"/>
 
-        <line
-            x1="{legend_width * 2 - 8:.1f}"
-            y1="22"
-            x2="{legend_width * 2 - 8:.1f}"
-            y2="{18 + legend_rows * row_height - 6:.1f}"
-            stroke="#ffffff"
-            stroke-width="1"/>
+  <!-- Separator between language columns -->
+  <line
+      x1="{legend_width * 2 - 2:.1f}"
+      y1="30"
+      x2="{legend_width * 2 - 2:.1f}"
+      y2="{18 + legend_rows * row_height - 4:.1f}"
+      stroke="#ffffff"
+      stroke-width="1"/>
 
-      </g>
-
+</g>
       <!-- Language legend -->
 
       <g transform="translate(0, 18)">

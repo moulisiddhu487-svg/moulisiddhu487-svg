@@ -26,13 +26,35 @@ def load_config(config_path="config.yml"):
 
 
 def fetch_bento_metrics(username):
+    """Fetch live metrics for exactly the configured GitHub account.
+
+    This function fails closed: if GitHub identity/repository/language data
+    cannot be verified completely, the caller must not overwrite bento.svg.
+    """
+
+    if not username or username == "octocat":
+        raise RuntimeError(
+            "A real GitHub username is required; refusing to use octocat."
+        )
+
+    api_headers = dict(GITHUB_HEADERS)
+    api_headers["User-Agent"] = "mouli-profile-bento"
+
+    def github_json(url, timeout=8):
+        req = urllib.request.Request(
+            url,
+            headers=api_headers
+        )
+        with urllib.request.urlopen(req, timeout=timeout) as resp:
+            return json.loads(resp.read().decode("utf-8"))
+
     total_year = "SYNC"
 
     try:
         url = f"https://github.com/users/{username}/contributions"
         req = urllib.request.Request(
             url,
-            headers={"User-Agent": "Mozilla/5.0"}
+            headers={"User-Agent": "mouli-profile-bento"}
         )
 
         with urllib.request.urlopen(req, timeout=8) as resp:
@@ -49,81 +71,140 @@ def fetch_bento_metrics(username):
     except Exception as e:
         print(f"[Bento] Contribution fetch notice: {e}")
 
-    total_stars = "SYNC"
-    public_repos_count = "SYNC"
-    lang_totals = {}
+    # ---------------------------------------------------------
+    # Verify the GitHub account before reading any metrics.
+    # ---------------------------------------------------------
 
-    try:
+    profile = github_json(
+        f"https://api.github.com/users/{username}",
+        timeout=8
+    )
+
+    actual_login = str(profile.get("login", "")).strip()
+
+    if actual_login.lower() != username.lower():
+        raise RuntimeError(
+            f"GitHub identity mismatch: requested '{username}', "
+            f"received '{actual_login or 'unknown'}'."
+        )
+
+    if profile.get("type") != "User":
+        raise RuntimeError(
+            f"GitHub account '{username}' is not a normal user account."
+        )
+
+    # ---------------------------------------------------------
+    # Public repositories OWNED by this exact account.
+    #
+    # type=owner prevents unrelated/member repositories and avoids
+    # accidentally counting repositories from another account.
+    # Pagination keeps the data correct if the account grows past 100 repos.
+    # ---------------------------------------------------------
+
+    repos = []
+    page = 1
+
+    while True:
         repos_url = (
             f"https://api.github.com/users/{username}/repos"
-            f"?per_page=100&sort=updated"
+            f"?per_page=100&page={page}&type=owner&sort=updated"
         )
 
-        req = urllib.request.Request(
-            repos_url,
-            headers={"User-Agent": "Mozilla/5.0"}
-        )
+        page_repos = github_json(repos_url, timeout=8)
 
-        with urllib.request.urlopen(req, timeout=8) as resp:
-            repos = json.loads(resp.read().decode("utf-8"))
-
-        public_repos_count = len(repos)
-
-        total_stars = sum(
-            r.get("stargazers_count", 0)
-            for r in repos
-        )
-
-        # GitHub's repo listing does not contain language byte totals,
-        # so collect language totals from each public repo when possible.
-        for repo in repos:
-            owner = repo.get("owner", {}).get(
-                "login",
-                username
+        if not isinstance(page_repos, list):
+            raise RuntimeError(
+                f"Unexpected repository response for '{username}'."
             )
 
-            name = repo.get("name")
+        repos.extend(page_repos)
 
-            if not name:
-                continue
+        if len(page_repos) < 100:
+            break
 
-            try:
-                lang_url = (
-                    f"https://api.github.com/repos/"
-                    f"{owner}/{name}/languages"
+        page += 1
+
+        # Safety guard against an unexpected API loop.
+        if page > 20:
+            raise RuntimeError(
+                "Repository pagination exceeded the safety limit."
+            )
+
+    # Keep only public repositories owned by the verified account.
+    verified_repos = []
+
+    for repo in repos:
+        owner_login = str(
+            repo.get("owner", {}).get("login", "")
+        ).strip()
+
+        if owner_login.lower() != actual_login.lower():
+            raise RuntimeError(
+                f"Repository owner mismatch for '{repo.get('name', 'unknown')}'."
+            )
+
+        if repo.get("private") is False:
+            verified_repos.append(repo)
+
+    total_stars = sum(
+        int(repo.get("stargazers_count", 0) or 0)
+        for repo in verified_repos
+    )
+
+    public_repos_count = len(verified_repos)
+
+    # ---------------------------------------------------------
+    # Real GitHub language byte totals.
+    # ---------------------------------------------------------
+
+    lang_totals = {}
+    language_fetch_failures = []
+
+    for repo in verified_repos:
+        name = repo.get("name")
+
+        if not name:
+            continue
+
+        lang_url = (
+            f"https://api.github.com/repos/"
+            f"{actual_login}/{name}/languages"
+        )
+
+        try:
+            langs = github_json(lang_url, timeout=8)
+
+            if not isinstance(langs, dict):
+                raise RuntimeError("Unexpected language response.")
+
+            for lang, count in langs.items():
+                lang_totals[lang] = (
+                    lang_totals.get(lang, 0) + int(count)
                 )
 
-                req2 = urllib.request.Request(
-                    lang_url,
-                    headers={"User-Agent": "Mozilla/5.0"}
-                )
+        except Exception as e:
+            language_fetch_failures.append(
+                f"{name}: {e}"
+            )
 
-                with urllib.request.urlopen(
-                    req2,
-                    timeout=5
-                ) as resp2:
-                    langs = json.loads(
-                        resp2.read().decode("utf-8")
-                    )
-
-                for lang, count in langs.items():
-                    lang_totals[lang] = (
-                        lang_totals.get(lang, 0) + count
-                    )
-
-            except Exception:
-                continue
-
-    except Exception as e:
-        print(f"[Bento] Repo metrics notice: {e}")
+    if language_fetch_failures:
+        raise RuntimeError(
+            "Could not fetch language data for every repository. "
+            "Refusing to publish incomplete language metrics. "
+            + "; ".join(language_fetch_failures)
+        )
 
     if not lang_totals:
-        lang_totals = {}
+        # A profile with public repositories but no detectable source
+        # languages is valid; keep the language list empty.
+        total_bytes = 1
+    else:
+        total_bytes = sum(lang_totals.values())
 
-    total_bytes = sum(lang_totals.values()) or 1
+    # ---------------------------------------------------------
+    # GitHub Linguist colors.
+    # ---------------------------------------------------------
 
-    # GitHub Linguist is GitHub's source of truth for language colors.
-    # Percentages remain calculated from the real GitHub language byte totals.
     language_colors = {}
 
     try:
@@ -135,7 +216,7 @@ def fetch_bento_metrics(username):
 
         linguist_req = urllib.request.Request(
             linguist_url,
-            headers={"User-Agent": "Mozilla/5.0"}
+            headers={"User-Agent": "mouli-profile-bento"}
         )
 
         with urllib.request.urlopen(
@@ -158,8 +239,6 @@ def fetch_bento_metrics(username):
 
     languages = []
 
-    # Show every language returned by GitHub.
-    # No hardcoded language limit.
     for lang, count in sorted(
         lang_totals.items(),
         key=lambda x: -x[1]
@@ -190,10 +269,16 @@ def generate_bento_svg(
 ):
     config = load_config(config_path)
 
-    username = config.get(
-        "github_username",
-        "octocat"
-    )
+    # This repository belongs to this GitHub account.
+    # If config.yml later gets a github_username entry, it must match.
+    configured_username = config.get("github_username")
+    username = configured_username or "moulisiddhu487-svg"
+
+    if username.lower() != "moulisiddhu487-svg":
+        raise RuntimeError(
+            "github_username must be 'moulisiddhu487-svg' "
+            "so this profile can never display another account's data."
+        )
 
     metrics = fetch_bento_metrics(username)
 
@@ -712,16 +797,4 @@ def generate_bento_svg(
     )
 
     with open(
-        output_path,
-        "w",
-        encoding="utf-8"
-    ) as f:
-        f.write(svg)
-
-    print(
-        f"[Bento Showcase] Saved project-focused SVG to '{output_path}'"
-    )
-
-
-if __name__ == "__main__":
-    generate_bento_svg()
+        output_pa

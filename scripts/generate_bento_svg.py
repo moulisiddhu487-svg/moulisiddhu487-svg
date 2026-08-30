@@ -250,7 +250,7 @@ def generate_bento_svg(
     language_row_height = 18
     language_row_gap = 5
     language_bar_height = 12
-    language_bar_width = 650
+    language_bar_width = 600
 
     # Lowest percentage first, highest percentage last.
     display_languages = sorted(
@@ -307,7 +307,7 @@ def generate_bento_svg(
         # Language name is kept in one fixed column at the right side
         # of the language area, outside every colored bar.
         # This keeps all language names perfectly aligned.
-        name_x = language_bar_width + 14
+        name_x = language_bar_width + 20
 
         segments.append(
             f'''
@@ -316,7 +316,7 @@ def generate_bento_svg(
             y="{y + 7.4:.1f}"
             fill="#e6edf3"
             font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
-            font-size="10.5"
+            font-size="11.5"
             font-weight="700">{html.escape(lang["name"])}</text>
         '''
         )

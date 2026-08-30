@@ -229,7 +229,7 @@ def generate_contributions_svg(config_path="config.yml", output_path="assets/con
   <path class="flow-area" d="{area_path_d}" fill="url(#curveGradient)"/>
 
   <!-- Spline Curve Line -->
-  <path class="flow-line" d="{line_path_d}" fill="none" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+  <path class="flow-line" d="{line_path_d}" fill="none" stroke="#39d353" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
 
   <!-- Data Point Circles -->
   <g>

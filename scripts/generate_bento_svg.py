@@ -796,5 +796,19 @@ def generate_bento_svg(
         exist_ok=True
     )
 
-    with open(
-        output_pa
+        with open(
+        output_path,
+        "w",
+        encoding="utf-8"
+    ) as f:
+        f.write(svg)
+
+    print(
+        f"[Bento] Generated {output_path} successfully "
+        f"for GitHub user '{username}'."
+    )
+
+
+if __name__ == "__main__":
+    generate_bento_svg()
+        

@@ -97,18 +97,21 @@ I enjoy staying curious beyond day-to-day engineering and continuously exploring
 
 
 
-### 🚀 Featured Projects
+## 🚀 Featured Projects
 
-**Azure Resume API**  
-Serverless resume REST API deployed on Azure Functions with GitHub Actions CI/CD.  
-[Live API](https://resume-api-30847.azurewebsites.net/api/cv) • [GitHub Repository](https://github.com/moulisiddhu487-svg/azure-resume-api)
+### Azure Resume API
 
-**Cloud-Native Microservices Observability & Auto-Scaling Platform**  
-11-service Online Boutique on K3s/AWS with HPA, Prometheus, Grafana, alerts and Jenkins delivery.  
-[GitHub Repository](https://github.com/moulisiddhu487-svg/Cloud-Native-Microservices-Observability-Auto-Scaling-Infrastructure)
+Serverless resume REST API deployed on Azure Functions with GitHub Actions CI/CD.
+
+[⚡ Try Live API](https://resume-api-30847.azurewebsites.net/api/cv) · [↗ Open Repo](https://github.com/moulisiddhu487-svg/azure-resume-api)
+
+### Cloud-Native Microservices Observability & Auto-Scaling Platform
+
+11-service Online Boutique on K3s/AWS with HPA, Prometheus, Grafana, alerts and Jenkins delivery.
+
+[↗ Open Repo](https://github.com/moulisiddhu487-svg/Cloud-Native-Microservices-Observability-Auto-Scaling-Infrastructure)
 
 *Explore the implementation and source code through the links above.*
-
 ---
 
 ### 🎓 Education & Certification

@@ -204,11 +204,6 @@ def generate_bento_svg(
         []
     )[:3]
 
-    projects = bento_cfg.get(
-        "projects",
-        []
-    )[:2]
-
     width = 940
     bar_w = 385
 
@@ -223,11 +218,492 @@ def generate_bento_svg(
 
         prod_svg.append(
             f'''
+        <g transform="translate(0, {y})">
+          <text x="0" y="10"
+                fill="#e6edf3"
+                font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+                font-size="12"
+                font-weight="600">{html.escape(item.get("title", ""))}</text>
+
+          <text x="0" y="25"
+                fill="#8b949e"
+                font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+                font-size="11">{html.escape(item.get("desc", ""))}</text>
+        </g>'''
+        )
+
+    # ---------------------------------------------------------
+    # Repository Language Spectrum
+    # ---------------------------------------------------------
+    #
+    # Each GitHub language gets its own horizontal bar.
+    # Every bar starts at the same 0% point.
+    # Rows are shown from lowest percentage to highest.
+    # GitHub percentages and GitHub Linguist colors are untouched.
+    # ---------------------------------------------------------
+
+    segments = []
+
+    language_count = len(metrics["languages"])
+
+    # One row per language. This automatically grows with GitHub data.
+    language_row_height = 18
+    language_row_gap = 5
+    language_bar_height = 12
+    language_bar_width = 650
+
+    # Lowest percentage first, highest percentage last.
+    display_languages = sorted(
+        metrics["languages"],
+        key=lambda lang: lang["pct"]
+    )
+
+    for idx, lang in enumerate(display_languages):
+
+        pct = float(lang["pct"])
+
+        bar_width = (
+            pct / 100.0
+        ) * language_bar_width
+
+        y = idx * (
+            language_row_height
+            + language_row_gap
+        )
+
+        if bar_width <= 0:
+            continue
+
+        # Actual percentage width. Every bar starts at x=0.
+        segments.append(
+            f'''
+        <rect
+            x="0"
+            y="{y:.1f}"
+            width="{bar_width:.1f}"
+            height="{language_bar_height}"
+            rx="4"
+            fill="{lang["color"]}"/>
+        '''
+        )
+
+        pct_text = f'{pct:.1f}%'
+
+        # Percentage sits immediately after the colored portion.
+        pct_x = bar_width + 7
+
+        segments.append(
+            f'''
+        <text
+            x="{pct_x:.1f}"
+            y="{y + 7.4:.1f}"
+            fill="#e6edf3"
+            font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+            font-size="9.5"
+            font-weight="700">{pct_text}</text>
+        '''
+        )
+
+        # Language name is kept in one fixed column at the right side
+        # of the language area, outside every colored bar.
+        # This keeps all language names perfectly aligned.
+        name_x = language_bar_width + 14
+
+        segments.append(
+            f'''
+        <text
+            x="{name_x:.1f}"
+            y="{y + 7.4:.1f}"
+            fill="#e6edf3"
+            font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+            font-size="10.5"
+            font-weight="700">{html.escape(lang["name"])}</text>
+        '''
+        )
+
+    # Total vertical space occupied by the automatically generated rows.
+    language_bar_area_height = max(
+        language_bar_height,
+        language_count * (
+            language_row_height
+            + language_row_gap
+        ) - language_row_gap
+    )
+
+    # ---------------------------------------------------------
+    # Dynamic Card Height
+    # ---------------------------------------------------------
+    #
+    # The card grows when GitHub returns more language rows.
+    # There is NO footer anymore.
+    #
+
+    # Card height follows the number of GitHub languages.
+    # More languages = more rows = taller card.
+    language_card_height = max(
+        190,
+        84
+        + language_bar_area_height
+    )
+
+    overall_height = (
+        255
+        + language_card_height
+        + 25
+    )
+
+    # ---------------------------------------------------------
+    # SVG
+    # ---------------------------------------------------------
+
+    svg = f'''<svg xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 {width} {overall_height}"
+    width="100%"
+    height="auto"
+    fill="none">
+
+  <rect
+      width="{width}"
+      height="{overall_height}"
+      rx="12"
+      fill="#0d1117"
+      stroke="#30363d"
+      stroke-width="1"/>
+
+  <!-- ===================================================== -->
+  <!-- Header -->
+  <!-- ===================================================== -->
+
+  <g transform="translate(24, 34)">
+
+    <rect
+        x="0"
+        y="0"
+        width="28"
+        height="20"
+        rx="4"
+        fill="#161b22"
+        stroke="#30363d"
+        stroke-width="1"/>
+
+    <text
+        x="6"
+        y="14"
+        fill="#ffffff"
+        font-family="monospace"
+        font-size="12"
+        font-weight="bold">~/</text>
+
+    <text
+        x="38"
+        y="15"
+        fill="#ffffff"
+        font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+        font-size="14"
+        font-weight="600">
+      Engineering Showcase &amp; Performance
+    </text>
+
+    <text
+        x="868"
+        y="14"
+        text-anchor="end"
+        fill="#8b949e"
+        font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+        font-size="10.5">
+      Cloud • Automation • Reliability • Projects
+    </text>
+
+    <line
+        x1="0"
+        y1="26"
+        x2="868"
+        y2="26"
+        stroke="#21262d"
+        stroke-width="1"/>
+
+  </g>
+
+  <!-- ===================================================== -->
+  <!-- Production Focus -->
+  <!-- ===================================================== -->
+
+  <g transform="translate(24, 75)">
+
+    <rect
+        width="430"
+        height="160"
+        rx="8"
+        fill="#161b22"
+        stroke="#21262d"
+        stroke-width="1"/>
+
+    <text
+        x="16"
+        y="24"
+        fill="#ffffff"
+        font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+        font-size="14"
+        font-weight="600">
+      🚀 Production Focus
+    </text>
+
+    <text
+        x="414"
+        y="24"
+        text-anchor="end"
+        fill="#8b949e"
+        font-family="monospace"
+        font-size="10">
+      BUILD → SHIP → OBSERVE
+    </text>
+
+    <line
+        x1="16"
+        y1="34"
+        x2="414"
+        y2="34"
+        stroke="#30363d"
+        stroke-width="1"/>
+
+    <g transform="translate(16, 48)">
+      {''.join(prod_svg)}
+    </g>
+
+  </g>
+
+  <!-- ===================================================== -->
+  <!-- GitHub Telemetry -->
+  <!-- ===================================================== -->
+
+  <g transform="translate(486, 75)">
+
+    <rect
+        width="430"
+        height="160"
+        rx="8"
+        fill="#161b22"
+        stroke="#21262d"
+        stroke-width="1"/>
+
+    <text
+        x="16"
+        y="24"
+        fill="#ffffff"
+        font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+        font-size="14"
+        font-weight="600">
+      ⚡ GitHub Telemetry
+    </text>
+
+    <text
+        x="414"
+        y="24"
+        text-anchor="end"
+        fill="#3fb950"
+        font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+        font-size="10.5"
+        font-weight="600">
+      ● LIVE DATA
+    </text>
+
+    <line
+        x1="16"
+        y1="34"
+        x2="414"
+        y2="34"
+        stroke="#30363d"
+        stroke-width="1"/>
+
+    <!-- Contributions -->
+
+    <g transform="translate(16, 48)">
+
+      <rect
+          width="190"
+          height="46"
+          rx="6"
+          fill="#0d1117"
+          stroke="#30363d"
+          stroke-width="1"/>
+
+      <text
+          x="12"
+          y="20"
+          fill="#ffffff"
+          font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+          font-size="16"
+          font-weight="bold">
+        {metrics["total_year"]}
+      </text>
+
+      <text
+          x="12"
+          y="36"
+          fill="#8b949e"
+          font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+          font-size="10">
+        Contributions / year
+      </text>
+
+    </g>
+
+    <!-- Public repositories -->
+
+    <g transform="translate(224, 48)">
+
+      <rect
+          width="190"
+          height="46"
+          rx="6"
+          fill="#0d1117"
+          stroke="#30363d"
+          stroke-width="1"/>
+
+      <text
+          x="12"
+          y="20"
+          fill="#ffffff"
+          font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+          font-size="16"
+          font-weight="bold">
+        {metrics["public_repos"]}
+      </text>
+
+      <text
+          x="12"
+          y="36"
+          fill="#8b949e"
+          font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+          font-size="10">
+        Public repositories
+      </text>
+
+    </g>
+
+    <!-- Stars -->
+
+    <g transform="translate(16, 102)">
+
+      <rect
+          width="190"
+          height="46"
+          rx="6"
+          fill="#0d1117"
+          stroke="#30363d"
+          stroke-width="1"/>
+
+      <text
+          x="12"
+          y="20"
+          fill="#ffffff"
+          font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+          font-size="16"
+          font-weight="bold">
+
+        {metrics["total_stars"]}
+
+        <tspan fill="#FFD700">★</tspan>
+
+      </text>
+
+      <text
+          x="12"
+          y="36"
+          fill="#8b949e"
+          font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+          font-size="10">
+        Total GitHub stars
+      </text>
+
+    </g>
+
+    <!-- Detected languages -->
+
+    <g transform="translate(224, 102)">
+
+      <rect
+          width="190"
+          height="46"
+          rx="6"
+          fill="#0d1117"
+          stroke="#30363d"
+          stroke-width="1"/>
+
+      <text
+          x="12"
+          y="20"
+          fill="#ffffff"
+          font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+          font-size="16"
+          font-weight="bold">
+
+        {len(metrics["languages"])}
+
+        <tspan fill="#39d353">+</tspan>
+
+      </text>
+
+      <text
+          x="12"
+          y="36"
+          fill="#8b949e"
+          font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+          font-size="10">
+        Detected languages
+      </text>
 
     </g>
 
   </g>
 
+  <!-- ===================================================== -->
+  <!-- Repository Language Spectrum -->
+  <!-- ===================================================== -->
+
+  <g transform="translate(24, 255)">
+
+    <rect
+        width="892"
+        height="{language_card_height}"
+        rx="8"
+        fill="#161b22"
+        stroke="#21262d"
+        stroke-width="1"/>
+
+    <text
+        x="16"
+        y="24"
+        fill="#ffffff"
+        font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+        font-size="14"
+        font-weight="600">
+      📊 Repository Language Spectrum
+    </text>
+
+    <text
+        x="876"
+        y="24"
+        text-anchor="end"
+        fill="#8b949e"
+        font-family="monospace"
+        font-size="10">
+      PUBLIC REPOS
+    </text>
+
+    <line
+        x1="16"
+        y1="34"
+        x2="876"
+        y2="34"
+        stroke="#30363d"
+        stroke-width="1"/>
+
+    <g transform="translate(16, 52)">
+      {''.join(segments)}
+    </g>
+
+  </g>
 </svg>'''
 
     os.makedirs(

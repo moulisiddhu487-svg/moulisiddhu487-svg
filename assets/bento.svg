@@ -372,11 +372,11 @@
 
             <!-- Dynamic column separators -->
       <g opacity="0.45">
-        <line x1="132.3" y1="16"
-              x2="132.3" y2="101.0"
+        <line x1="123.3" y1="16"
+              x2="123.3" y2="101.0"
               stroke="#ffffff" stroke-width="1"/>
-        <line x1="270.7" y1="16"
-              x2="260.7" y2="101.0"
+        <line x1="246.7" y1="16"
+              x2="246.7" y2="101.0"
               stroke="#ffffff" stroke-width="1"/>
       </g>
 

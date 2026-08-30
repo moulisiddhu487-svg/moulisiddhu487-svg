@@ -103,7 +103,7 @@ I enjoy staying curious beyond day-to-day engineering and continuously exploring
 
 Serverless resume REST API deployed on Azure Functions with GitHub Actions CI/CD.
 
-[⚡ Try Live API](https://resume-api-30847.azurewebsites.net/api/cv) · [↗ Open Repo](https://github.com/moulisiddhu487-svg/azure-resume-api)
+[⚡ Try Live API](https://resume-api-30847.azurewebsites.net/api/cv) ·         [↗ Open Repo](https://github.com/moulisiddhu487-svg/azure-resume-api)
 
 ### Cloud-Native Microservices Observability & Auto-Scaling Platform
 

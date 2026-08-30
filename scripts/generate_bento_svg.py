@@ -27,6 +27,7 @@ def load_config(config_path="config.yml"):
 
 def fetch_bento_metrics(username):
     total_year = "SYNC"
+    contribution_fetch_ok = False
 
     try:
         url = f"https://github.com/users/{username}/contributions"
@@ -45,6 +46,7 @@ def fetch_bento_metrics(username):
 
         if match:
             total_year = match.group(1)
+            contribution_fetch_ok = True
 
     except Exception as e:
         print(f"[Bento] Contribution fetch notice: {e}")
@@ -52,6 +54,8 @@ def fetch_bento_metrics(username):
     total_stars = "SYNC"
     public_repos_count = "SYNC"
     lang_totals = {}
+    language_fetch_failures = 0
+    repo_fetch_ok = False
 
     try:
         repos_url = (
@@ -68,6 +72,7 @@ def fetch_bento_metrics(username):
             repos = json.loads(resp.read().decode("utf-8"))
 
         public_repos_count = len(repos)
+        repo_fetch_ok = True
 
         total_stars = sum(
             r.get("stargazers_count", 0)
@@ -112,6 +117,7 @@ def fetch_bento_metrics(username):
                     )
 
             except Exception:
+                language_fetch_failures += 1
                 continue
 
     except Exception as e:
@@ -180,7 +186,12 @@ def fetch_bento_metrics(username):
         "total_year": total_year,
         "public_repos": public_repos_count,
         "total_stars": total_stars,
-        "languages": languages
+        "languages": languages,
+        "_data_complete": (
+            contribution_fetch_ok
+            and repo_fetch_ok
+            and language_fetch_failures == 0
+        )
     }
 
 
@@ -711,14 +722,12 @@ def generate_bento_svg(
         exist_ok=True
     )
 
-    # Safety: never replace a working SVG with empty/SYNC data
-    # when GitHub is temporarily unavailable.
-    if (
-        metrics["public_repos"] == "SYNC"
-        and not metrics["languages"]
-    ):
+    # Safety: never replace a working SVG with incomplete/temporary
+    # GitHub data. Keep the last known-good SVG until all critical
+    # data sources succeed.
+    if not metrics["_data_complete"]:
         print(
-            "[Bento] GitHub data unavailable. "
+            "[Bento] GitHub data incomplete or unavailable. "
             "Keeping existing SVG."
         )
         return

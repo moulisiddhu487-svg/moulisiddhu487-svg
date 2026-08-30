@@ -309,29 +309,29 @@ def generate_bento_svg(
     segments = []
     legend = []
 
-    curr_x = 0
+    # Each language gets its own bar.
+    # Every bar starts from the exact same 0% point.
+    language_bar_height = 4
+    language_bar_gap = 3
 
-    # GitHub language bar.
-    # Every language is included automatically.
-    for lang in metrics["languages"]:
+    for idx, lang in enumerate(metrics["languages"]):
 
         seg_w = (
             lang["pct"] / 100
         ) * bar_w
 
         if seg_w > 0:
+            bar_y = idx * (language_bar_height + language_bar_gap)
 
             segments.append(
                 f'<rect '
-                f'x="{curr_x:.1f}" '
-                f'y="0" '
+                f'x="0" '
+                f'y="{bar_y:.1f}" '
                 f'width="{seg_w:.1f}" '
-                f'height="10" '
+                f'height="{language_bar_height}" '
                 f'rx="2" '
                 f'fill="{lang["color"]}"/>'
             )
-
-            curr_x += seg_w
 
     # ---------------------------------------------------------
     # Dynamic Language Layout
@@ -430,9 +430,16 @@ def generate_bento_svg(
     # There is NO footer anymore.
     #
 
+    language_bar_area_height = max(
+        10,
+        language_count * (language_bar_height + language_bar_gap)
+        - language_bar_gap
+    )
+
     language_card_height = max(
         190,
         90
+        + language_bar_area_height
         + legend_rows * row_height
     )
 
@@ -845,7 +852,7 @@ def generate_bento_svg(
           x="0"
           y="0"
           width="{bar_w}"
-          height="10"
+          height="{max(10, len(metrics["languages"]) * (language_bar_height + language_bar_gap) - language_bar_gap)}"
           rx="4"
           fill="#0d1117"
           stroke="#30363d"
@@ -867,25 +874,25 @@ def generate_bento_svg(
   <!-- Separator between language columns -->
   <line
       x1="{legend_width - 2:.1f}"
-      y1="30"
+      y1="{max(18, len(metrics["languages"]) * (language_bar_height + language_bar_gap) + 8):.1f}"
       x2="{legend_width - 2:.1f}"
-      y2="{18 + legend_rows * row_height - 4:.1f}"
+      y2="{max(18, len(metrics["languages"]) * (language_bar_height + language_bar_gap) + 8) + legend_rows * row_height - 4:.1f}"
       stroke="#ffffff"
       stroke-width="1"/>
 
   <!-- Separator between language columns -->
   <line
       x1="{legend_width * 2 - 2:.1f}"
-      y1="30"
+      y1="{max(18, len(metrics["languages"]) * (language_bar_height + language_bar_gap) + 8):.1f}"
       x2="{legend_width * 2 - 2:.1f}"
-      y2="{18 + legend_rows * row_height - 4:.1f}"
+      y2="{max(18, len(metrics["languages"]) * (language_bar_height + language_bar_gap) + 8) + legend_rows * row_height - 4:.1f}"
       stroke="#ffffff"
       stroke-width="1"/>
 
 </g>
       <!-- Language legend -->
 
-      <g transform="translate(0, 18)">
+      <g transform="translate(0, {max(18, len(metrics["languages"]) * (language_bar_height + language_bar_gap) + 8)})">
         {''.join(legend)}
       </g>
 

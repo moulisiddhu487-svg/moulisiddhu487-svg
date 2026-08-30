@@ -1,16 +1,16 @@
 <div align="center">
   <img src="assets/portrait.svg" alt="{{ display_name }} Dot-Matrix Portrait" width="340" />
-  
+
   <br /><br />
 
   # {{ display_name }}
-  
+
   <div align="center">
     {{ typing_svg }}
   </div>
 
   ### {{ headline }}
-  
+
   **{{ tagline }}**
 
   <br />
@@ -34,6 +34,7 @@
 </div>
 
 {{ tech_stack_section }}
+
 ---
 
 ### 📈 Activity & Contribution Flow
@@ -49,9 +50,13 @@
 <div align="center">
   <img src="assets/bento.svg" alt="Engineering Showcase & Performance" width="100%" />
 </div>
+
 {{ human_side_section }}
+
 {{ featured_projects_section }}
+
 {{ profile_details_section }}
+
 ---
 
 <div align="center">

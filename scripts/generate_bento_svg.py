@@ -204,11 +204,6 @@ def generate_bento_svg(
         []
     )[:3]
 
-    projects = bento_cfg.get(
-        "projects",
-        []
-    )[:2]
-
     width = 940
     bar_w = 385
 
@@ -238,71 +233,6 @@ def generate_bento_svg(
         )
 
     # ---------------------------------------------------------
-    # Project Cards
-    # ---------------------------------------------------------
-
-    project_svg = []
-
-    for idx, item in enumerate(projects):
-        y = idx * 70
-
-        title = html.escape(
-            item.get("title", "")
-        )
-
-        desc = html.escape(
-            item.get("desc", "")
-        )
-
-        stack = html.escape(
-            item.get("stack", "")
-        )
-
-        url = html.escape(
-            item.get("url", ""),
-            quote=True
-        )
-
-        project_svg.append(
-            f'''
-        <a href="{url}" target="_blank">
-          <g transform="translate(0, {y})">
-
-            <rect x="0" y="0"
-                  width="414"
-                  height="58"
-                  rx="6"
-                  fill="#0d1117"
-                  stroke="#30363d"
-                  stroke-width="1"/>
-
-            <text x="12" y="17"
-                  fill="#ffffff"
-                  font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
-                  font-size="12"
-                  font-weight="700">{title}</text>
-
-            <text x="12" y="33"
-                  fill="#c9d1d9"
-                  font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
-                  font-size="10.5">{desc}</text>
-
-            <text x="12" y="48"
-                  fill="#8b949e"
-                  font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
-                  font-size="9.5">{stack}</text>
-
-            <text x="398" y="18"
-                  text-anchor="end"
-                  fill="#8b949e"
-                  font-family="monospace"
-                  font-size="10">↗</text>
-
-          </g>
-        </a>'''
-        )
-
-    # ---------------------------------------------------------
     # Repository Language Spectrum
     # ---------------------------------------------------------
     #
@@ -319,9 +249,8 @@ def generate_bento_svg(
     # One row per language. This automatically grows with GitHub data.
     language_row_height = 18
     language_row_gap = 5
-    language_bar_height = 10
-    # Gray track width. Every language starts from the same 0% point.
-    language_bar_width = 320
+    language_bar_height = 12
+    language_bar_width = bar_w
 
     # Lowest percentage first, highest percentage last.
     display_languages = sorted(
@@ -345,20 +274,7 @@ def generate_bento_svg(
         if bar_width <= 0:
             continue
 
-        # Gray background track. Every language starts from the same 0% point.
-        segments.append(
-            f'''
-        <rect
-            x="0"
-            y="{y:.1f}"
-            width="{language_bar_width}"
-            height="{language_bar_height}"
-            rx="4"
-            fill="#0d1117"/>
-        '''
-        )
-
-        # Colored portion: its length is proportional to the real percentage.
+        # Actual percentage width. Every bar starts at x=0.
         segments.append(
             f'''
         <rect
@@ -373,34 +289,48 @@ def generate_bento_svg(
 
         pct_text = f'{pct:.1f}%'
 
-        # Percentage sits immediately after the colored bar.
-        pct_x = bar_width + 7
+        # Keep the percentage on the colored segment whenever
+        # there is enough room. For tiny GitHub percentages,
+        # reduce the font so the value remains readable.
+        pct_font = 7.5
+        if bar_width < 34:
+            pct_font = max(
+                5.5,
+                5.5 + bar_width / 18
+            )
+
+        pct_x = max(
+            5,
+            bar_width / 2
+        )
 
         segments.append(
             f'''
         <text
             x="{pct_x:.1f}"
-            y="{y + 7.5:.1f}"
-            fill="#e6edf3"
+            y="{y + 7.4:.1f}"
+            text-anchor="middle"
+            fill="#ffffff"
             font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
-            font-size="8.5"
+            font-size="{pct_font:.1f}"
             font-weight="700">{pct_text}</text>
         '''
         )
 
-        # Language name sits at the END of the gray track, outside the bar.
-        # This keeps every language name aligned while the colored bars vary.
+        # Language name is kept in one fixed column at the right side
+        # of the language area, outside every colored bar.
+        # This keeps all language names perfectly aligned.
         name_x = language_bar_width + 12
 
         segments.append(
             f'''
         <text
             x="{name_x:.1f}"
-            y="{y + 7.5:.1f}"
+            y="{y + 7.4:.1f}"
             fill="#e6edf3"
             font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
             font-size="8.5"
-            font-weight="700">{html.escape(lang["name"])}</text>
+            font-weight="600">{html.escape(lang["name"])}</text>
         '''
         )
 
@@ -741,61 +671,13 @@ def generate_bento_svg(
   </g>
 
   <!-- ===================================================== -->
-  <!-- Featured Engineering Projects -->
+  <!-- Repository Language Spectrum -->
   <!-- ===================================================== -->
 
   <g transform="translate(24, 255)">
 
     <rect
-        width="430"
-        height="{language_card_height}"
-        rx="8"
-        fill="#161b22"
-        stroke="#21262d"
-        stroke-width="1"/>
-
-    <text
-        x="16"
-        y="24"
-        fill="#ffffff"
-        font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
-        font-size="14"
-        font-weight="600">
-      🚀 Featured Engineering Projects
-    </text>
-
-    <text
-        x="414"
-        y="24"
-        text-anchor="end"
-        fill="#8b949e"
-        font-family="monospace"
-        font-size="10">
-      OPEN REPO ↗
-    </text>
-
-    <line
-        x1="16"
-        y1="34"
-        x2="414"
-        y2="34"
-        stroke="#30363d"
-        stroke-width="1"/>
-
-    <g transform="translate(8, 48)">
-      {''.join(project_svg)}
-    </g>
-
-  </g>
-
-  <!-- ===================================================== -->
-  <!-- Repository Language Spectrum -->
-  <!-- ===================================================== -->
-
-  <g transform="translate(486, 255)">
-
-    <rect
-        width="430"
+        width="892"
         height="{language_card_height}"
         rx="8"
         fill="#161b22"
@@ -813,7 +695,7 @@ def generate_bento_svg(
     </text>
 
     <text
-        x="414"
+        x="876"
         y="24"
         text-anchor="end"
         fill="#8b949e"
@@ -825,21 +707,16 @@ def generate_bento_svg(
     <line
         x1="16"
         y1="34"
-        x2="414"
+        x2="876"
         y2="34"
         stroke="#30363d"
         stroke-width="1"/>
 
-    <!-- Language bars -->
-
     <g transform="translate(16, 52)">
-
       {''.join(segments)}
-
     </g>
 
   </g>
-
 </svg>'''
 
     os.makedirs(

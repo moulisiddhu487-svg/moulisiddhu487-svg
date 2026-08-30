@@ -839,7 +839,7 @@ def generate_bento_svg(
 
     <!-- Language bar -->
 
-    <g transform="translate(22, 52)">
+    <g transform="translate(16, 52)">
 
       <rect
           x="0"

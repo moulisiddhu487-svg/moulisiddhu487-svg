@@ -1,12 +1,12 @@
 <svg xmlns="http://www.w3.org/2000/svg"
-    viewBox="0 0 940 470"
+    viewBox="0 0 940 525"
     width="100%"
     height="auto"
     fill="none">
 
   <rect
       width="940"
-      height="470"
+      height="525"
       rx="12"
       fill="#0d1117"
       stroke="#30363d"
@@ -343,7 +343,7 @@
 
     <rect
         width="430"
-        height="190"
+        height="245"
         rx="8"
         fill="#161b22"
         stroke="#21262d"
@@ -461,7 +461,7 @@
 
     <rect
         width="430"
-        height="190"
+        height="245"
         rx="8"
         fill="#161b22"
         stroke="#21262d"
@@ -503,13 +503,13 @@
           x="0"
           y="0"
           width="385"
-          height="10"
+          height="67"
           rx="4"
           fill="#0d1117"
           stroke="#30363d"
           stroke-width="1"/>
 
-      <rect x="0.0" y="0" width="150.9" height="10" rx="2" fill="#3572A5"/><rect x="150.9" y="0" width="77.4" height="10" rx="2" fill="#00ADD8"/><rect x="228.3" y="0" width="67.0" height="10" rx="2" fill="#e34c26"/><rect x="295.3" y="0" width="21.6" height="10" rx="2" fill="#7355dd"/><rect x="316.9" y="0" width="18.9" height="10" rx="2" fill="#89e051"/><rect x="335.7" y="0" width="12.3" height="10" rx="2" fill="#384d54"/><rect x="348.0" y="0" width="12.3" height="10" rx="2" fill="#663399"/><rect x="360.4" y="0" width="10.8" height="10" rx="2" fill="#f1e05a"/><rect x="371.1" y="0" width="8.1" height="10" rx="2" fill="#b07219"/><rect x="379.2" y="0" width="5.8" height="10" rx="2" fill="#844FBA"/>
+      <rect x="0" y="0.0" width="151.3" height="4" rx="2" fill="#3572A5"/><rect x="0" y="7.0" width="77.0" height="4" rx="2" fill="#00ADD8"/><rect x="0" y="14.0" width="67.0" height="4" rx="2" fill="#e34c26"/><rect x="0" y="21.0" width="21.6" height="4" rx="2" fill="#7355dd"/><rect x="0" y="28.0" width="18.9" height="4" rx="2" fill="#89e051"/><rect x="0" y="35.0" width="12.3" height="4" rx="2" fill="#384d54"/><rect x="0" y="42.0" width="12.3" height="4" rx="2" fill="#663399"/><rect x="0" y="49.0" width="10.8" height="4" rx="2" fill="#f1e05a"/><rect x="0" y="56.0" width="8.1" height="4" rx="2" fill="#b07219"/><rect x="0" y="63.0" width="5.8" height="4" rx="2" fill="#844FBA"/>
 
       <!-- ================================================= -->
       <!-- Dynamic white column separators -->
@@ -525,25 +525,25 @@
   <!-- Separator between language columns -->
   <line
       x1="126.3"
-      y1="30"
+      y1="78.0"
       x2="126.3"
-      y2="102.0"
+      y2="162.0"
       stroke="#ffffff"
       stroke-width="1"/>
 
   <!-- Separator between language columns -->
   <line
       x1="254.7"
-      y1="30"
+      y1="78.0"
       x2="254.7"
-      y2="102.0"
+      y2="162.0"
       stroke="#ffffff"
       stroke-width="1"/>
 
 </g>
       <!-- Language legend -->
 
-      <g transform="translate(0, 18)">
+      <g transform="translate(0, 78)">
         
 <g transform="translate(0.0, 18.0)">
 
@@ -568,7 +568,7 @@
       text-anchor="end"
       fill="#8b949e"
       font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
-      font-size="9.5">39.2%</text>
+      font-size="9.5">39.3%</text>
 
 </g>
 <g transform="translate(128.3, 18.0)">
@@ -594,7 +594,7 @@
       text-anchor="end"
       fill="#8b949e"
       font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
-      font-size="9.5">20.1%</text>
+      font-size="9.5">20.0%</text>
 
 </g>
 <g transform="translate(256.7, 18.0)">

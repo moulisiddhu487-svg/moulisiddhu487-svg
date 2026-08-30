@@ -37,7 +37,7 @@
     
     <!-- Right live summary metrics -->
     <text x="842" y="14" text-anchor="end" fill="#8b949e" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11">
-      <tspan fill="#ffffff" font-weight="600">137</tspan> Total Year  •  <tspan fill="#ffffff" font-weight="600">116</tspan> in 30D  •  Peak: <tspan fill="#ffffff" font-weight="600">27/day</tspan>
+      <tspan fill="#39d353" font-weight="600">137</tspan> Total Year  •  <tspan fill="#39d353" font-weight="600">116</tspan> in 30D  •  Peak: <tspan fill="#39d353" font-weight="600">27/day</tspan>
     </text>
     <line x1="0" y1="26" x2="842" y2="26" stroke="#21262d" stroke-width="1"/>
   </g>

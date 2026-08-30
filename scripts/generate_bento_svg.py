@@ -67,6 +67,7 @@ def fetch_bento_metrics(username):
             repos = json.loads(resp.read().decode("utf-8"))
 
         public_repos_count = len(repos)
+
         total_stars = sum(
             r.get("stargazers_count", 0)
             for r in repos
@@ -91,7 +92,7 @@ def fetch_bento_metrics(username):
                     headers={"User-Agent": "Mozilla/5.0"}
                 )
 
-                with urllib.request.urlopen(req2, timeout=5) as resp2:
+                with urllib.request.urlopen(lang_url, timeout=5) as resp2:
                     langs = json.loads(resp2.read().decode("utf-8"))
 
                 for lang, count in langs.items():
@@ -185,6 +186,7 @@ def generate_bento_svg(
 
     # Three columns make the language section scale cleanly.
     language_columns = 3
+
     language_rows = max(
         1,
         (language_count + language_columns - 1)
@@ -201,7 +203,10 @@ def generate_bento_svg(
 
     # The whole bento card grows with the language card.
     content_bottom = 255 + language_card_height
-    height = max(470, content_bottom + 25)
+    height = max(
+        470,
+        content_bottom + 25
+    )
 
     bar_w = 385
 
@@ -387,12 +392,26 @@ def generate_bento_svg(
         )
 
     # ---------------------------------------------------------
-    # SVG
+    # Dynamic positions
     # ---------------------------------------------------------
 
     language_footer_y = (
         72 + language_rows * row_height
     )
+
+    # Separator height automatically follows the number
+    # of language rows.
+    separator_top = 16
+
+    separator_bottom = (
+        18
+        + language_rows * row_height
+        - 5
+    )
+
+    # ---------------------------------------------------------
+    # SVG
+    # ---------------------------------------------------------
 
     svg = f'''
 <svg xmlns="http://www.w3.org/2000/svg"
@@ -781,6 +800,8 @@ def generate_bento_svg(
 
     <g transform="translate(22, 52)">
 
+      <!-- Language distribution bar -->
+
       <rect
           x="0"
           y="0"
@@ -794,8 +815,38 @@ def generate_bento_svg(
 
       {''.join(segments)}
 
+      <!-- Language legend -->
+
       <g transform="translate(0, 18)">
         {''.join(legend)}
+      </g>
+
+      <!-- Vertical separators between language columns -->
+      <!-- Clearly visible, thin white lines -->
+      <!-- Height automatically follows language row count -->
+
+      <g
+          opacity="0.75"
+          pointer-events="none">
+
+        <line
+            x1="{legend_width}"
+            y1="{separator_top}"
+            x2="{legend_width}"
+            y2="{separator_bottom}"
+            stroke="#ffffff"
+            stroke-width="1"
+        />
+
+        <line
+            x1="{legend_width * 2}"
+            y1="{separator_top}"
+            x2="{legend_width * 2}"
+            y2="{separator_bottom}"
+            stroke="#ffffff"
+            stroke-width="1"
+        />
+
       </g>
 
     </g>

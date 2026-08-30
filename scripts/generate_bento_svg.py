@@ -306,18 +306,21 @@ def generate_bento_svg(
     # Repository Language Spectrum
     # ---------------------------------------------------------
     #
-    # Clean one-row-per-language presentation:
-    #   bar -> percentage -> language name
-    # Bars always start from the same 0% point. Percentages are
-    # outside the bars, immediately after the bar, and language
-    # names follow them. Text is larger/bolder for README clarity.
+    # Each GitHub language gets its own horizontal bar.
+    # Every bar starts at the same 0% point.
+    # Rows are shown from lowest percentage to highest.
+    # GitHub percentages and GitHub Linguist colors are untouched.
+    # ---------------------------------------------------------
 
     segments = []
+
     language_count = len(metrics["languages"])
 
-    language_row_height = 24
-    language_bar_height = 12
-    language_bar_width = 300
+    # One row per language. This automatically grows with GitHub data.
+    language_row_height = 18
+    language_row_gap = 5
+    language_bar_height = 10
+    language_bar_width = bar_w
 
     # Lowest percentage first, highest percentage last.
     display_languages = sorted(
@@ -326,25 +329,22 @@ def generate_bento_svg(
     )
 
     for idx, lang in enumerate(display_languages):
-        pct = float(lang["pct"])
-        bar_width = max(4.0, (pct / 100.0) * language_bar_width)
-        y = idx * language_row_height
-        text_y = y + 10.5
 
-        # Subtle full-width track keeps every row aligned.
-        segments.append(
-            f'''
-        <rect
-            x="0"
-            y="{y:.1f}"
-            width="{language_bar_width}"
-            height="{language_bar_height}"
-            rx="5"
-            fill="#0d1117"/>
-        '''
+        pct = float(lang["pct"])
+
+        bar_width = (
+            pct / 100.0
+        ) * language_bar_width
+
+        y = idx * (
+            language_row_height
+            + language_row_gap
         )
 
-        # Real percentage-proportional language bar.
+        if bar_width <= 0:
+            continue
+
+        # Actual percentage width. Every bar starts at x=0.
         segments.append(
             f'''
         <rect
@@ -352,50 +352,81 @@ def generate_bento_svg(
             y="{y:.1f}"
             width="{bar_width:.1f}"
             height="{language_bar_height}"
-            rx="5"
+            rx="4"
             fill="{lang["color"]}"/>
         '''
         )
 
         pct_text = f'{pct:.1f}%'
-        pct_x = bar_width + 8
 
-        # Percentage is cleanly outside the bar, immediately after it.
+        # Keep the percentage on the colored segment whenever
+        # there is enough room. For tiny GitHub percentages,
+        # reduce the font so the value remains readable.
+        pct_font = 7.5
+        if bar_width < 34:
+            pct_font = max(
+                5.5,
+                5.5 + bar_width / 18
+            )
+
+        pct_x = max(
+            5,
+            bar_width / 2
+        )
+
         segments.append(
             f'''
         <text
             x="{pct_x:.1f}"
-            y="{text_y:.1f}"
-            fill="#c9d1d9"
+            y="{y + 7.4:.1f}"
+            text-anchor="middle"
+            fill="#ffffff"
             font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
-            font-size="10.5"
+            font-size="{pct_font:.1f}"
             font-weight="700">{pct_text}</text>
         '''
         )
 
-        # Language name follows the percentage.
-        name_x = pct_x + 40
+        # Language name is kept in one fixed column at the right side
+        # of the language area, outside every colored bar.
+        # This keeps all language names perfectly aligned.
+        name_x = language_bar_width + 12
+
         segments.append(
             f'''
         <text
             x="{name_x:.1f}"
-            y="{text_y:.1f}"
-            fill="#ffffff"
+            y="{y + 7.4:.1f}"
+            fill="#e6edf3"
             font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
-            font-size="11"
-            font-weight="700">{html.escape(lang["name"])}</text>
+            font-size="8.5"
+            font-weight="600">{html.escape(lang["name"])}</text>
         '''
         )
 
+    # Total vertical space occupied by the automatically generated rows.
     language_bar_area_height = max(
         language_bar_height,
-        language_count * language_row_height
+        language_count * (
+            language_row_height
+            + language_row_gap
+        ) - language_row_gap
     )
 
-    # The card automatically grows as GitHub returns more languages.
+    # ---------------------------------------------------------
+    # Dynamic Card Height
+    # ---------------------------------------------------------
+    #
+    # The card grows when GitHub returns more language rows.
+    # There is NO footer anymore.
+    #
+
+    # Card height follows the number of GitHub languages.
+    # More languages = more rows = taller card.
     language_card_height = max(
         190,
-        84 + language_bar_area_height
+        84
+        + language_bar_area_height
     )
 
     overall_height = (
@@ -404,6 +435,7 @@ def generate_bento_svg(
         + 25
     )
 
+    # ---------------------------------------------------------
     # SVG
     # ---------------------------------------------------------
 

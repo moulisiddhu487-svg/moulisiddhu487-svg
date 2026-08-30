@@ -320,7 +320,8 @@ def generate_bento_svg(
     language_row_height = 18
     language_row_gap = 5
     language_bar_height = 10
-    language_bar_width = bar_w
+    # Gray track width. Every language starts from the same 0% point.
+    language_bar_width = 320
 
     # Lowest percentage first, highest percentage last.
     display_languages = sorted(
@@ -344,7 +345,20 @@ def generate_bento_svg(
         if bar_width <= 0:
             continue
 
-        # Actual percentage width. Every bar starts at x=0.
+        # Gray background track. Every language starts from the same 0% point.
+        segments.append(
+            f'''
+        <rect
+            x="0"
+            y="{y:.1f}"
+            width="{language_bar_width}"
+            height="{language_bar_height}"
+            rx="4"
+            fill="#0d1117"/>
+        '''
+        )
+
+        # Colored portion: its length is proportional to the real percentage.
         segments.append(
             f'''
         <rect
@@ -359,48 +373,34 @@ def generate_bento_svg(
 
         pct_text = f'{pct:.1f}%'
 
-        # Keep the percentage on the colored segment whenever
-        # there is enough room. For tiny GitHub percentages,
-        # reduce the font so the value remains readable.
-        pct_font = 7.5
-        if bar_width < 34:
-            pct_font = max(
-                5.5,
-                5.5 + bar_width / 18
-            )
-
-        pct_x = max(
-            5,
-            bar_width / 2
-        )
+        # Percentage sits immediately after the colored bar.
+        pct_x = bar_width + 7
 
         segments.append(
             f'''
         <text
             x="{pct_x:.1f}"
-            y="{y + 7.4:.1f}"
-            text-anchor="middle"
-            fill="#ffffff"
+            y="{y + 7.5:.1f}"
+            fill="#e6edf3"
             font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
-            font-size="{pct_font:.1f}"
+            font-size="8.5"
             font-weight="700">{pct_text}</text>
         '''
         )
 
-        # Language name is kept in one fixed column at the right side
-        # of the language area, outside every colored bar.
-        # This keeps all language names perfectly aligned.
+        # Language name sits at the END of the gray track, outside the bar.
+        # This keeps every language name aligned while the colored bars vary.
         name_x = language_bar_width + 12
 
         segments.append(
             f'''
         <text
             x="{name_x:.1f}"
-            y="{y + 7.4:.1f}"
+            y="{y + 7.5:.1f}"
             fill="#e6edf3"
             font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
             font-size="8.5"
-            font-weight="600">{html.escape(lang["name"])}</text>
+            font-weight="700">{html.escape(lang["name"])}</text>
         '''
         )
 

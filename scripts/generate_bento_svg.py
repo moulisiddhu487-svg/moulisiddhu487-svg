@@ -250,7 +250,7 @@ def generate_bento_svg(
     language_row_height = 18
     language_row_gap = 5
     language_bar_height = 12
-    language_bar_width = 600
+    language_bar_width = 700
 
     # Lowest percentage first, highest percentage last.
     display_languages = sorted(

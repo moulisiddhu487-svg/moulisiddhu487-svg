@@ -25,61 +25,14 @@ def load_config(config_path="config.yml"):
         return yaml.safe_load(f) or {}
 
 
-def fetch_contribution_total(username):
-    """Fetch the real last-year contribution total.
-
-    Prefer GitHub GraphQL when a token is available because the HTML
-    contributions page is not a stable data source. Fall back to the
-    public contributions page when no token is configured.
-    """
-    if GITHUB_TOKEN:
-        try:
-            query = """
-            query($login: String!) {
-              user(login: $login) {
-                contributionsCollection {
-                  contributionCalendar {
-                    totalContributions
-                  }
-                }
-              }
-            }
-            """
-            payload = json.dumps({
-                "query": query,
-                "variables": {"login": username}
-            }).encode("utf-8")
-
-            req = urllib.request.Request(
-                "https://api.github.com/graphql",
-                data=payload,
-                headers={**GITHUB_HEADERS, "User-Agent": "Mouli-Bento-Generator/1.0", "Content-Type": "application/json"},
-                method="POST"
-            )
-
-            with urllib.request.urlopen(req, timeout=8) as resp:
-                data = json.loads(resp.read().decode("utf-8"))
-
-            if not data.get("errors"):
-                total = (
-                    data.get("data", {})
-                    .get("user", {})
-                    .get("contributionsCollection", {})
-                    .get("contributionCalendar", {})
-                    .get("totalContributions")
-                )
-                if total is not None:
-                    return str(total)
-
-            print("[Bento] GraphQL contribution fetch returned no total; using HTML fallback.")
-        except Exception as e:
-            print(f"[Bento] GraphQL contribution fetch notice: {e}")
+def fetch_bento_metrics(username):
+    total_year = "SYNC"
 
     try:
         url = f"https://github.com/users/{username}/contributions"
         req = urllib.request.Request(
             url,
-            headers={**GITHUB_HEADERS, "User-Agent": "Mouli-Bento-Generator/1.0"}
+            headers={"User-Agent": "Mozilla/5.0"}
         )
 
         with urllib.request.urlopen(req, timeout=8) as resp:
@@ -91,20 +44,14 @@ def fetch_contribution_total(username):
         )
 
         if match:
-            return match.group(1)
+            total_year = match.group(1)
+
     except Exception as e:
-        print(f"[Bento] Contribution HTML fallback notice: {e}")
-
-    return "SYNC"
-
-
-def fetch_bento_metrics(username):
-    total_year = fetch_contribution_total(username)
+        print(f"[Bento] Contribution fetch notice: {e}")
 
     total_stars = "SYNC"
     public_repos_count = "SYNC"
     lang_totals = {}
-    language_fetch_failures = 0
 
     try:
         repos_url = (
@@ -114,7 +61,7 @@ def fetch_bento_metrics(username):
 
         req = urllib.request.Request(
             repos_url,
-            headers={**GITHUB_HEADERS, "User-Agent": "Mouli-Bento-Generator/1.0"}
+            headers={"User-Agent": "Mozilla/5.0"}
         )
 
         with urllib.request.urlopen(req, timeout=8) as resp:
@@ -148,7 +95,7 @@ def fetch_bento_metrics(username):
 
                 req2 = urllib.request.Request(
                     lang_url,
-                    headers={**GITHUB_HEADERS, "User-Agent": "Mouli-Bento-Generator/1.0"}
+                    headers={"User-Agent": "Mozilla/5.0"}
                 )
 
                 with urllib.request.urlopen(
@@ -164,9 +111,7 @@ def fetch_bento_metrics(username):
                         lang_totals.get(lang, 0) + count
                     )
 
-            except Exception as e:
-                language_fetch_failures += 1
-                print(f"[Bento] Language fetch notice for {name}: {e}")
+            except Exception:
                 continue
 
     except Exception as e:
@@ -190,7 +135,7 @@ def fetch_bento_metrics(username):
 
         linguist_req = urllib.request.Request(
             linguist_url,
-            headers={**GITHUB_HEADERS, "User-Agent": "Mouli-Bento-Generator/1.0"}
+            headers={"User-Agent": "Mozilla/5.0"}
         )
 
         with urllib.request.urlopen(
@@ -235,11 +180,7 @@ def fetch_bento_metrics(username):
         "total_year": total_year,
         "public_repos": public_repos_count,
         "total_stars": total_stars,
-        "languages": languages,
-        "_data_complete": (
-            public_repos_count != "SYNC"
-            and language_fetch_failures == 0
-        )
+        "languages": languages
     }
 
 
@@ -262,7 +203,6 @@ def generate_bento_svg(
         "production_focus",
         []
     )[:3]
-
 
     width = 940
     bar_w = 385
@@ -295,122 +235,100 @@ def generate_bento_svg(
     # ---------------------------------------------------------
     # Repository Language Spectrum
     # ---------------------------------------------------------
+    #
+    # Each GitHub language gets its own horizontal bar.
+    # Every bar starts at the same 0% point.
+    # Rows are shown from lowest percentage to highest.
+    # GitHub percentages and GitHub Linguist colors are untouched.
+    # ---------------------------------------------------------
 
     segments = []
-    legend = []
 
-    curr_x = 0
+    language_count = len(metrics["languages"])
 
-    # GitHub language bar.
-    # Every language is included automatically.
-    for lang in metrics["languages"]:
+    # One row per language. This automatically grows with GitHub data.
+    language_row_height = 18
+    language_row_gap = 5
+    language_bar_height = 12
+    language_bar_width = 650
 
-        seg_w = (
-            lang["pct"] / 100
-        ) * bar_w
-
-        if seg_w > 0:
-
-            segments.append(
-                f'<rect '
-                f'x="{curr_x:.1f}" '
-                f'y="0" '
-                f'width="{seg_w:.1f}" '
-                f'height="10" '
-                f'rx="2" '
-                f'fill="{lang["color"]}"/>'
-            )
-
-            curr_x += seg_w
-
-    # ---------------------------------------------------------
-    # Dynamic Language Layout
-    # ---------------------------------------------------------
-
-    language_count = len(
-        metrics["languages"]
+    # Lowest percentage first, highest percentage last.
+    display_languages = sorted(
+        metrics["languages"],
+        key=lambda lang: lang["pct"]
     )
 
-    # Keep the current 3-column visual design.
-    legend_columns = 3
+    for idx, lang in enumerate(display_languages):
 
-    legend_width = (
-        bar_w / legend_columns
+        pct = float(lang["pct"])
+
+        bar_width = (
+            pct / 100.0
+        ) * language_bar_width
+
+        y = idx * (
+            language_row_height
+            + language_row_gap
+        )
+
+        if bar_width <= 0:
+            continue
+
+        # Actual percentage width. Every bar starts at x=0.
+        segments.append(
+            f'''
+        <rect
+            x="0"
+            y="{y:.1f}"
+            width="{bar_width:.1f}"
+            height="{language_bar_height}"
+            rx="4"
+            fill="{lang["color"]}"/>
+        '''
+        )
+
+        pct_text = f'{pct:.1f}%'
+
+        # Percentage sits immediately after the colored portion.
+        pct_x = bar_width + 7
+
+        segments.append(
+            f'''
+        <text
+            x="{pct_x:.1f}"
+            y="{y + 7.4:.1f}"
+            fill="#e6edf3"
+            font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+            font-size="9.5"
+            font-weight="700">{pct_text}</text>
+        '''
+        )
+
+        # Language name is kept in one fixed column at the right side
+        # of the language area, outside every colored bar.
+        # This keeps all language names perfectly aligned.
+        name_x = language_bar_width + 14
+
+        segments.append(
+            f'''
+        <text
+            x="{name_x:.1f}"
+            y="{y + 7.4:.1f}"
+            fill="#e6edf3"
+            font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+            font-size="10.5"
+            font-weight="700">{html.escape(lang["name"])}</text>
+        '''
+        )
+
+    # Total vertical space occupied by the automatically generated rows.
+    language_bar_area_height = max(
+        language_bar_height,
+        language_count * (
+            language_row_height
+            + language_row_gap
+        ) - language_row_gap
     )
-
-    # Automatically calculate how many rows are needed.
-    legend_rows = max(
-        1,
-        (
-            language_count
-            + legend_columns
-            - 1
-        )
-        // legend_columns
-    )
-
-    # Keep the current clean row spacing.
-    row_height = 22
-
-    legend_font_size = 10.5
-
-    # ---------------------------------------------------------
-    # Build Language Legend
-    # ---------------------------------------------------------
-
-    for idx, lang in enumerate(
-        metrics["languages"]
-    ):
-
-        col = (
-            idx
-            % legend_columns
-        )
-
-        row = (
-            idx
-            // legend_columns
-        )
-
-        lx = (
-            col
-            * legend_width
-        )
-
-        ly = (
-            18
-            + row * row_height
-        )
-
-        legend.append(
-            f"""
-<g transform="translate({lx:.1f}, {ly:.1f})">
-
-  <circle
-      cx="5"
-      cy="5"
-      r="4"
-      fill="{lang["color"]}"
-  />
-
-  <text
-      x="16"
-      y="9"
-      fill="#e6edf3"
-      font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
-      font-size="{legend_font_size}"
-      font-weight="500">{html.escape(lang["name"])}</text>
-
-  <text
-      x="{legend_width - 10:.1f}"
-      y="9"
-      text-anchor="end"
-      fill="#8b949e"
-      font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
-      font-size="9.5">{lang["pct"]}%</text>
-
-</g>"""
-        )
 
     # ---------------------------------------------------------
     # Dynamic Card Height
@@ -420,10 +338,12 @@ def generate_bento_svg(
     # There is NO footer anymore.
     #
 
+    # Card height follows the number of GitHub languages.
+    # More languages = more rows = taller card.
     language_card_height = max(
         190,
-        90
-        + legend_rows * row_height
+        84
+        + language_bar_area_height
     )
 
     overall_height = (
@@ -741,10 +661,10 @@ def generate_bento_svg(
   <!-- Repository Language Spectrum -->
   <!-- ===================================================== -->
 
-  <g transform="translate(486, 255)">
+  <g transform="translate(24, 255)">
 
     <rect
-        width="430"
+        width="892"
         height="{language_card_height}"
         rx="8"
         fill="#161b22"
@@ -762,7 +682,7 @@ def generate_bento_svg(
     </text>
 
     <text
-        x="414"
+        x="876"
         y="24"
         text-anchor="end"
         fill="#8b949e"
@@ -774,65 +694,34 @@ def generate_bento_svg(
     <line
         x1="16"
         y1="34"
-        x2="414"
+        x2="876"
         y2="34"
         stroke="#30363d"
         stroke-width="1"/>
 
-    <!-- Language bar -->
-
-    <g transform="translate(22, 52)">
-
-      <rect
-          x="0"
-          y="0"
-          width="{bar_w}"
-          height="10"
-          rx="4"
-          fill="#0d1117"
-          stroke="#30363d"
-          stroke-width="1"/>
-
+    <g transform="translate(16, 52)">
       {''.join(segments)}
-
-      <!-- ================================================= -->
-      <!-- Dynamic white column separators -->
-      <!-- ================================================= -->
-      <!--
-           X positions stay tied to the 3 language columns.
-           Top begins below the language bar.
-           Bottom grows automatically with the language rows.
-      -->
-
-      <g opacity="0.90">
-
-  <!-- Separator between language columns -->
-  <line
-      x1="{legend_width - 2:.1f}"
-      y1="30"
-      x2="{legend_width - 2:.1f}"
-      y2="{18 + legend_rows * row_height - 4:.1f}"
-      stroke="#ffffff"
-      stroke-width="1"/>
-
-  <!-- Separator between language columns -->
-  <line
-      x1="{legend_width * 2 - 2:.1f}"
-      y1="30"
-      x2="{legend_width * 2 - 2:.1f}"
-      y2="{18 + legend_rows * row_height - 4:.1f}"
-      stroke="#ffffff"
-      stroke-width="1"/>
-
-</g>
-      <!-- Language legend -->
-
-      <g transform="translate(0, 18)">
-        {''.join(legend)}
-      </g>
-
     </g>
 
   </g>
+</svg>'''
 
-</svg>''
+    os.makedirs(
+        os.path.dirname(output_path),
+        exist_ok=True
+    )
+
+    with open(
+        output_path,
+        "w",
+        encoding="utf-8"
+    ) as f:
+        f.write(svg)
+
+    print(
+        f"[Bento Showcase] Saved project-focused SVG to '{output_path}'"
+    )
+
+
+if __name__ == "__main__":
+    generate_bento_svg()

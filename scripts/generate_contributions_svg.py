@@ -214,7 +214,7 @@ def generate_contributions_svg(config_path="config.yml", output_path="assets/con
     
     <!-- Right live summary metrics -->
     <text x="{width - 48}" y="14" text-anchor="end" fill="#8b949e" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="11">
-      <tspan fill="#ffffff" font-weight="600">{total_year}</tspan> Total Year  •  <tspan fill="#ffffff" font-weight="600">{total_30d}</tspan> in 30D  •  Peak: <tspan fill="#ffffff" font-weight="600">{peak_day_val}/day</tspan>
+      <tspan fill="#39d353" font-weight="600">{total_year}</tspan> Total Year  •  <tspan fill="#39d353" font-weight="600">{total_30d}</tspan> in 30D  •  Peak: <tspan fill="#39d353" font-weight="600">{peak_day_val}/day</tspan>
     </text>
     <line x1="0" y1="26" x2="{width - 48}" y2="26" stroke="#21262d" stroke-width="1"/>
   </g>

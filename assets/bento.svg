@@ -524,6 +524,8 @@
 
     <g transform="translate(22, 52)">
 
+      <!-- Language distribution bar -->
+
       <rect
           x="0"
           y="0"
@@ -626,6 +628,8 @@
                     fill="#8250df"
                 />
                 
+
+      <!-- Language legend -->
 
       <g transform="translate(0, 18)">
         
@@ -939,6 +943,34 @@
 
             </g>
             
+      </g>
+
+      <!-- Vertical separators between language columns -->
+      <!-- Clearly visible, thin white lines -->
+      <!-- Height automatically follows language row count -->
+
+      <g
+          opacity="0.75"
+          pointer-events="none">
+
+        <line
+            x1="120"
+            y1="16"
+            x2="120"
+            y2="109"
+            stroke="#ffffff"
+            stroke-width="1"
+        />
+
+        <line
+            x1="240"
+            y1="16"
+            x2="240"
+            y2="109"
+            stroke="#ffffff"
+            stroke-width="1"
+        />
+
       </g>
 
     </g>

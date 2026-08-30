@@ -1,118 +1,451 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 940 470" width="100%" height="auto" fill="none">
-  <rect width="940" height="470" rx="12" fill="#0d1117" stroke="#30363d" stroke-width="1"/>
+<svg xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 940 470"
+    width="100%"
+    height="auto"
+    fill="none">
+
+  <rect width="940" height="470"
+        rx="12"
+        fill="#0d1117"
+        stroke="#30363d"
+        stroke-width="1"/>
+
+  <!-- Header -->
   <g transform="translate(24, 34)">
-    <rect x="0" y="0" width="28" height="20" rx="4" fill="#161b22" stroke="#30363d" stroke-width="1"/>
-    <text x="6" y="14" fill="#ffffff" font-family="monospace" font-size="12" font-weight="bold">~/</text>
-    <text x="38" y="15" fill="#ffffff" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="14" font-weight="600">Engineering Showcase &amp; Performance</text>
-    <text x="868" y="14" text-anchor="end" fill="#8b949e" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="10.5">Cloud • Automation • Reliability • Projects</text>
-    <line x1="0" y1="26" x2="868" y2="26" stroke="#21262d" stroke-width="1"/>
+    <rect x="0" y="0"
+          width="28"
+          height="20"
+          rx="4"
+          fill="#161b22"
+          stroke="#30363d"
+          stroke-width="1"/>
+
+    <text x="6" y="14"
+          fill="#ffffff"
+          font-family="monospace"
+          font-size="12"
+          font-weight="bold">~/</text>
+
+    <text x="38" y="15"
+          fill="#ffffff"
+          font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+          font-size="14"
+          font-weight="600">
+      Engineering Showcase &amp; Performance
+    </text>
+
+    <text x="868" y="14"
+          text-anchor="end"
+          fill="#8b949e"
+          font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+          font-size="10.5">
+      Cloud • Automation • Reliability • Projects
+    </text>
+
+    <line x1="0" y1="26"
+          x2="868" y2="26"
+          stroke="#21262d"
+          stroke-width="1"/>
   </g>
 
+  <!-- Production Focus -->
   <g transform="translate(24, 75)">
-    <rect width="430" height="160" rx="8" fill="#161b22" stroke="#21262d" stroke-width="1"/>
-    <text x="16" y="24" fill="#ffffff" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="14" font-weight="600">🚀 Production Focus</text>
-    <text x="414" y="24" text-anchor="end" fill="#8b949e" font-family="monospace" font-size="10">BUILD → SHIP → OBSERVE</text>
-    <line x1="16" y1="34" x2="414" y2="34" stroke="#30363d" stroke-width="1"/>
-    <g transform="translate(16, 46)">
+    <rect width="430" height="160"
+          rx="8"
+          fill="#161b22"
+          stroke="#21262d"
+          stroke-width="1"/>
+
+    <text x="16" y="24"
+          fill="#ffffff"
+          font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+          font-size="14"
+          font-weight="600">
+      🚀 Production Focus
+    </text>
+
+    <text x="414" y="24"
+          text-anchor="end"
+          fill="#8b949e"
+          font-family="monospace"
+          font-size="10">
+      BUILD → SHIP → OBSERVE
+    </text>
+
+    <line x1="16" y1="34"
+          x2="414" y2="34"
+          stroke="#30363d"
+          stroke-width="1"/>
+
+    <g transform="translate(16, 48)">
+      
         <g transform="translate(0, 0)">
-          <text x="0" y="10" fill="#e6edf3" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="12" font-weight="600">☁️ Cloud Infrastructure</text>
-          <text x="0" y="25" fill="#8b949e" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="11">AWS EC2, Azure Functions &amp; cloud-native environments</text>
+          <text x="0" y="10"
+                fill="#e6edf3"
+                font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+                font-size="12"
+                font-weight="600">☁️ Cloud Infrastructure</text>
+          <text x="0" y="25"
+                fill="#8b949e"
+                font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+                font-size="11">AWS EC2, Azure Functions &amp; cloud-native environments</text>
         </g>
         <g transform="translate(0, 36)">
-          <text x="0" y="10" fill="#e6edf3" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="12" font-weight="600">☸️ Kubernetes Platforms</text>
-          <text x="0" y="25" fill="#8b949e" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="11">K3s, Docker, Helm, HPA &amp; self-healing workloads</text>
+          <text x="0" y="10"
+                fill="#e6edf3"
+                font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+                font-size="12"
+                font-weight="600">☸️ Kubernetes Platforms</text>
+          <text x="0" y="25"
+                fill="#8b949e"
+                font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+                font-size="11">K3s, Docker, Helm, HPA &amp; self-healing workloads</text>
         </g>
         <g transform="translate(0, 72)">
-          <text x="0" y="10" fill="#e6edf3" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="12" font-weight="600">🔄 Delivery Automation</text>
-          <text x="0" y="25" fill="#8b949e" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="11">Jenkins &amp; GitHub Actions for repeatable CI/CD</text>
+          <text x="0" y="10"
+                fill="#e6edf3"
+                font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+                font-size="12"
+                font-weight="600">🔄 Delivery Automation</text>
+          <text x="0" y="25"
+                fill="#8b949e"
+                font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+                font-size="11">Jenkins &amp; GitHub Actions for repeatable CI/CD</text>
         </g>
     </g>
   </g>
 
+  <!-- GitHub Telemetry -->
   <g transform="translate(486, 75)">
-    <rect width="430" height="160" rx="8" fill="#161b22" stroke="#21262d" stroke-width="1"/>
-    <text x="16" y="24" fill="#ffffff" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="14" font-weight="600">⚡ GitHub Telemetry</text>
-    <text x="414" y="24" text-anchor="end" fill="#3fb950" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="10.5" font-weight="600">● LIVE DATA</text>
-    <line x1="16" y1="34" x2="414" y2="34" stroke="#30363d" stroke-width="1"/>
+    <rect width="430" height="160"
+          rx="8"
+          fill="#161b22"
+          stroke="#21262d"
+          stroke-width="1"/>
+
+    <text x="16" y="24"
+          fill="#ffffff"
+          font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+          font-size="14"
+          font-weight="600">
+      ⚡ GitHub Telemetry
+    </text>
+
+    <text x="414" y="24"
+          text-anchor="end"
+          fill="#3fb950"
+          font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+          font-size="10.5"
+          font-weight="600">
+      ● LIVE DATA
+    </text>
+
+    <line x1="16" y1="34"
+          x2="414" y2="34"
+          stroke="#30363d"
+          stroke-width="1"/>
+
     <g transform="translate(16, 48)">
-      <rect width="190" height="46" rx="6" fill="#0d1117" stroke="#30363d" stroke-width="1"/>
-      <text x="12" y="20" fill="#ffffff" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="16" font-weight="bold">137</text>
-      <text x="12" y="36" fill="#8b949e" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="10">Contributions / year</text>
+      <rect width="190" height="46"
+            rx="6"
+            fill="#0d1117"
+            stroke="#30363d"
+            stroke-width="1"/>
+
+      <text x="12" y="20"
+            fill="#ffffff"
+            font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+            font-size="16"
+            font-weight="bold">
+        137
+      </text>
+
+      <text x="12" y="36"
+            fill="#8b949e"
+            font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+            font-size="10">
+        Contributions / year
+      </text>
     </g>
+
     <g transform="translate(224, 48)">
-      <rect width="190" height="46" rx="6" fill="#0d1117" stroke="#30363d" stroke-width="1"/>
-      <text x="12" y="20" fill="#ffffff" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="16" font-weight="bold">6</text>
-      <text x="12" y="36" fill="#8b949e" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="10">Public repositories</text>
+      <rect width="190" height="46"
+            rx="6"
+            fill="#0d1117"
+            stroke="#30363d"
+            stroke-width="1"/>
+
+      <text x="12" y="20"
+            fill="#ffffff"
+            font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+            font-size="16"
+            font-weight="bold">
+        6
+      </text>
+
+      <text x="12" y="36"
+            fill="#8b949e"
+            font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+            font-size="10">
+        Public repositories
+      </text>
     </g>
+
     <g transform="translate(16, 102)">
-      <rect width="190" height="46" rx="6" fill="#0d1117" stroke="#30363d" stroke-width="1"/>
-      <text x="12" y="20" fill="#ffffff" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="16" font-weight="bold">1 <tspan fill="#FFD700">★</tspan></text>
-      <text x="12" y="36" fill="#8b949e" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="10">Total GitHub stars</text>
+      <rect width="190" height="46"
+            rx="6"
+            fill="#0d1117"
+            stroke="#30363d"
+            stroke-width="1"/>
+
+      <text x="12" y="20"
+            fill="#ffffff"
+            font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+            font-size="16"
+            font-weight="bold">
+        1
+        <tspan fill="#FFD700">★</tspan>
+      </text>
+
+      <text x="12" y="36"
+            fill="#8b949e"
+            font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+            font-size="10">
+        Total GitHub stars
+      </text>
     </g>
+
     <g transform="translate(224, 102)">
-      <rect width="190" height="46" rx="6" fill="#0d1117" stroke="#30363d" stroke-width="1"/>
-      <text x="12" y="20" fill="#ffffff" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="16" font-weight="bold">5<tspan fill="#39d353">+</tspan></text>
-      <text x="12" y="36" fill="#8b949e" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="10">Detected languages</text>
+      <rect width="190" height="46"
+            rx="6"
+            fill="#0d1117"
+            stroke="#30363d"
+            stroke-width="1"/>
+
+      <text x="12" y="20"
+            fill="#ffffff"
+            font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+            font-size="16"
+            font-weight="bold">
+        5
+        <tspan fill="#39d353">+</tspan>
+      </text>
+
+      <text x="12" y="36"
+            fill="#8b949e"
+            font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+            font-size="10">
+        Detected languages
+      </text>
     </g>
   </g>
 
+  <!-- Featured Engineering Projects -->
   <g transform="translate(24, 255)">
-    <rect width="430" height="190" rx="8" fill="#161b22" stroke="#21262d" stroke-width="1"/>
-    <text x="16" y="24" fill="#ffffff" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="14" font-weight="600">🚀 Featured Engineering Projects</text>
-    <text x="414" y="24" text-anchor="end" fill="#8b949e" font-family="monospace" font-size="10">OPEN REPO ↗</text>
-    <line x1="16" y1="34" x2="414" y2="34" stroke="#30363d" stroke-width="1"/>
-    <g transform="translate(8, 46)">
+    <rect width="430" height="190"
+          rx="8"
+          fill="#161b22"
+          stroke="#21262d"
+          stroke-width="1"/>
+
+    <text x="16" y="24"
+          fill="#ffffff"
+          font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+          font-size="14"
+          font-weight="600">
+      🚀 Featured Engineering Projects
+    </text>
+
+    <text x="414" y="24"
+          text-anchor="end"
+          fill="#8b949e"
+          font-family="monospace"
+          font-size="10">
+      OPEN REPO ↗
+    </text>
+
+    <line x1="16" y1="34"
+          x2="414" y2="34"
+          stroke="#30363d"
+          stroke-width="1"/>
+
+    <g transform="translate(8, 48)">
+      
         <a href="https://github.com/moulisiddhu487-svg/azure-resume-api" target="_blank">
           <g transform="translate(0, 0)">
-            <rect x="0" y="0" width="414" height="58" rx="6" fill="#0d1117" stroke="#30363d" stroke-width="1"/>
-            <text x="12" y="17" fill="#ffffff" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="12" font-weight="700">☁️ Azure Resume API</text>
-            <text x="12" y="33" fill="#c9d1d9" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="10.5">Serverless REST API with Azure Functions + GitHub Actions</text>
-            <text x="12" y="48" fill="#8b949e" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="9.5">Azure Functions • REST • CI/CD</text>
-            <text x="398" y="18" text-anchor="end" fill="#8b949e" font-family="monospace" font-size="10">↗</text>
+            <rect x="0" y="0" width="414" height="58"
+                  rx="6" fill="#0d1117" stroke="#30363d" stroke-width="1"/>
+
+            <text x="12" y="17"
+                  fill="#ffffff"
+                  font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+                  font-size="12"
+                  font-weight="700">☁️ Azure Resume API</text>
+
+            <text x="12" y="33"
+                  fill="#c9d1d9"
+                  font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+                  font-size="10.5">Serverless REST API with Azure Functions + GitHub Actions</text>
+
+            <text x="12" y="48"
+                  fill="#8b949e"
+                  font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+                  font-size="9.5">Azure Functions • REST • CI/CD</text>
+
+            <text x="398" y="18"
+                  text-anchor="end"
+                  fill="#8b949e"
+                  font-family="monospace"
+                  font-size="10">↗</text>
           </g>
         </a>
         <a href="https://github.com/moulisiddhu487-svg/Cloud-Native-Microservices-Observability-Auto-Scaling-Infrastructure" target="_blank">
           <g transform="translate(0, 70)">
-            <rect x="0" y="0" width="414" height="58" rx="6" fill="#0d1117" stroke="#30363d" stroke-width="1"/>
-            <text x="12" y="17" fill="#ffffff" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="12" font-weight="700">☸️ Cloud-Native Platform</text>
-            <text x="12" y="33" fill="#c9d1d9" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="10.5">11 microservices on K3s with HPA, monitoring &amp; alerting</text>
-            <text x="12" y="48" fill="#8b949e" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="9.5">K3s • AWS EC2 • Jenkins • Prometheus • Grafana</text>
-            <text x="398" y="18" text-anchor="end" fill="#8b949e" font-family="monospace" font-size="10">↗</text>
+            <rect x="0" y="0" width="414" height="58"
+                  rx="6" fill="#0d1117" stroke="#30363d" stroke-width="1"/>
+
+            <text x="12" y="17"
+                  fill="#ffffff"
+                  font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+                  font-size="12"
+                  font-weight="700">☸️ Cloud-Native Platform</text>
+
+            <text x="12" y="33"
+                  fill="#c9d1d9"
+                  font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+                  font-size="10.5">11 microservices on K3s with HPA, monitoring &amp; alerting</text>
+
+            <text x="12" y="48"
+                  fill="#8b949e"
+                  font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+                  font-size="9.5">K3s • AWS EC2 • Jenkins • Prometheus • Grafana</text>
+
+            <text x="398" y="18"
+                  text-anchor="end"
+                  fill="#8b949e"
+                  font-family="monospace"
+                  font-size="10">↗</text>
           </g>
         </a>
     </g>
   </g>
 
+  <!-- Repository Language Spectrum -->
   <g transform="translate(486, 255)">
-    <rect width="430" height="190" rx="8" fill="#161b22" stroke="#21262d" stroke-width="1"/>
-    <text x="16" y="24" fill="#ffffff" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="14" font-weight="600">📊 Repository Language Spectrum</text>
-    <text x="414" y="24" text-anchor="end" fill="#8b949e" font-family="monospace" font-size="10">PUBLIC REPOS</text>
-    <line x1="16" y1="34" x2="414" y2="34" stroke="#30363d" stroke-width="1"/>
+    <rect width="430" height="190"
+          rx="8"
+          fill="#161b22"
+          stroke="#21262d"
+          stroke-width="1"/>
+
+    <text x="16" y="24"
+          fill="#ffffff"
+          font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+          font-size="14"
+          font-weight="600">
+      📊 Repository Language Spectrum
+    </text>
+
+    <text x="414" y="24"
+          text-anchor="end"
+          fill="#8b949e"
+          font-family="monospace"
+          font-size="10">
+      PUBLIC REPOS
+    </text>
+
+    <line x1="16" y1="34"
+          x2="414" y2="34"
+          stroke="#30363d"
+          stroke-width="1"/>
+
     <g transform="translate(22, 52)">
-      <rect x="0" y="0" width="385" height="10" rx="4" fill="#0d1117" stroke="#30363d" stroke-width="1"/>
-      <rect x="0.0" y="0" width="147.5" height="10" rx="2" fill="#ffffff"/><rect x="147.5" y="0" width="78.5" height="10" rx="2" fill="#8b949e"/><rect x="226.0" y="0" width="68.1" height="10" rx="2" fill="#565e69"/><rect x="294.1" y="0" width="21.9" height="10" rx="2" fill="#30363d"/><rect x="316.1" y="0" width="18.9" height="10" rx="2" fill="#21262d"/>
-      <g transform="translate(0, 18)"><g transform="translate(0, 24)">
-          <circle cx="5" cy="5" r="4" fill="#ffffff"/>
-          <text x="16" y="9" fill="#e6edf3" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="11" font-weight="500">Python</text>
-          <text x="180" y="9" text-anchor="end" fill="#8b949e" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="10">38.3%</text>
-        </g><g transform="translate(200, 24)">
-          <circle cx="5" cy="5" r="4" fill="#8b949e"/>
-          <text x="16" y="9" fill="#e6edf3" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="11" font-weight="500">Go</text>
-          <text x="180" y="9" text-anchor="end" fill="#8b949e" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="10">20.4%</text>
-        </g><g transform="translate(0, 48)">
-          <circle cx="5" cy="5" r="4" fill="#565e69"/>
-          <text x="16" y="9" fill="#e6edf3" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="11" font-weight="500">HTML</text>
-          <text x="180" y="9" text-anchor="end" fill="#8b949e" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="10">17.7%</text>
-        </g><g transform="translate(200, 48)">
-          <circle cx="5" cy="5" r="4" fill="#30363d"/>
-          <text x="16" y="9" fill="#e6edf3" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="11" font-weight="500">C#</text>
-          <text x="180" y="9" text-anchor="end" fill="#8b949e" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="10">5.7%</text>
-        </g><g transform="translate(0, 72)">
-          <circle cx="5" cy="5" r="4" fill="#21262d"/>
-          <text x="16" y="9" fill="#e6edf3" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="11" font-weight="500">Shell</text>
-          <text x="180" y="9" text-anchor="end" fill="#8b949e" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="10">4.9%</text>
-        </g></g>
+      <rect x="0" y="0"
+            width="385"
+            height="10"
+            rx="4"
+            fill="#0d1117"
+            stroke="#30363d"
+            stroke-width="1"/>
+
+      <rect x="0.0" y="0" width="148.6" height="10" rx="2" fill="#ffffff"/><rect x="148.6" y="0" width="78.2" height="10" rx="2" fill="#8b949e"/><rect x="226.8" y="0" width="67.8" height="10" rx="2" fill="#565e69"/><rect x="294.5" y="0" width="21.9" height="10" rx="2" fill="#30363d"/><rect x="316.5" y="0" width="18.9" height="10" rx="2" fill="#21262d"/>
+
+      <g transform="translate(0, 18)">
+        
+<g transform="translate(0, 24)">
+  <circle cx="5" cy="5" r="4" fill="#ffffff"/>
+  <text x="16" y="9"
+        fill="#e6edf3"
+        font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+        font-size="11"
+        font-weight="500">Python</text>
+  <text x="180" y="9"
+        text-anchor="end"
+        fill="#8b949e"
+        font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+        font-size="10">38.6%</text>
+</g>
+<g transform="translate(200, 24)">
+  <circle cx="5" cy="5" r="4" fill="#8b949e"/>
+  <text x="16" y="9"
+        fill="#e6edf3"
+        font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+        font-size="11"
+        font-weight="500">Go</text>
+  <text x="180" y="9"
+        text-anchor="end"
+        fill="#8b949e"
+        font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+        font-size="10">20.3%</text>
+</g>
+<g transform="translate(0, 48)">
+  <circle cx="5" cy="5" r="4" fill="#565e69"/>
+  <text x="16" y="9"
+        fill="#e6edf3"
+        font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+        font-size="11"
+        font-weight="500">HTML</text>
+  <text x="180" y="9"
+        text-anchor="end"
+        fill="#8b949e"
+        font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+        font-size="10">17.6%</text>
+</g>
+<g transform="translate(200, 48)">
+  <circle cx="5" cy="5" r="4" fill="#30363d"/>
+  <text x="16" y="9"
+        fill="#e6edf3"
+        font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+        font-size="11"
+        font-weight="500">C#</text>
+  <text x="180" y="9"
+        text-anchor="end"
+        fill="#8b949e"
+        font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+        font-size="10">5.7%</text>
+</g>
+<g transform="translate(0, 72)">
+  <circle cx="5" cy="5" r="4" fill="#21262d"/>
+  <text x="16" y="9"
+        fill="#e6edf3"
+        font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+        font-size="11"
+        font-weight="500">Shell</text>
+  <text x="180" y="9"
+        text-anchor="end"
+        fill="#8b949e"
+        font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+        font-size="10">4.9%</text>
+</g>
+      </g>
     </g>
-    <text x="22" y="168" fill="#8b949e" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="9.5">Language distribution is calculated from your public GitHub repositories.</text>
+
+    <text x="22" y="168"
+          fill="#8b949e"
+          font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+          font-size="9.5">
+      Language distribution is calculated from your public GitHub repositories.
+    </text>
   </g>
+
 </svg>

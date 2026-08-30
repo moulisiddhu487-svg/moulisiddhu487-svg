@@ -561,14 +561,14 @@ def generate_bento_svg(
 
       {''.join(segments)}
 
-      <!-- Dynamic column separators: grow with the legend height. -->
-      <g opacity="0.75">
-        <line x1="{legend_width:.1f}" y1="16"
-              x2="{legend_width:.1f}" y2="{18 + legend_rows * row_height - 5:.1f}"
-              stroke="#30363d" stroke-width="1"/>
-        <line x1="{legend_width * 2:.1f}" y1="16"
-              x2="{legend_width * 2:.1f}" y2="{18 + legend_rows * row_height - 5:.1f}"
-              stroke="#30363d" stroke-width="1"/>
+            <!-- Dynamic column separators -->
+      <g opacity="0.45">
+        <line x1="{legend_width - 10:.1f}" y1="16"
+              x2="{legend_width - 10:.1f}" y2="{18 + legend_rows * row_height - 5:.1f}"
+              stroke="#ffffff" stroke-width="1"/>
+        <line x1="{legend_width * 2 - 10:.1f}" y1="16"
+              x2="{legend_width * 2 - 10:.1f}" y2="{18 + legend_rows * row_height - 5:.1f}"
+              stroke="#ffffff" stroke-width="1"/>
       </g>
 
       <g transform="translate(0, 18)">

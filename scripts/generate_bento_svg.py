@@ -32,7 +32,7 @@ def fetch_bento_metrics(username):
         url = f"https://github.com/users/{username}/contributions"
         req = urllib.request.Request(
             url,
-            headers={"User-Agent": "Mozilla/5.0"}
+            headers=GITHUB_HEADERS
         )
 
         with urllib.request.urlopen(req, timeout=8) as resp:
@@ -61,7 +61,7 @@ def fetch_bento_metrics(username):
 
         req = urllib.request.Request(
             repos_url,
-            headers={"User-Agent": "Mozilla/5.0"}
+            headers=GITHUB_HEADERS
         )
 
         with urllib.request.urlopen(req, timeout=8) as resp:
@@ -95,7 +95,7 @@ def fetch_bento_metrics(username):
 
                 req2 = urllib.request.Request(
                     lang_url,
-                    headers={"User-Agent": "Mozilla/5.0"}
+                    headers=GITHUB_HEADERS
                 )
 
                 with urllib.request.urlopen(
@@ -135,7 +135,7 @@ def fetch_bento_metrics(username):
 
         linguist_req = urllib.request.Request(
             linguist_url,
-            headers={"User-Agent": "Mozilla/5.0"}
+            headers=GITHUB_HEADERS
         )
 
         with urllib.request.urlopen(
@@ -250,7 +250,7 @@ def generate_bento_svg(
     language_row_height = 18
     language_row_gap = 5
     language_bar_height = 12
-    language_bar_width = 700
+    language_bar_width = 650
 
     # Lowest percentage first, highest percentage last.
     display_languages = sorted(
@@ -307,7 +307,7 @@ def generate_bento_svg(
         # Language name is kept in one fixed column at the right side
         # of the language area, outside every colored bar.
         # This keeps all language names perfectly aligned.
-        name_x = language_bar_width + 20
+        name_x = language_bar_width + 14
 
         segments.append(
             f'''
@@ -316,7 +316,7 @@ def generate_bento_svg(
             y="{y + 7.4:.1f}"
             fill="#e6edf3"
             font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
-            font-size="11.5"
+            font-size="10.5"
             font-weight="700">{html.escape(lang["name"])}</text>
         '''
         )
@@ -710,6 +710,18 @@ def generate_bento_svg(
         os.path.dirname(output_path),
         exist_ok=True
     )
+
+    # Safety: never replace a working SVG with empty/SYNC data
+    # when GitHub is temporarily unavailable.
+    if (
+        metrics["public_repos"] == "SYNC"
+        and not metrics["languages"]
+    ):
+        print(
+            "[Bento] GitHub data unavailable. "
+            "Keeping existing SVG."
+        )
+        return
 
     with open(
         output_path,

@@ -3,10 +3,8 @@ import os
 
 GITHUB_TOKEN = os.getenv("GITHUB_TOKEN", "")
 GITHUB_HEADERS = {"Accept": "application/vnd.github+json"}
-
 if GITHUB_TOKEN:
     GITHUB_HEADERS["Authorization"] = f"Bearer {GITHUB_TOKEN}"
-
 
 """Generate Mouli's project-focused Engineering Showcase SVG."""
 
@@ -20,209 +18,94 @@ import yaml
 def load_config(config_path="config.yml"):
     if not os.path.exists(config_path):
         return {}
-
     with open(config_path, "r", encoding="utf-8") as f:
         return yaml.safe_load(f) or {}
 
 
 def fetch_bento_metrics(username):
-    """Fetch live metrics for exactly the configured GitHub account.
-
-    This function fails closed: if GitHub identity/repository/language data
-    cannot be verified completely, the caller must not overwrite bento.svg.
-    """
-
-    if not username or username == "octocat":
-        raise RuntimeError(
-            "A real GitHub username is required; refusing to use octocat."
-        )
-
-    api_headers = dict(GITHUB_HEADERS)
-    api_headers["User-Agent"] = "mouli-profile-bento"
-
-    def github_json(url, timeout=8):
-        req = urllib.request.Request(
-            url,
-            headers=api_headers
-        )
-        with urllib.request.urlopen(req, timeout=timeout) as resp:
-            return json.loads(resp.read().decode("utf-8"))
-
     total_year = "SYNC"
-
     try:
         url = f"https://github.com/users/{username}/contributions"
-        req = urllib.request.Request(
-            url,
-            headers={"User-Agent": "mouli-profile-bento"}
-        )
-
+        req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
         with urllib.request.urlopen(req, timeout=8) as resp:
             text = resp.read().decode("utf-8")
-
         match = re.search(
             r'([0-9,]+)\s+contributions?\s+in\s+the\s+last\s+year',
             text
         )
-
         if match:
             total_year = match.group(1)
-
     except Exception as e:
         print(f"[Bento] Contribution fetch notice: {e}")
 
-    # ---------------------------------------------------------
-    # Verify the GitHub account before reading any metrics.
-    # ---------------------------------------------------------
+    total_stars = "SYNC"
+    public_repos_count = "SYNC"
+    lang_totals = {}
 
-    profile = github_json(
-        f"https://api.github.com/users/{username}",
-        timeout=8
-    )
-
-    actual_login = str(profile.get("login", "")).strip()
-
-    if actual_login.lower() != username.lower():
-        raise RuntimeError(
-            f"GitHub identity mismatch: requested '{username}', "
-            f"received '{actual_login or 'unknown'}'."
-        )
-
-    if profile.get("type") != "User":
-        raise RuntimeError(
-            f"GitHub account '{username}' is not a normal user account."
-        )
-
-    # ---------------------------------------------------------
-    # Public repositories OWNED by this exact account.
-    #
-    # type=owner prevents unrelated/member repositories and avoids
-    # accidentally counting repositories from another account.
-    # Pagination keeps the data correct if the account grows past 100 repos.
-    # ---------------------------------------------------------
-
-    repos = []
-    page = 1
-
-    while True:
+    try:
         repos_url = (
             f"https://api.github.com/users/{username}/repos"
-            f"?per_page=100&page={page}&type=owner&sort=updated"
+            f"?per_page=100&sort=updated"
         )
-
-        page_repos = github_json(repos_url, timeout=8)
-
-        if not isinstance(page_repos, list):
-            raise RuntimeError(
-                f"Unexpected repository response for '{username}'."
-            )
-
-        repos.extend(page_repos)
-
-        if len(page_repos) < 100:
-            break
-
-        page += 1
-
-        # Safety guard against an unexpected API loop.
-        if page > 20:
-            raise RuntimeError(
-                "Repository pagination exceeded the safety limit."
-            )
-
-    # Keep only public repositories owned by the verified account.
-    verified_repos = []
-
-    for repo in repos:
-        owner_login = str(
-            repo.get("owner", {}).get("login", "")
-        ).strip()
-
-        if owner_login.lower() != actual_login.lower():
-            raise RuntimeError(
-                f"Repository owner mismatch for '{repo.get('name', 'unknown')}'."
-            )
-
-        if repo.get("private") is False:
-            verified_repos.append(repo)
-
-    total_stars = sum(
-        int(repo.get("stargazers_count", 0) or 0)
-        for repo in verified_repos
-    )
-
-    public_repos_count = len(verified_repos)
-
-    # ---------------------------------------------------------
-    # Real GitHub language byte totals.
-    # ---------------------------------------------------------
-
-    lang_totals = {}
-    language_fetch_failures = []
-
-    for repo in verified_repos:
-        name = repo.get("name")
-
-        if not name:
-            continue
-
-        lang_url = (
-            f"https://api.github.com/repos/"
-            f"{actual_login}/{name}/languages"
+        req = urllib.request.Request(
+            repos_url,
+            headers={"User-Agent": "Mozilla/5.0"}
         )
+        with urllib.request.urlopen(req, timeout=8) as resp:
+            repos = json.loads(resp.read().decode("utf-8"))
 
-        try:
-            langs = github_json(lang_url, timeout=8)
+        public_repos_count = len(repos)
+        total_stars = sum(r.get("stargazers_count", 0) for r in repos)
 
-            if not isinstance(langs, dict):
-                raise RuntimeError("Unexpected language response.")
+        # GitHub's repo listing does not contain language byte totals,
+        # so collect language totals from each public repo when possible.
+        for repo in repos:
+            owner = repo.get("owner", {}).get("login", username)
+            name = repo.get("name")
 
-            for lang, count in langs.items():
-                lang_totals[lang] = (
-                    lang_totals.get(lang, 0) + int(count)
+            if not name:
+                continue
+
+            try:
+                lang_url = (
+                    f"https://api.github.com/repos/{owner}/{name}/languages"
                 )
+                req2 = urllib.request.Request(
+                    lang_url,
+                    headers={"User-Agent": "Mozilla/5.0"}
+                )
+                with urllib.request.urlopen(req2, timeout=5) as resp2:
+                    langs = json.loads(resp2.read().decode("utf-8"))
 
-        except Exception as e:
-            language_fetch_failures.append(
-                f"{name}: {e}"
-            )
+                for lang, count in langs.items():
+                    lang_totals[lang] = lang_totals.get(lang, 0) + count
 
-    if language_fetch_failures:
-        raise RuntimeError(
-            "Could not fetch language data for every repository. "
-            "Refusing to publish incomplete language metrics. "
-            + "; ".join(language_fetch_failures)
-        )
+            except Exception:
+                continue
+
+    except Exception as e:
+        print(f"[Bento] Repo metrics notice: {e}")
 
     if not lang_totals:
-        # A profile with public repositories but no detectable source
-        # languages is valid; keep the language list empty.
-        total_bytes = 1
-    else:
-        total_bytes = sum(lang_totals.values())
+        lang_totals = {}
 
-    # ---------------------------------------------------------
-    # GitHub Linguist colors.
-    # ---------------------------------------------------------
+    total_bytes = sum(lang_totals.values()) or 1
 
+    # GitHub Linguist is GitHub's source of truth for language colors.
+    # Percentages remain calculated from the real GitHub language byte totals.
     language_colors = {}
 
     try:
         linguist_url = (
-            "https://raw.githubusercontent.com/"
-            "github-linguist/linguist/"
+            "https://raw.githubusercontent.com/github-linguist/linguist/"
             "main/lib/linguist/languages.yml"
         )
-
         linguist_req = urllib.request.Request(
             linguist_url,
-            headers={"User-Agent": "mouli-profile-bento"}
+            headers={"User-Agent": "Mozilla/5.0"}
         )
 
-        with urllib.request.urlopen(
-            linguist_req,
-            timeout=8
-        ) as resp:
+        with urllib.request.urlopen(linguist_req, timeout=8) as resp:
             linguist_data = yaml.safe_load(
                 resp.read().decode("utf-8")
             ) or {}
@@ -230,7 +113,6 @@ def fetch_bento_metrics(username):
         for language_name, language_info in linguist_data.items():
             if isinstance(language_info, dict):
                 color = language_info.get("color")
-
                 if isinstance(color, str) and color.strip():
                     language_colors[language_name] = color.strip()
 
@@ -239,20 +121,15 @@ def fetch_bento_metrics(username):
 
     languages = []
 
+    # Show every language returned by GitHub. No hardcoded language limit.
     for lang, count in sorted(
         lang_totals.items(),
         key=lambda x: -x[1]
     ):
         languages.append({
             "name": lang,
-            "pct": round(
-                count / total_bytes * 100,
-                1
-            ),
-            "color": language_colors.get(
-                lang,
-                "#8b949e"
-            )
+            "pct": round(count / total_bytes * 100, 1),
+            "color": language_colors.get(lang, "#8b949e")
         })
 
     return {
@@ -268,34 +145,17 @@ def generate_bento_svg(
     output_path="assets/bento.svg"
 ):
     config = load_config(config_path)
-
-    # This repository belongs to this GitHub account.
-    # If config.yml later gets a github_username entry, it must match.
-    configured_username = config.get("github_username")
-    username = configured_username or "moulisiddhu487-svg"
-
-    if username.lower() != "moulisiddhu487-svg":
-        raise RuntimeError(
-            "github_username must be 'moulisiddhu487-svg' "
-            "so this profile can never display another account's data."
-        )
-
+    username = config.get("github_username", "octocat")
     metrics = fetch_bento_metrics(username)
 
     bento_cfg = config.get("bento", {})
+    prod_items = bento_cfg.get("production_focus", [])[:3]
+    projects = bento_cfg.get("projects", [])[:2]
 
-    prod_items = bento_cfg.get(
-        "production_focus",
-        []
-    )[:3]
-
-    width = 940
+    width, height = 940, 470
     bar_w = 385
 
-    # ---------------------------------------------------------
-    # Production Focus
-    # ---------------------------------------------------------
-
+    # Production focus
     prod_svg = []
 
     for idx, item in enumerate(prod_items):
@@ -309,7 +169,6 @@ def generate_bento_svg(
                 font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
                 font-size="12"
                 font-weight="600">{html.escape(item.get("title", ""))}</text>
-
           <text x="0" y="25"
                 fill="#8b949e"
                 font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
@@ -317,498 +176,417 @@ def generate_bento_svg(
         </g>'''
         )
 
-    # ---------------------------------------------------------
-    # Repository Language Spectrum
-    # ---------------------------------------------------------
-    #
-    # Each GitHub language gets its own horizontal bar.
-    # Every bar starts at the same 0% point.
-    # Rows are shown from lowest percentage to highest.
-    # GitHub percentages and GitHub Linguist colors are untouched.
-    # ---------------------------------------------------------
+    # Project cards
+    project_svg = []
 
+    for idx, item in enumerate(projects):
+        y = idx * 70
+
+        title = html.escape(item.get("title", ""))
+        desc = html.escape(item.get("desc", ""))
+        stack = html.escape(item.get("stack", ""))
+        url = html.escape(item.get("url", ""), quote=True)
+
+        project_svg.append(
+            f'''
+        <a href="{url}" target="_blank">
+          <g transform="translate(0, {y})">
+            <rect x="0" y="0" width="414" height="58"
+                  rx="6" fill="#0d1117" stroke="#30363d" stroke-width="1"/>
+
+            <text x="12" y="17"
+                  fill="#ffffff"
+                  font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+                  font-size="12"
+                  font-weight="700">{title}</text>
+
+            <text x="12" y="33"
+                  fill="#c9d1d9"
+                  font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+                  font-size="10.5">{desc}</text>
+
+            <text x="12" y="48"
+                  fill="#8b949e"
+                  font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+                  font-size="9.5">{stack}</text>
+
+            <text x="398" y="18"
+                  text-anchor="end"
+                  fill="#8b949e"
+                  font-family="monospace"
+                  font-size="10">↗</text>
+          </g>
+        </a>'''
+        )
+
+    # Language spectrum
     segments = []
+    legend = []
+    curr_x = 0
 
+    for lang in metrics["languages"]:
+        seg_w = lang["pct"] / 100 * bar_w
+
+        if seg_w > 0:
+            segments.append(
+                f'<rect x="{curr_x:.1f}" y="0" '
+                f'width="{seg_w:.1f}" height="10" rx="2" '
+                f'fill="{lang["color"]}"/>'
+            )
+            curr_x += seg_w
+
+    # Dynamically fit every detected language into the spectrum card.
     language_count = len(metrics["languages"])
-
-    # One row per language. This automatically grows with GitHub data.
-    language_row_height = 18
-    language_row_gap = 5
-    language_bar_height = 12
-    language_bar_width = 650
-
-    # Lowest percentage first, highest percentage last.
-    display_languages = sorted(
-        metrics["languages"],
-        key=lambda lang: lang["pct"]
+    legend_columns = (
+        2 if language_count <= 6
+        else 3 if language_count <= 12
+        else 4
+    )
+    legend_width = bar_w / legend_columns
+    legend_rows = max(
+        1,
+        (language_count + legend_columns - 1) // legend_columns
     )
 
-    for idx, lang in enumerate(display_languages):
-
-        pct = float(lang["pct"])
-
-        bar_width = (
-            pct / 100.0
-        ) * language_bar_width
-
-        y = idx * (
-            language_row_height
-            + language_row_gap
-        )
-
-        if bar_width <= 0:
-            continue
-
-        # Actual percentage width. Every bar starts at x=0.
-        segments.append(
-            f'''
-        <rect
-            x="0"
-            y="{y:.1f}"
-            width="{bar_width:.1f}"
-            height="{language_bar_height}"
-            rx="4"
-            fill="{lang["color"]}"/>
-        '''
-        )
-
-        pct_text = f'{pct:.1f}%'
-
-        # Percentage sits immediately after the colored portion.
-        pct_x = bar_width + 7
-
-        segments.append(
-            f'''
-        <text
-            x="{pct_x:.1f}"
-            y="{y + 7.4:.1f}"
-            fill="#e6edf3"
-            font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
-            font-size="9.5"
-            font-weight="700">{pct_text}</text>
-        '''
-        )
-
-        # Language name is kept in one fixed column at the right side
-        # of the language area, outside every colored bar.
-        # This keeps all language names perfectly aligned.
-        name_x = language_bar_width + 14
-
-        segments.append(
-            f'''
-        <text
-            x="{name_x:.1f}"
-            y="{y + 7.4:.1f}"
-            fill="#e6edf3"
-            font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
-            font-size="10.5"
-            font-weight="700">{html.escape(lang["name"])}</text>
-        '''
-        )
-
-    # Total vertical space occupied by the automatically generated rows.
-    language_bar_area_height = max(
-        language_bar_height,
-        language_count * (
-            language_row_height
-            + language_row_gap
-        ) - language_row_gap
+    available_legend_height = 108
+    row_height = min(
+        24,
+        max(12, available_legend_height / legend_rows)
+    )
+    legend_font_size = (
+        11 if row_height >= 20
+        else 10 if row_height >= 15
+        else 9
     )
 
-    # ---------------------------------------------------------
-    # Dynamic Card Height
-    # ---------------------------------------------------------
-    #
-    # The card grows when GitHub returns more language rows.
-    # There is NO footer anymore.
-    #
+    for idx, lang in enumerate(metrics["languages"]):
+        col = idx % legend_columns
+        row = idx // legend_columns
+        lx = col * legend_width
+        ly = 24 + row * row_height
 
-    # Card height follows the number of GitHub languages.
-    # More languages = more rows = taller card.
-    language_card_height = max(
-        190,
-        84
-        + language_bar_area_height
-    )
-
-    overall_height = (
-        255
-        + language_card_height
-        + 25
-    )
-
-    # ---------------------------------------------------------
-    # SVG
-    # ---------------------------------------------------------
+        legend.append(
+            f"""
+<g transform="translate({lx:.1f}, {ly:.1f})">
+  <circle cx="5" cy="5" r="4" fill="{lang["color"]}"/>
+  <text x="16" y="9"
+        fill="#e6edf3"
+        font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+        font-size="{legend_font_size}"
+        font-weight="500">{html.escape(lang["name"])}</text>
+  <text x="{legend_width - 10:.1f}" y="9"
+        text-anchor="end"
+        fill="#8b949e"
+        font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+        font-size="{max(8, legend_font_size - 1)}">{lang["pct"]}%</text>
+</g>"""
+        )
 
     svg = f'''<svg xmlns="http://www.w3.org/2000/svg"
-    viewBox="0 0 {width} {overall_height}"
+    viewBox="0 0 {width} {height}"
     width="100%"
     height="auto"
     fill="none">
 
-  <rect
-      width="{width}"
-      height="{overall_height}"
-      rx="12"
-      fill="#0d1117"
-      stroke="#30363d"
-      stroke-width="1"/>
-
-  <!-- ===================================================== -->
-  <!-- Header -->
-  <!-- ===================================================== -->
-
-  <g transform="translate(24, 34)">
-
-    <rect
-        x="0"
-        y="0"
-        width="28"
-        height="20"
-        rx="4"
-        fill="#161b22"
+  <rect width="{width}" height="{height}"
+        rx="12"
+        fill="#0d1117"
         stroke="#30363d"
         stroke-width="1"/>
 
-    <text
-        x="6"
-        y="14"
-        fill="#ffffff"
-        font-family="monospace"
-        font-size="12"
-        font-weight="bold">~/</text>
+  <!-- Header -->
+  <g transform="translate(24, 34)">
+    <rect x="0" y="0"
+          width="28"
+          height="20"
+          rx="4"
+          fill="#161b22"
+          stroke="#30363d"
+          stroke-width="1"/>
 
-    <text
-        x="38"
-        y="15"
-        fill="#ffffff"
-        font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
-        font-size="14"
-        font-weight="600">
+    <text x="6" y="14"
+          fill="#ffffff"
+          font-family="monospace"
+          font-size="12"
+          font-weight="bold">~/</text>
+
+    <text x="38" y="15"
+          fill="#ffffff"
+          font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+          font-size="14"
+          font-weight="600">
       Engineering Showcase &amp; Performance
     </text>
 
-    <text
-        x="868"
-        y="14"
-        text-anchor="end"
-        fill="#8b949e"
-        font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
-        font-size="10.5">
+    <text x="868" y="14"
+          text-anchor="end"
+          fill="#8b949e"
+          font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+          font-size="10.5">
       Cloud • Automation • Reliability • Projects
     </text>
 
-    <line
-        x1="0"
-        y1="26"
-        x2="868"
-        y2="26"
-        stroke="#21262d"
-        stroke-width="1"/>
-
+    <line x1="0" y1="26"
+          x2="868" y2="26"
+          stroke="#21262d"
+          stroke-width="1"/>
   </g>
 
-  <!-- ===================================================== -->
   <!-- Production Focus -->
-  <!-- ===================================================== -->
-
   <g transform="translate(24, 75)">
+    <rect width="430" height="160"
+          rx="8"
+          fill="#161b22"
+          stroke="#21262d"
+          stroke-width="1"/>
 
-    <rect
-        width="430"
-        height="160"
-        rx="8"
-        fill="#161b22"
-        stroke="#21262d"
-        stroke-width="1"/>
-
-    <text
-        x="16"
-        y="24"
-        fill="#ffffff"
-        font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
-        font-size="14"
-        font-weight="600">
+    <text x="16" y="24"
+          fill="#ffffff"
+          font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+          font-size="14"
+          font-weight="600">
       🚀 Production Focus
     </text>
 
-    <text
-        x="414"
-        y="24"
-        text-anchor="end"
-        fill="#8b949e"
-        font-family="monospace"
-        font-size="10">
+    <text x="414" y="24"
+          text-anchor="end"
+          fill="#8b949e"
+          font-family="monospace"
+          font-size="10">
       BUILD → SHIP → OBSERVE
     </text>
 
-    <line
-        x1="16"
-        y1="34"
-        x2="414"
-        y2="34"
-        stroke="#30363d"
-        stroke-width="1"/>
+    <line x1="16" y1="34"
+          x2="414" y2="34"
+          stroke="#30363d"
+          stroke-width="1"/>
 
     <g transform="translate(16, 48)">
       {''.join(prod_svg)}
     </g>
-
   </g>
 
-  <!-- ===================================================== -->
   <!-- GitHub Telemetry -->
-  <!-- ===================================================== -->
-
   <g transform="translate(486, 75)">
+    <rect width="430" height="160"
+          rx="8"
+          fill="#161b22"
+          stroke="#21262d"
+          stroke-width="1"/>
 
-    <rect
-        width="430"
-        height="160"
-        rx="8"
-        fill="#161b22"
-        stroke="#21262d"
-        stroke-width="1"/>
-
-    <text
-        x="16"
-        y="24"
-        fill="#ffffff"
-        font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
-        font-size="14"
-        font-weight="600">
+    <text x="16" y="24"
+          fill="#ffffff"
+          font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+          font-size="14"
+          font-weight="600">
       ⚡ GitHub Telemetry
     </text>
 
-    <text
-        x="414"
-        y="24"
-        text-anchor="end"
-        fill="#3fb950"
-        font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
-        font-size="10.5"
-        font-weight="600">
+    <text x="414" y="24"
+          text-anchor="end"
+          fill="#3fb950"
+          font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+          font-size="10.5"
+          font-weight="600">
       ● LIVE DATA
     </text>
 
-    <line
-        x1="16"
-        y1="34"
-        x2="414"
-        y2="34"
-        stroke="#30363d"
-        stroke-width="1"/>
-
-    <!-- Contributions -->
-
-    <g transform="translate(16, 48)">
-
-      <rect
-          width="190"
-          height="46"
-          rx="6"
-          fill="#0d1117"
+    <line x1="16" y1="34"
+          x2="414" y2="34"
           stroke="#30363d"
           stroke-width="1"/>
 
-      <text
-          x="12"
-          y="20"
-          fill="#ffffff"
-          font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
-          font-size="16"
-          font-weight="bold">
+    <g transform="translate(16, 48)">
+      <rect width="190" height="46"
+            rx="6"
+            fill="#0d1117"
+            stroke="#30363d"
+            stroke-width="1"/>
+
+      <text x="12" y="20"
+            fill="#ffffff"
+            font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+            font-size="16"
+            font-weight="bold">
         {metrics["total_year"]}
       </text>
 
-      <text
-          x="12"
-          y="36"
-          fill="#8b949e"
-          font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
-          font-size="10">
+      <text x="12" y="36"
+            fill="#8b949e"
+            font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+            font-size="10">
         Contributions / year
       </text>
-
     </g>
 
-    <!-- Public repositories -->
-
     <g transform="translate(224, 48)">
+      <rect width="190" height="46"
+            rx="6"
+            fill="#0d1117"
+            stroke="#30363d"
+            stroke-width="1"/>
 
-      <rect
-          width="190"
-          height="46"
-          rx="6"
-          fill="#0d1117"
-          stroke="#30363d"
-          stroke-width="1"/>
-
-      <text
-          x="12"
-          y="20"
-          fill="#ffffff"
-          font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
-          font-size="16"
-          font-weight="bold">
+      <text x="12" y="20"
+            fill="#ffffff"
+            font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+            font-size="16"
+            font-weight="bold">
         {metrics["public_repos"]}
       </text>
 
-      <text
-          x="12"
-          y="36"
-          fill="#8b949e"
-          font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
-          font-size="10">
+      <text x="12" y="36"
+            fill="#8b949e"
+            font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+            font-size="10">
         Public repositories
       </text>
-
     </g>
-
-    <!-- Stars -->
 
     <g transform="translate(16, 102)">
+      <rect width="190" height="46"
+            rx="6"
+            fill="#0d1117"
+            stroke="#30363d"
+            stroke-width="1"/>
 
-      <rect
-          width="190"
-          height="46"
-          rx="6"
-          fill="#0d1117"
-          stroke="#30363d"
-          stroke-width="1"/>
-
-      <text
-          x="12"
-          y="20"
-          fill="#ffffff"
-          font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
-          font-size="16"
-          font-weight="bold">
-
+      <text x="12" y="20"
+            fill="#ffffff"
+            font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+            font-size="16"
+            font-weight="bold">
         {metrics["total_stars"]}
-
         <tspan fill="#FFD700">★</tspan>
-
       </text>
 
-      <text
-          x="12"
-          y="36"
-          fill="#8b949e"
-          font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
-          font-size="10">
+      <text x="12" y="36"
+            fill="#8b949e"
+            font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+            font-size="10">
         Total GitHub stars
       </text>
-
     </g>
 
-    <!-- Detected languages -->
-
     <g transform="translate(224, 102)">
+      <rect width="190" height="46"
+            rx="6"
+            fill="#0d1117"
+            stroke="#30363d"
+            stroke-width="1"/>
 
-      <rect
-          width="190"
-          height="46"
-          rx="6"
-          fill="#0d1117"
+      <text x="12" y="20"
+            fill="#ffffff"
+            font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+            font-size="16"
+            font-weight="bold">
+        {len(metrics["languages"])}
+        <tspan fill="#39d353">+</tspan>
+      </text>
+
+      <text x="12" y="36"
+            fill="#8b949e"
+            font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+            font-size="10">
+        Detected languages
+      </text>
+    </g>
+  </g>
+
+  <!-- Featured Engineering Projects -->
+  <g transform="translate(24, 255)">
+    <rect width="430" height="190"
+          rx="8"
+          fill="#161b22"
+          stroke="#21262d"
+          stroke-width="1"/>
+
+    <text x="16" y="24"
+          fill="#ffffff"
+          font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+          font-size="14"
+          font-weight="600">
+      🚀 Featured Engineering Projects
+    </text>
+
+    <text x="414" y="24"
+          text-anchor="end"
+          fill="#8b949e"
+          font-family="monospace"
+          font-size="10">
+      OPEN REPO ↗
+    </text>
+
+    <line x1="16" y1="34"
+          x2="414" y2="34"
           stroke="#30363d"
           stroke-width="1"/>
 
-      <text
-          x="12"
-          y="20"
-          fill="#ffffff"
-          font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
-          font-size="16"
-          font-weight="bold">
-
-        {len(metrics["languages"])}
-
-        <tspan fill="#39d353">+</tspan>
-
-      </text>
-
-      <text
-          x="12"
-          y="36"
-          fill="#8b949e"
-          font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
-          font-size="10">
-        Detected languages
-      </text>
-
+    <g transform="translate(8, 48)">
+      {''.join(project_svg)}
     </g>
-
   </g>
 
-  <!-- ===================================================== -->
   <!-- Repository Language Spectrum -->
-  <!-- ===================================================== -->
+  <g transform="translate(486, 255)">
+    <rect width="430" height="190"
+          rx="8"
+          fill="#161b22"
+          stroke="#21262d"
+          stroke-width="1"/>
 
-  <g transform="translate(24, 255)">
-
-    <rect
-        width="892"
-        height="{language_card_height}"
-        rx="8"
-        fill="#161b22"
-        stroke="#21262d"
-        stroke-width="1"/>
-
-    <text
-        x="16"
-        y="24"
-        fill="#ffffff"
-        font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
-        font-size="14"
-        font-weight="600">
+    <text x="16" y="24"
+          fill="#ffffff"
+          font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+          font-size="14"
+          font-weight="600">
       📊 Repository Language Spectrum
     </text>
 
-    <text
-        x="876"
-        y="24"
-        text-anchor="end"
-        fill="#8b949e"
-        font-family="monospace"
-        font-size="10">
+    <text x="414" y="24"
+          text-anchor="end"
+          fill="#8b949e"
+          font-family="monospace"
+          font-size="10">
       PUBLIC REPOS
     </text>
 
-    <line
-        x1="16"
-        y1="34"
-        x2="876"
-        y2="34"
-        stroke="#30363d"
-        stroke-width="1"/>
+    <line x1="16" y1="34"
+          x2="414" y2="34"
+          stroke="#30363d"
+          stroke-width="1"/>
 
-    <g transform="translate(16, 52)">
+    <g transform="translate(22, 52)">
+      <rect x="0" y="0"
+            width="{bar_w}"
+            height="10"
+            rx="4"
+            fill="#0d1117"
+            stroke="#30363d"
+            stroke-width="1"/>
+
       {''.join(segments)}
+
+      <g transform="translate(0, 18)">
+        {''.join(legend)}
+      </g>
     </g>
 
+    <text x="22" y="168"
+          fill="#8b949e"
+          font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+          font-size="9.5">
+      Language distribution is calculated from your public GitHub repositories.
+    </text>
   </g>
+
 </svg>'''
 
-    os.makedirs(
-        os.path.dirname(output_path),
-        exist_ok=True
-    )
+    os.makedirs(os.path.dirname(output_path), exist_ok=True)
 
-        with open(
-        output_path,
-        "w",
-        encoding="utf-8"
-    ) as f:
+    with open(output_path, "w", encoding="utf-8") as f:
         f.write(svg)
 
-    print(
-        f"[Bento] Generated {output_path} successfully "
-        f"for GitHub user '{username}'."
-    )
+    print(f"[Bento Showcase] Saved project-focused SVG to '{output_path}'")
 
 
 if __name__ == "__main__":
     generate_bento_svg()
-        

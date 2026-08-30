@@ -563,11 +563,11 @@ def generate_bento_svg(
 
             <!-- Dynamic column separators -->
       <g opacity="0.45">
-        <line x1="{legend_width + 4:.1f}" y1="16"
-              x2="{legend_width + 4:.1f}" y2="{18 + legend_rows * row_height - 5:.1f}"
+        <line x1="{legend_width - 5:.1f}" y1="16"
+              x2="{legend_width - 5:.1f}" y2="{18 + legend_rows * row_height - 5:.1f}"
               stroke="#ffffff" stroke-width="1"/>
-        <line x1="{legend_width * 2 + 14:.1f}" y1="16"
-              x2="{legend_width * 2 + 4:.1f}" y2="{18 + legend_rows * row_height - 5:.1f}"
+        <line x1="{legend_width * 2 - 10:.1f}" y1="16"
+              x2="{legend_width * 2 - 10:.1f}" y2="{18 + legend_rows * row_height - 5:.1f}"
               stroke="#ffffff" stroke-width="1"/>
       </g>
 

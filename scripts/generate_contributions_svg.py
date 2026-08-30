@@ -168,7 +168,7 @@ def generate_contributions_svg(config_path="config.yml", output_path="assets/con
         if cnt > 0:
             r = min(4.5, 2.5 + (cnt / max_val) * 2.0)
             dots_svg.append(
-                f'    <circle cx="{px:.1f}" cy="{py:.1f}" r="{r:.1f}" fill="#ffffff" stroke="#0d1117" stroke-width="1.5">\n'
+                f'    <circle cx="{px:.1f}" cy="{py:.1f}" r="{r:.1f}" fill="#ff0000" stroke="#0d1117" stroke-width="1.5">\n'
                 f'      <title>{cnt} contribution{"s" if cnt != 1 else ""} on {recent_days[i]["date"]}</title>\n'
                 f'    </circle>'
             )

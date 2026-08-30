@@ -152,7 +152,7 @@ def generate_bento_svg(
     prod_items = bento_cfg.get("production_focus", [])[:3]
     projects = bento_cfg.get("projects", [])[:2]
 
-    width = 940
+    width, height = 940, 470
     bar_w = 385
 
     # Production focus
@@ -235,24 +235,35 @@ def generate_bento_svg(
             )
             curr_x += seg_w
 
-    # Fully dynamic legend: every language returned by GitHub is shown.
-    # No hardcoded language limit and no manual color palette.
+    # Dynamically fit every detected language into the spectrum card.
     language_count = len(metrics["languages"])
-    legend_columns = 3
+    legend_columns = (
+        2 if language_count <= 6
+        else 3 if language_count <= 12
+        else 4
+    )
     legend_width = bar_w / legend_columns
     legend_rows = max(
         1,
         (language_count + legend_columns - 1) // legend_columns
     )
 
-    row_height = 22
-    legend_font_size = 10.5
+    available_legend_height = 108
+    row_height = min(
+        24,
+        max(12, available_legend_height / legend_rows)
+    )
+    legend_font_size = (
+        11 if row_height >= 20
+        else 10 if row_height >= 15
+        else 9
+    )
 
     for idx, lang in enumerate(metrics["languages"]):
         col = idx % legend_columns
         row = idx // legend_columns
         lx = col * legend_width
-        ly = 18 + row * row_height
+        ly = 24 + row * row_height
 
         legend.append(
             f"""
@@ -267,24 +278,17 @@ def generate_bento_svg(
         text-anchor="end"
         fill="#8b949e"
         font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
-        font-size="9.5">{lang["pct"]}%</text>
+        font-size="{max(8, legend_font_size - 1)}">{lang["pct"]}%</text>
 </g>"""
         )
 
-    # Grow the language card only when additional rows are required.
-    # The legend and card height grow automatically with the number of languages.
-    # This keeps every language and the footer inside the card at all times.
-    language_footer_y = 90 + legend_rows * row_height
-    language_card_height = max(190, language_footer_y + 20)
-    overall_height = 255 + language_card_height + 25
-
     svg = f'''<svg xmlns="http://www.w3.org/2000/svg"
-    viewBox="0 0 {width} {overall_height}"
+    viewBox="0 0 {width} {height}"
     width="100%"
     height="auto"
     fill="none">
 
-  <rect width="{width}" height="{overall_height}"
+  <rect width="{width}" height="{height}"
         rx="12"
         fill="#0d1117"
         stroke="#30363d"
@@ -489,7 +493,7 @@ def generate_bento_svg(
 
   <!-- Featured Engineering Projects -->
   <g transform="translate(24, 255)">
-    <rect width="430" height="{language_card_height}"
+    <rect width="430" height="190"
           rx="8"
           fill="#161b22"
           stroke="#21262d"
@@ -523,7 +527,7 @@ def generate_bento_svg(
 
   <!-- Repository Language Spectrum -->
   <g transform="translate(486, 255)">
-    <rect width="430" height="{language_card_height}"
+    <rect width="430" height="190"
           rx="8"
           fill="#161b22"
           stroke="#21262d"
@@ -561,22 +565,12 @@ def generate_bento_svg(
 
       {''.join(segments)}
 
-            <!-- Dynamic column separators -->
-      <g opacity="0.45">
-        <line x1="{legend_width - 5:.1f}" y1="16"
-              x2="{legend_width - 5:.1f}" y2="{18 + legend_rows * row_height - 5:.1f}"
-              stroke="#ffffff" stroke-width="1"/>
-        <line x1="{legend_width * 2 - 10:.1f}" y1="16"
-              x2="{legend_width * 2 - 10:.1f}" y2="{18 + legend_rows * row_height - 5:.1f}"
-              stroke="#ffffff" stroke-width="1"/>
-      </g>
-
       <g transform="translate(0, 18)">
         {''.join(legend)}
       </g>
     </g>
 
-    <text x="22" y="{language_footer_y:.1f}"
+    <text x="22" y="168"
           fill="#8b949e"
           font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
           font-size="9.5">

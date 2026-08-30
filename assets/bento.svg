@@ -522,24 +522,25 @@
 
       <g opacity="0.90">
 
-        <line
-            x1="120.3"
-            y1="22"
-            x2="120.3"
-            y2="100.0"
-            stroke="#ffffff"
-            stroke-width="1"/>
+  <!-- Separator between language columns -->
+  <line
+      x1="126.3"
+      y1="30"
+      x2="126.3"
+      y2="102.0"
+      stroke="#ffffff"
+      stroke-width="1"/>
 
-        <line
-            x1="248.7"
-            y1="22"
-            x2="248.7"
-            y2="100.0"
-            stroke="#ffffff"
-            stroke-width="1"/>
+  <!-- Separator between language columns -->
+  <line
+      x1="254.7"
+      y1="30"
+      x2="254.7"
+      y2="102.0"
+      stroke="#ffffff"
+      stroke-width="1"/>
 
-      </g>
-
+</g>
       <!-- Language legend -->
 
       <g transform="translate(0, 18)">

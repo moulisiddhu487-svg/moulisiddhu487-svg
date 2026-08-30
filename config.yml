@@ -3,7 +3,6 @@
 # Design inspired by the original fork; all identity/data below is Mouli's.
 # ============================================================================
 
-github_username: "moulisiddhu487-svg"
 display_name: "Mouli Venkata Narsimha Godaba"
 headline: "Automating Infrastructure & Cloud Deployments"
 tagline: "DevOps & Cloud Engineer • Cloud Automation • Kubernetes"
@@ -25,7 +24,7 @@ bio: |
   * 🎯 **Goal:** Grow into a strong DevOps/Cloud Engineer who turns manual infrastructure and deployment work into repeatable automation.
 
 links:
-  github: "https://github.com/moulisiddhu487-svg"
+ 
   linkedin: "https://www.linkedin.com/in/mouli-godaba-121a4525a/"
   email: "moulisiddhu487@gmail.com"
   portfolio: "https://mouli-portfolio-six.vercel.app/"

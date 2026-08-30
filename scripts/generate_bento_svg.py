@@ -272,10 +272,10 @@ def generate_bento_svg(
         )
 
     # Grow the language card only when additional rows are required.
-    language_card_height = max(
-        190,
-        112 + legend_rows * row_height
-    )
+    # The legend and card height grow automatically with the number of languages.
+    # This keeps every language and the footer inside the card at all times.
+    language_footer_y = 90 + legend_rows * row_height
+    language_card_height = max(190, language_footer_y + 20)
     overall_height = 255 + language_card_height + 25
 
     svg = f'''<svg xmlns="http://www.w3.org/2000/svg"
@@ -284,7 +284,7 @@ def generate_bento_svg(
     height="auto"
     fill="none">
 
-  <rect width="{width}" height="{height}"
+  <rect width="{width}" height="{overall_height}"
         rx="12"
         fill="#0d1117"
         stroke="#30363d"
@@ -566,7 +566,7 @@ def generate_bento_svg(
       </g>
     </g>
 
-    <text x="22" y="{142 + legend_rows * row_height:.1f}"
+    <text x="22" y="{language_footer_y:.1f}"
           fill="#8b949e"
           font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
           font-size="9.5">

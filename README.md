@@ -35,14 +35,14 @@
 
 ### 👨‍💻 About Me
 
-I'm a **DevOps & Cloud Engineer** focused on building reliable, automated cloud infrastructure and cloud-native platforms.
+I am an entry-level **Cloud & DevOps Engineer** specializing in Linux systems administration, AWS cloud infrastructure, and Kubernetes orchestration. I focus on building reliable, cost-efficient infrastructure, troubleshooting system-level bottlenecks, and replacing manual operational steps with repeatable automation.
 
-* ☁️ **Cloud:** Hands-on with **AWS** and **Microsoft Azure**, including Azure Functions and cloud infrastructure on AWS EC2.
-* ☸️ **Cloud-Native:** Built and operated an **11-microservice Online Boutique** environment on **K3s**, with HPA-based auto-scaling and Kubernetes self-healing.
-* 🔄 **Automation:** Build CI/CD workflows with **Jenkins** and **GitHub Actions**, automating deployment and delivery from code changes.
-* 📊 **Observability:** Use **Prometheus** and **Grafana** for metrics, dashboards, alerting, and reliability monitoring.
-* 🎯 **Goal:** Grow into a strong DevOps/Cloud Engineer who turns manual infrastructure and deployment work into repeatable automation.
-
+* ☁️ **AWS & Linux Infrastructure:** Hands-on administering Linux environments and core AWS services (EC2, VPC, Security Groups), designing cost-optimized compute setups, and enforcing host-level security.
+* ☸️ **Kubernetes Microservices Platform:** Architected an 11-microservice Google Online Boutique on **K3s with Jenkins CI/CD**, integrating dynamic HPA auto-scaling, **< 5s native self-healing**, and Prometheus/Grafana health alerts.
+* ⚡ **Serverless Cloud APIs:** Built and deployed a public cloud-hosted **RESTful JSON Resume API on AWS**, optimizing payload delivery for **sub-100ms** latency and configuring secure CORS headers.
+* 🛠️ **System Reliability & Automation:** Experienced in terminal-level troubleshooting, container lifecycle management, Shell scripting for disaster recovery, and eliminating infrastructure configuration drift.
+* 🎯 **Career Focus:** Seeking an entry-level / junior Cloud & DevOps Engineering role to help teams automate release cycles, optimize cloud spend, and maintain high platform availability.
+  
 ---
 
 ### 📡 Technical Capability & Skills Radar

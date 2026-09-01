@@ -212,7 +212,7 @@
           font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
           font-size="16"
           font-weight="bold">
-        191
+        197
       </text>
 
       <text
@@ -245,7 +245,7 @@
           font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
           font-size="16"
           font-weight="bold">
-        6
+        5
       </text>
 
       <text
@@ -382,18 +382,18 @@
         <rect
             x="0"
             y="0.0"
-            width="9.8"
+            width="11.1"
             height="12"
             rx="4"
             fill="#844FBA"/>
         
         <text
-            x="16.8"
+            x="18.1"
             y="7.4"
             fill="#e6edf3"
             font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
             font-size="9.5"
-            font-weight="700">1.5%</text>
+            font-weight="700">1.7%</text>
         
         <text
             x="664.0"
@@ -406,18 +406,18 @@
         <rect
             x="0"
             y="23.0"
-            width="13.7"
+            width="14.9"
             height="12"
             rx="4"
             fill="#b07219"/>
         
         <text
-            x="20.6"
+            x="21.9"
             y="30.4"
             fill="#e6edf3"
             font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
             font-size="9.5"
-            font-weight="700">2.1%</text>
+            font-weight="700">2.3%</text>
         
         <text
             x="664.0"
@@ -430,18 +430,18 @@
         <rect
             x="0"
             y="46.0"
-            width="18.8"
+            width="20.1"
             height="12"
             rx="4"
             fill="#f1e05a"/>
         
         <text
-            x="25.8"
+            x="27.1"
             y="53.4"
             fill="#e6edf3"
             font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
             font-size="9.5"
-            font-weight="700">2.9%</text>
+            font-weight="700">3.1%</text>
         
         <text
             x="664.0"
@@ -454,18 +454,18 @@
         <rect
             x="0"
             y="69.0"
-            width="20.8"
+            width="22.8"
             height="12"
             rx="4"
             fill="#384d54"/>
         
         <text
-            x="27.8"
+            x="29.8"
             y="76.4"
             fill="#e6edf3"
             font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
             font-size="9.5"
-            font-weight="700">3.2%</text>
+            font-weight="700">3.5%</text>
         
         <text
             x="664.0"
@@ -478,18 +478,18 @@
         <rect
             x="0"
             y="92.0"
-            width="20.8"
+            width="22.8"
             height="12"
             rx="4"
             fill="#663399"/>
         
         <text
-            x="27.8"
+            x="29.8"
             y="99.4"
             fill="#e6edf3"
             font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
             font-size="9.5"
-            font-weight="700">3.2%</text>
+            font-weight="700">3.5%</text>
         
         <text
             x="664.0"
@@ -502,18 +502,18 @@
         <rect
             x="0"
             y="115.0"
-            width="31.9"
+            width="34.4"
             height="12"
             rx="4"
             fill="#89e051"/>
         
         <text
-            x="38.9"
+            x="41.4"
             y="122.4"
             fill="#e6edf3"
             font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
             font-size="9.5"
-            font-weight="700">4.9%</text>
+            font-weight="700">5.3%</text>
         
         <text
             x="664.0"
@@ -526,18 +526,18 @@
         <rect
             x="0"
             y="138.0"
-            width="37.1"
+            width="40.3"
             height="12"
             rx="4"
             fill="#7355dd"/>
         
         <text
-            x="44.1"
+            x="47.3"
             y="145.4"
             fill="#e6edf3"
             font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
             font-size="9.5"
-            font-weight="700">5.7%</text>
+            font-weight="700">6.2%</text>
         
         <text
             x="664.0"
@@ -550,18 +550,18 @@
         <rect
             x="0"
             y="161.0"
-            width="114.4"
+            width="131.3"
             height="12"
             rx="4"
             fill="#e34c26"/>
         
         <text
-            x="121.4"
+            x="138.3"
             y="168.4"
             fill="#e6edf3"
             font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
             font-size="9.5"
-            font-weight="700">17.6%</text>
+            font-weight="700">20.2%</text>
         
         <text
             x="664.0"
@@ -574,18 +574,18 @@
         <rect
             x="0"
             y="184.0"
-            width="131.3"
+            width="143.7"
             height="12"
             rx="4"
             fill="#00ADD8"/>
         
         <text
-            x="138.3"
+            x="150.7"
             y="191.4"
             fill="#e6edf3"
             font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
             font-size="9.5"
-            font-weight="700">20.2%</text>
+            font-weight="700">22.1%</text>
         
         <text
             x="664.0"
@@ -598,18 +598,18 @@
         <rect
             x="0"
             y="207.0"
-            width="252.2"
+            width="208.7"
             height="12"
             rx="4"
             fill="#3572A5"/>
         
         <text
-            x="259.2"
+            x="215.7"
             y="214.4"
             fill="#e6edf3"
             font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
             font-size="9.5"
-            font-weight="700">38.8%</text>
+            font-weight="700">32.1%</text>
         
         <text
             x="664.0"

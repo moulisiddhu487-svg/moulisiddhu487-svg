@@ -87,13 +87,11 @@ I'm a **DevOps & Cloud Engineer** focused on building reliable, automated cloud 
 
 ### 🌐 Beyond the Terminal
 
-As a DevOps Engineer, I enjoy building, experimenting, and continuously learning—but I also believe in having interests outside of technology that keep me refreshed and focused.
+I enjoy staying curious beyond day-to-day engineering and continuously exploring new ways to learn, create, and recharge.
 
-🎮 Competitive Gaming: I enjoy competitive gaming for the challenge, focus, and problem-solving mindset it brings.
-🌐 Technology & Exploration: I’m naturally curious about new technologies, developer tools, cloud platforms, and ideas that help me learn and build better.
-🍿 Anime & Entertainment: I enjoy anime and entertainment in my downtime, especially after long hours of learning and working on projects.
-
-Build. Learn. Compete. Recharge. Repeat.
+* **🎮 Competitive Gaming:** Enjoy competitive gaming as a way to reset, stay focused, and have fun outside engineering.
+* **🌐 Technology & Exploration:** Naturally curious about emerging technologies, developer tools, cloud platforms, and interesting ideas.
+* **🍿 Anime & Entertainment:** Enjoy anime and entertainment during downtime, especially after long periods of learning and building.
 
 
 

@@ -8,6 +8,10 @@ Formats links, badges, tech stack, and sections in a cohesive Monochrome Dark th
 import os
 import yaml
 
+# Brand icons: "icon" points to a local assets/*.svg brand mark
+# (official Simple Icons glyphs, CC0) rendered at "icon_height" px.
+# Entries with "icon" skip the shields.io badge. Link URLs come from
+# config.yml and are never modified here.
 BADGE_CONFIGS = {
     "linkedin": {
         "label": "LinkedIn",

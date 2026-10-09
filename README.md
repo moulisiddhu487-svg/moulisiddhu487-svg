@@ -71,7 +71,24 @@ I'm a **DevOps & Cloud Engineer** focused on building reliable, automated cloud 
 ### 📈 Activity & Contribution Flow
 
 <div align="center">
-  <img src="assets/contributions.svg" alt="Activity & Contribution Flow" width="100%" />
+  <img height="180em" src="https://github-readme-stats.vercel.app/api?username=moulisiddhu487-svg&show_icons=true&theme=tokyonight&hide_border=true&include_all_commits=true&count_private=true&cache_seconds=86400" alt="Mouli's GitHub Stats" />
+  <img height="180em" src="https://streak-stats.demolab.com?user=moulisiddhu487-svg&theme=tokyonight&hide_border=true&border_radius=8" alt="Mouli's GitHub Streak" />
+</div>
+
+<br />
+
+<div align="center">
+  <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=moulisiddhu487-svg&layout=donut-vertical&theme=tokyonight&hide_border=true&langs_count=8&cache_seconds=86400" alt="Top Languages" />
+</div>
+
+<br />
+
+<div align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/moulisiddhu487-svg/moulisiddhu487-svg/output/github-contribution-grid-snake-dark.svg" />
+    <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/moulisiddhu487-svg/moulisiddhu487-svg/output/github-contribution-grid-snake.svg" />
+    <img alt="Contribution Snake" src="https://raw.githubusercontent.com/moulisiddhu487-svg/moulisiddhu487-svg/output/github-contribution-grid-snake-dark.svg" />
+  </picture>
 </div>
 
 ---

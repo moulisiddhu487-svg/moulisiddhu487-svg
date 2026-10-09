@@ -261,7 +261,7 @@ def generate_contributions_svg(config_path="config.yml", output_path="assets/con
     <!-- Hero stat: total year contributions -->
     <g transform="translate({width - 28}, 26)" text-anchor="end">
       <text x="0" y="6" fill="#e3b341" font-size="26" font-weight="700" letter-spacing="0.5">{total_year}</text>
-      <circle class="live-dot" cx="-132" cy="22" r="4" fill="#3fb950"/>
+      <circle class="live-dot" cx="-121" cy="22" r="4" fill="#3fb950"/>
       <text x="0" y="26" fill="#8b949e" font-size="10" letter-spacing="1.6">TOTAL THIS YEAR</text>
       <text x="0" y="40" fill="#5d6772" font-size="10">{total_30d} in last 30 days &#183; peak {peak_year_val}/day this year</text>
     </g>

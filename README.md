@@ -16,11 +16,11 @@
   <br />
 
   <a href="https://www.linkedin.com/in/mouli-godaba-121a4525a/" target="_blank">
-    <img src="https://img.shields.io/badge/LinkedIn-0A66C2?style=for-the-badge&logo=linkedin&logoColor=ffffff" height="30" alt="LinkedIn"/>
+    <img src="assets/linkedin.svg" height="36" alt="LinkedIn" title="LinkedIn"/>
   </a>
   &nbsp;
   <a href="mailto:moulisiddhu487@gmail.com" target="_blank">
-    <img src="https://img.shields.io/badge/Email-EA4335?style=for-the-badge&logo=gmail&logoColor=ffffff" height="30" alt="Email"/>
+    <img src="assets/gmail.svg" height="36" alt="Email" title="Email"/>
   </a>
   &nbsp;
   <a href="https://mouli-portfolio-six.vercel.app/" target="_blank">

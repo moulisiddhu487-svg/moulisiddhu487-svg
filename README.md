@@ -18,13 +18,13 @@
   <a href="https://www.linkedin.com/in/mouli-godaba-121a4525a/" target="_blank">
     <img src="assets/linkedin.svg" height="36" alt="LinkedIn" title="LinkedIn"/>
   </a>
-  &nbsp;
+  &nbsp;&nbsp;&nbsp;&nbsp;
   <a href="mailto:moulisiddhu487@gmail.com" target="_blank">
     <img src="assets/gmail.svg" height="36" alt="Email" title="Email"/>
   </a>
-  &nbsp;
+  &nbsp;&nbsp;&nbsp;&nbsp;
   <a href="https://mouli-portfolio-six.vercel.app/" target="_blank">
-    <img src="https://img.shields.io/badge/Portfolio-00A86B?style=for-the-badge&logo=safari&logoColor=ffffff" height="30" alt="Portfolio"/>
+    <img src="assets/portfolio.svg" height="36" alt="Portfolio" title="Portfolio"/>
   </a>
 
 </div>

@@ -45,7 +45,9 @@ BADGE_CONFIGS = {
         "label": "Portfolio",
         "color": "00A86B",
         "logo": "safari",
-        "logo_color": "ffffff"
+        "logo_color": "ffffff",
+        "icon": "assets/portfolio.svg",
+        "icon_height": 36
     },
     "website": {
         "label": "Website",
@@ -109,7 +111,7 @@ def format_link_badges(links):
             )
         badge_tags.append(badge_tag)
 
-    return "\n  &nbsp;\n  ".join(badge_tags)
+    return "\n  &nbsp;&nbsp;&nbsp;&nbsp;\n  ".join(badge_tags)
 
 
 def format_tech_stack(tech_stack):

@@ -111,6 +111,7 @@ def format_link_badges(links):
             )
         badge_tags.append(badge_tag)
 
+    # Four non-breaking spaces between badges for a clean, airy row.
     return "\n  &nbsp;&nbsp;&nbsp;&nbsp;\n  ".join(badge_tags)
 
 

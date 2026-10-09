@@ -259,13 +259,13 @@ def generate_contributions_svg(config_path="config.yml", output_path="assets/con
       <text x="40" y="15" fill="#eef2f6" font-size="14" font-weight="650" letter-spacing="0.2">Activity &amp; Contribution Flow</text>
     </g>
     <!-- Hero stat: total year contributions -->
-    <g transform="translate({width - 28}, 24)" text-anchor="end">
-      <circle class="live-dot" cx="-104" cy="8" r="4" fill="#3fb950"/>
-      <text x="0" y="4" fill="#7ee787" font-size="24" font-weight="700" letter-spacing="0.5">{total_year}</text>
-      <text x="0" y="20" fill="#8b949e" font-size="10" letter-spacing="1.6">TOTAL THIS YEAR</text>
-      <text x="0" y="36" fill="#5d6772" font-size="10">{total_30d} in last 30 days &#183; peak {peak_year_val}/day this year</text>
+    <g transform="translate({width - 28}, 26)" text-anchor="end">
+      <text x="0" y="6" fill="#e3b341" font-size="26" font-weight="700" letter-spacing="0.5">{total_year}</text>
+      <circle class="live-dot" cx="-132" cy="22" r="4" fill="#3fb950"/>
+      <text x="0" y="26" fill="#8b949e" font-size="10" letter-spacing="1.6">TOTAL THIS YEAR</text>
+      <text x="0" y="40" fill="#5d6772" font-size="10">{total_30d} in last 30 days &#183; peak {peak_year_val}/day this year</text>
     </g>
-    <line x1="28" y1="74" x2="{width - 28}" y2="74" stroke="url(#ruleGrad)" stroke-width="1"/>
+    <line x1="28" y1="76" x2="{width - 28}" y2="76" stroke="url(#ruleGrad)" stroke-width="1"/>
   </g>
 
   <!-- Background Grids & Labels -->

@@ -247,8 +247,9 @@ def generate_bento_svg(
     # Repository Language Spectrum
     # ---------------------------------------------------------
     #
-    # Each GitHub language gets its own horizontal bar.
-    # Every bar starts at the same 0% point.
+    # Bottle style: every language gets an identical full-width dark
+    # track, with its GitHub language color filled proportionally
+    # inside like liquid in a bottle.
     # Rows are shown from lowest percentage to highest.
     # GitHub percentages and GitHub Linguist colors are untouched.
     # ---------------------------------------------------------
@@ -285,14 +286,30 @@ def generate_bento_svg(
         if bar_width <= 0:
             continue
 
-        # Actual percentage width. Every bar starts at x=0.
+        # Empty bottle: full-width dark track, identical size for every language.
         segments.append(
             f'''
         <rect
             x="0"
             y="{y:.1f}"
-            width="{bar_width:.1f}"
+            width="{language_bar_width:.1f}"
             height="{language_bar_height}"
+            rx="6"
+            fill="#0d1117"
+            stroke="#30363d"
+            stroke-width="1"/>
+        '''
+        )
+
+        # Liquid: language color filled proportionally inside the track.
+        fill_width = max(bar_width - 2, 2)
+        segments.append(
+            f'''
+        <rect
+            x="1"
+            y="{y + 1:.1f}"
+            width="{fill_width:.1f}"
+            height="{language_bar_height - 2}"
             rx="4"
             fill="{lang["color"]}"/>
         '''
@@ -300,14 +317,14 @@ def generate_bento_svg(
 
         pct_text = f'{pct:.1f}%'
 
-        # Percentage sits immediately after the colored portion.
-        pct_x = bar_width + 7
-
+        # Percentage sits in a fixed right-aligned column beside the
+        # language name, outside the track.
         segments.append(
             f'''
         <text
-            x="{pct_x:.1f}"
+            x="706"
             y="{y + 7.4:.1f}"
+            text-anchor="end"
             fill="#e6edf3"
             font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
             font-size="9.5"
@@ -316,14 +333,12 @@ def generate_bento_svg(
         )
 
         # Language name is kept in one fixed column at the right side
-        # of the language area, outside every colored bar.
+        # of the language area, beside the percentage.
         # This keeps all language names perfectly aligned.
-        name_x = language_bar_width + 14
-
         segments.append(
             f'''
         <text
-            x="{name_x:.1f}"
+            x="714"
             y="{y + 7.4:.1f}"
             fill="#e6edf3"
             font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"

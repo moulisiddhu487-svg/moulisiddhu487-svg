@@ -93,11 +93,13 @@ def format_link_badges(links):
 
         # Real brand icons (local assets) take precedence over shields badges.
         # Links (hrefs) are never modified here.
+        # NOTE: no whitespace inside the <a> tags — even a newline renders
+        # as a tiny underlined "dash" under the icon on GitHub.
         if badge_info.get("icon"):
             badge_tag = (
-                f'<a href="{target_url}" target="_blank">\n'
-                f'    <img src="{badge_info["icon"]}" height="{badge_info.get("icon_height", 36)}" alt="{badge_info["label"]}" title="{badge_info["label"]}"/>\n'
-                f'  </a>'
+                f'<a href="{target_url}" target="_blank">'
+                f'<img src="{badge_info["icon"]}" height="{badge_info.get("icon_height", 36)}" alt="{badge_info["label"]}" title="{badge_info["label"]}"/>'
+                f'</a>'
             )
         else:
             badge_url = (
@@ -105,9 +107,9 @@ def format_link_badges(links):
                 f"?style=for-the-badge&logo={badge_info['logo']}&logoColor={badge_info['logo_color']}"
             )
             badge_tag = (
-                f'<a href="{target_url}" target="_blank">\n'
-                f'    <img src="{badge_url}" height="30" alt="{badge_info["label"]}"/>\n'
-                f'  </a>'
+                f'<a href="{target_url}" target="_blank">'
+                f'<img src="{badge_url}" height="30" alt="{badge_info["label"]}" title="{badge_info["label"]}"/>'
+                f'</a>'
             )
         badge_tags.append(badge_tag)
 

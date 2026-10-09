@@ -261,7 +261,7 @@ def generate_bento_svg(
     # One row per language. This automatically grows with GitHub data.
     language_row_height = 18
     language_row_gap = 5
-    language_bar_height = 12
+    language_bar_height = 14
     language_bar_width = 650
 
     # Lowest percentage first, highest percentage last.
@@ -287,6 +287,7 @@ def generate_bento_svg(
             continue
 
         # Empty bottle: full-width dark track, identical size for every language.
+        # Track length never changes; only the thickness was increased slightly.
         segments.append(
             f'''
         <rect
@@ -294,7 +295,7 @@ def generate_bento_svg(
             y="{y:.1f}"
             width="{language_bar_width:.1f}"
             height="{language_bar_height}"
-            rx="6"
+            rx="7"
             fill="#0d1117"
             stroke="#30363d"
             stroke-width="1"/>
@@ -310,21 +311,22 @@ def generate_bento_svg(
             y="{y + 1:.1f}"
             width="{fill_width:.1f}"
             height="{language_bar_height - 2}"
-            rx="4"
+            rx="5"
             fill="{lang["color"]}"/>
         '''
         )
 
         pct_text = f'{pct:.1f}%'
 
-        # Percentage sits in a fixed right-aligned column beside the
-        # language name, outside the track.
+        # Percentage sits inside the track, right beside the colored fill.
+        # Always on the dark track area, never on top of the fill.
+        pct_x = 1 + fill_width + 7
+
         segments.append(
             f'''
         <text
-            x="706"
-            y="{y + 7.4:.1f}"
-            text-anchor="end"
+            x="{pct_x:.1f}"
+            y="{y + 8.4:.1f}"
             fill="#e6edf3"
             font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
             font-size="9.5"
@@ -333,16 +335,16 @@ def generate_bento_svg(
         )
 
         # Language name is kept in one fixed column at the right side
-        # of the language area, beside the percentage.
+        # of the language area, beside the track.
         # This keeps all language names perfectly aligned.
         segments.append(
             f'''
         <text
-            x="714"
-            y="{y + 7.4:.1f}"
+            x="{language_bar_width + 14:.1f}"
+            y="{y + 8.4:.1f}"
             fill="#e6edf3"
             font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
-            font-size="10.5"
+            font-size="11.5"
             font-weight="700">{html.escape(lang["name"])}</text>
         '''
         )

@@ -13,7 +13,9 @@ BADGE_CONFIGS = {
         "label": "LinkedIn",
         "color": "0A66C2",
         "logo": "linkedin",
-        "logo_color": "ffffff"
+        "logo_color": "ffffff",
+        "icon": "assets/linkedin.svg",
+        "icon_height": 36
     },
     "x": {
         "label": "X",
@@ -31,7 +33,9 @@ BADGE_CONFIGS = {
         "label": "Email",
         "color": "EA4335",
         "logo": "gmail",
-        "logo_color": "ffffff"
+        "logo_color": "ffffff",
+        "icon": "assets/gmail.svg",
+        "icon_height": 36
     },
     "portfolio": {
         "label": "Portfolio",
@@ -81,15 +85,24 @@ def format_link_badges(links):
             "logo_color": "ffffff"
         })
 
-        badge_url = (
-            f"https://img.shields.io/badge/{badge_info['label']}-{badge_info['color']}"
-            f"?style=for-the-badge&logo={badge_info['logo']}&logoColor={badge_info['logo_color']}"
-        )
-        badge_tag = (
-            f'<a href="{target_url}" target="_blank">\n'
-            f'    <img src="{badge_url}" height="30" alt="{badge_info["label"]}"/>\n'
-            f'  </a>'
-        )
+        # Real brand icons (local assets) take precedence over shields badges.
+        # Links (hrefs) are never modified here.
+        if badge_info.get("icon"):
+            badge_tag = (
+                f'<a href="{target_url}" target="_blank">\n'
+                f'    <img src="{badge_info["icon"]}" height="{badge_info.get("icon_height", 36)}" alt="{badge_info["label"]}" title="{badge_info["label"]}"/>\n'
+                f'  </a>'
+            )
+        else:
+            badge_url = (
+                f"https://img.shields.io/badge/{badge_info['label']}-{badge_info['color']}"
+                f"?style=for-the-badge&logo={badge_info['logo']}&logoColor={badge_info['logo_color']}"
+            )
+            badge_tag = (
+                f'<a href="{target_url}" target="_blank">\n'
+                f'    <img src="{badge_url}" height="30" alt="{badge_info["label"]}"/>\n'
+                f'  </a>'
+            )
         badge_tags.append(badge_tag)
 
     return "\n  &nbsp;\n  ".join(badge_tags)

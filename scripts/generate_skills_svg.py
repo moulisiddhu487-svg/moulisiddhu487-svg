@@ -103,6 +103,88 @@ def generate_skills_svg(config_path="config.yml", output_path="assets/skills.svg
             f'font-size="11" font-weight="500">{item["name"]}</text>'
         )
 
+    # Metal radar bezel (real-radar look): drop shadow, brushed-steel ring
+    # with outer rim and inner bevel, dark screen face, seam groove, top
+    # sheen, and cross-slotted bolt rivets like real Phillips screws.
+    bezel_svg = []
+    bezel_svg.append(f'    <circle cx="{rcx}" cy="{rcy + 3}" r="109" fill="#000000" opacity="0.35"/>')
+    bezel_svg.append(f'    <circle cx="{rcx}" cy="{rcy}" r="106.8" fill="none" stroke="#000000" stroke-width="1.2" opacity="0.55"/>')
+    bezel_svg.append(f'    <circle cx="{rcx}" cy="{rcy}" r="102" fill="none" stroke="url(#metalRingGrad)" stroke-width="9"/>')
+    bezel_svg.append(f'    <circle cx="{rcx}" cy="{rcy}" r="97.8" fill="none" stroke="#ffffff" stroke-width="1" opacity="0.14"/>')
+    bezel_svg.append(f'    <circle cx="{rcx}" cy="{rcy}" r="97" fill="#0a0f16"/>')
+    bezel_svg.append(f'    <circle cx="{rcx}" cy="{rcy}" r="97" fill="none" stroke="#000000" stroke-width="1" opacity="0.6"/>')
+    # Top sheen arc across the bezel (10 o'clock -> 2 o'clock over the top)
+    sheen_start = (rcx + 102 * math.cos(math.radians(210)), rcy + 102 * math.sin(math.radians(210)))
+    sheen_end = (rcx + 102 * math.cos(math.radians(330)), rcy + 102 * math.sin(math.radians(330)))
+    bezel_svg.append(f'    <path d="M {sheen_start[0]:.1f} {sheen_start[1]:.1f} A 102 102 0 0 1 {sheen_end[0]:.1f} {sheen_end[1]:.1f}" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" opacity="0.28"/>')
+    # Cross-slotted dome bolts around the bezel, every 45 degrees
+    for k in range(8):
+        ang = math.radians(k * 45)
+        bx = rcx + 102 * math.cos(ang)
+        by = rcy + 102 * math.sin(ang)
+        bezel_svg.append(f'    <circle cx="{bx:.1f}" cy="{by:.1f}" r="3.0" fill="url(#boltGrad)" stroke="#14191f" stroke-width="0.8"/>')
+        bezel_svg.append(f'    <line x1="{bx - 1.6:.1f}" y1="{by:.1f}" x2="{bx + 1.6:.1f}" y2="{by:.1f}" stroke="#1c2128" stroke-width="0.7" stroke-linecap="round"/>')
+        bezel_svg.append(f'    <line x1="{bx:.1f}" y1="{by - 1.6:.1f}" x2="{bx:.1f}" y2="{by + 1.6:.1f}" stroke="#1c2128" stroke-width="0.7" stroke-linecap="round"/>')
+        bezel_svg.append(f'    <circle cx="{bx - 0.9:.1f}" cy="{by - 0.9:.1f}" r="0.9" fill="#ffffff" opacity="0.8"/>')
+
+    # Spotted contacts: each blip is ONE glowing light, nothing else.
+    # Small (r=3) with a soft blur halo (dotGlow filter), so it reads
+    # as a light, not a sharp dot. When the slow 30s green sweep
+    # reaches it, the light comes on screen INSTANTLY — full size, full
+    # brightness, no fade-in — then it increases in size while losing
+    # opacity, smoothly swelling to 6x (18px) and vanishing completely
+    # once the sweep has passed over it (the 90-degree beam covers a
+    # point for 7.5s). No rings, no hollow circles, no separate power
+    # element. Each blip reappears on a different rhythm (every pass,
+    # every 2nd pass, every 3rd pass), so lights show up at random,
+    # unpredictable moments. Sweep starts pointing up and rotates
+    # clockwise, so a contact at sweep-angle a (clockwise from 12
+    # o'clock) is hit at a/360*30 seconds.
+    contacts = [
+        {"sweep_deg": 65, "radius": 70, "period_mult": 1},
+        {"sweep_deg": 205, "radius": 55, "period_mult": 2},
+        {"sweep_deg": 140, "radius": 62, "period_mult": 3},
+        {"sweep_deg": 250, "radius": 48, "period_mult": 2},
+    ]
+    contacts_svg = []
+    for c in contacts:
+        a = math.radians(c["sweep_deg"])
+        ccx = rcx + c["radius"] * math.sin(a)
+        ccy = rcy - c["radius"] * math.cos(a)
+        hit = c["sweep_deg"] / 360.0 * 30.0
+        n = c["period_mult"]
+        contacts_svg.append(
+            f'    <circle class="light{n}" cx="{ccx:.1f}" cy="{ccy:.1f}" r="3" fill="#ff3b30" opacity="0" filter="url(#dotGlow)" style="animation-delay: {hit:.2f}s;"/>'
+        )
+
+    # Smooth radar beam like the reference scope: NOT a flat triangle, but
+    # a fan of thin sectors fading smoothly from the bright leading edge
+    # back along the tail (SVG has no conic gradient, so graded slices
+    # are how real radar UIs fake the angular fade).
+    beam_slices = []
+    num_slices = 30
+    step_deg = 90.0 / num_slices
+    for k in range(num_slices):
+        a1 = math.radians(-90 - k * step_deg)
+        a2 = math.radians(-90 - (k + 1) * step_deg)
+        x1 = rcx + max_r * math.cos(a1)
+        y1 = rcy + max_r * math.sin(a1)
+        x2 = rcx + max_r * math.cos(a2)
+        y2 = rcy + max_r * math.sin(a2)
+        op = 0.5 * (1 - k / num_slices)
+        beam_slices.append(f'    <path class="radar-sweep-beam" d="M {rcx} {rcy} L {x1:.1f} {y1:.1f} A {max_r} {max_r} 0 0 0 {x2:.1f} {y2:.1f} Z" fill="#39ff88" opacity="{op:.3f}"/>')
+
+    # Fine scope grid inside the radar face, like the reference scope.
+    grid_svg = []
+    gx = rcx - 96
+    while gx <= rcx + 96:
+        grid_svg.append(f'    <line x1="{gx}" y1="{rcy - 96}" x2="{gx}" y2="{rcy + 96}" stroke="#39ff88" stroke-width="0.5" opacity="0.06"/>')
+        gx += 16
+    gy = rcy - 96
+    while gy <= rcy + 96:
+        grid_svg.append(f'    <line x1="{rcx - 96}" y1="{gy}" x2="{rcx + 96}" y2="{gy}" stroke="#39ff88" stroke-width="0.5" opacity="0.06"/>')
+        gy += 16
+
     data_pts_str = " ".join(data_points)
     radar_polygon = (
         f'    <!-- Radar Data Polygon -->\n'
@@ -115,9 +197,10 @@ def generate_skills_svg(config_path="config.yml", output_path="assets/skills.svg
     hud_start_y = 95
     bar_width = 415
     
-    top_skills = sorted(skills_data, key=lambda s: s.get("level", 0), reverse=True)[:6]
+    # Bars follow the same order as the radar (config order), all 8 skills.
+    bar_skills = skills_data
 
-    # Brand colors for the six displayed technologies.
+    # Brand colors for the displayed technologies.
     brand_colors = {
         "Kubernetes": "#326CE5",
         "Docker": "#2496ED",
@@ -125,10 +208,12 @@ def generate_skills_svg(config_path="config.yml", output_path="assets/skills.svg
         "Jenkins / GitHub Actions": "#D24939",
         "AWS": "#FF9900",
         "Azure": "#0078D4",
+        "Prometheus / Grafana": "#E6522C",
+        "Terraform / Ansible": "#844FBA",
     }
     
-    for idx, s in enumerate(top_skills):
-        y_offset = hud_start_y + idx * 40
+    for idx, s in enumerate(bar_skills):
+        y_offset = hud_start_y + idx * 32
         lvl = s.get("level", 85)
         cat = s.get("category", "General")
         fill_w = (bar_width * (lvl / 100.0))
@@ -166,13 +251,37 @@ def generate_skills_svg(config_path="config.yml", output_path="assets/skills.svg
         0% {{ transform: scaleX(0); }}
         100% {{ transform: scaleX(1); }}
       }}
+      @keyframes lightBloom1 {{
+        0% {{ transform: scale(1); opacity: 1; }}
+        6.25% {{ transform: scale(2); opacity: 0.7; }}
+        12.5% {{ transform: scale(3); opacity: 0.45; }}
+        18.75% {{ transform: scale(4.5); opacity: 0.2; }}
+        25% {{ transform: scale(6); opacity: 0; }}
+        100% {{ transform: scale(6); opacity: 0; }}
+      }}
+      @keyframes lightBloom2 {{
+        0% {{ transform: scale(1); opacity: 1; }}
+        3.13% {{ transform: scale(2); opacity: 0.7; }}
+        6.25% {{ transform: scale(3); opacity: 0.45; }}
+        9.38% {{ transform: scale(4.5); opacity: 0.2; }}
+        12.5% {{ transform: scale(6); opacity: 0; }}
+        100% {{ transform: scale(6); opacity: 0; }}
+      }}
+      @keyframes lightBloom3 {{
+        0% {{ transform: scale(1); opacity: 1; }}
+        2.08% {{ transform: scale(2); opacity: 0.7; }}
+        4.17% {{ transform: scale(3); opacity: 0.45; }}
+        6.25% {{ transform: scale(4.5); opacity: 0.2; }}
+        8.33% {{ transform: scale(6); opacity: 0; }}
+        100% {{ transform: scale(6); opacity: 0; }}
+      }}
       .radar-poly {{
         transform-origin: {rcx}px {rcy}px;
         animation: radarExpand 1.0s cubic-bezier(0.16, 1, 0.3, 1) forwards;
       }}
       .radar-sweep-beam {{
         transform-origin: {rcx}px {rcy}px;
-        animation: radarSweep 8s linear infinite;
+        animation: radarSweep 30s linear infinite;
       }}
       .vertex-dot {{
         transform-box: fill-box;
@@ -184,11 +293,54 @@ def generate_skills_svg(config_path="config.yml", output_path="assets/skills.svg
         transform-origin: left center;
         animation: barGrow 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
       }}
+      .light1 {{
+        transform-box: fill-box;
+        transform-origin: center;
+        opacity: 0;
+        animation: lightBloom1 30s linear infinite;
+      }}
+      .light2 {{
+        transform-box: fill-box;
+        transform-origin: center;
+        opacity: 0;
+        animation: lightBloom2 60s linear infinite;
+      }}
+      .light3 {{
+        transform-box: fill-box;
+        transform-origin: center;
+        opacity: 0;
+        animation: lightBloom3 90s linear infinite;
+      }}
     </style>
-    <linearGradient id="radarSweepGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#39ff88" stop-opacity="0.42"/>
-      <stop offset="100%" stop-color="#39ff88" stop-opacity="0.0"/>
+    <filter id="dotGlow" x="-150%" y="-150%" width="400%" height="400%">
+      <feGaussianBlur stdDeviation="2" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <linearGradient id="metalRingGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f7fafc"/>
+      <stop offset="12%" stop-color="#d3dae1"/>
+      <stop offset="22%" stop-color="#aab3bd"/>
+      <stop offset="32%" stop-color="#767f89"/>
+      <stop offset="42%" stop-color="#565e68"/>
+      <stop offset="50%" stop-color="#3f4750"/>
+      <stop offset="58%" stop-color="#6d7680"/>
+      <stop offset="68%" stop-color="#a7b0b9"/>
+      <stop offset="78%" stop-color="#d9dfe5"/>
+      <stop offset="88%" stop-color="#eef2f5"/>
+      <stop offset="100%" stop-color="#8b959f"/>
     </linearGradient>
+    <radialGradient id="boltGrad" cx="35%" cy="30%" r="75%">
+      <stop offset="0%" stop-color="#e8edf3"/>
+      <stop offset="40%" stop-color="#9aa5b1"/>
+      <stop offset="75%" stop-color="#565e68"/>
+      <stop offset="100%" stop-color="#2f363e"/>
+    </radialGradient>
+    <clipPath id="radarFaceClip">
+      <circle cx="{rcx}" cy="{rcy}" r="97"/>
+    </clipPath>
   </defs>
 
   <!-- Card Background -->
@@ -205,13 +357,19 @@ def generate_skills_svg(config_path="config.yml", output_path="assets/skills.svg
 
   <!-- Left: Skill Radar -->
   <g>
-    <!-- Background Rotating Sweep Beam -->
-    <path class="radar-sweep-beam" d="M {rcx} {rcy} L {rcx} {rcy - max_r} A {max_r} {max_r} 0 0 1 {rcx + max_r * 0.707} {rcy - max_r * 0.707} Z" fill="url(#radarSweepGrad)"/>
-    <path class="radar-sweep-beam" d="M {rcx} {rcy} L {rcx} {rcy - max_r}" fill="none" stroke="#39ff88" stroke-width="1.6" stroke-linecap="round" opacity="0.7"/>
+{chr(10).join(bezel_svg)}
+    <!-- Fine scope grid inside the radar face -->
+    <g clip-path="url(#radarFaceClip)">
+{chr(10).join(grid_svg)}
+    </g>
+    <!-- Background Rotating Sweep Beam: smooth graded fan, like the reference scope -->
+{chr(10).join(beam_slices)}
+    <path class="radar-sweep-beam" d="M {rcx} {rcy} L {rcx} {rcy - max_r}" fill="none" stroke="#39ff88" stroke-width="2" stroke-linecap="round" opacity="0.95"/>
 {chr(10).join(rings_svg)}
 {chr(10).join(axes_svg)}
 {radar_polygon}
 {chr(10).join(vertex_dots)}
+{chr(10).join(contacts_svg)}
 {chr(10).join(labels_svg)}
   </g>
 
@@ -232,3 +390,4 @@ def generate_skills_svg(config_path="config.yml", output_path="assets/skills.svg
 
 if __name__ == "__main__":
     generate_skills_svg()
+

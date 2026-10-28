@@ -30,30 +30,30 @@ links:
   portfolio: "https://mouli-portfolio-six.vercel.app/"
 
 skills:
-  - name: "Kubernetes"
-    level: 90
-    category: "Cloud-Native"
-  - name: "Docker"
-    level: 88
-    category: "Containers"
   - name: "Linux / Bash"
-    level: 86
+    level: 72
     category: "Systems"
+  - name: "Docker"
+    level: 68
+    category: "Containers"
+  - name: "Kubernetes"
+    level: 48
+    category: "Cloud-Native"
   - name: "Jenkins / GitHub Actions"
-    level: 84
+    level: 40
     category: "CI/CD"
+  - name: "Terraform / Ansible"
+    level: 52
+    category: "Automation"
+  - name: "Prometheus / Grafana"
+    level: 38
+    category: "Observability"
   - name: "AWS"
-    level: 82
+    level: 69
     category: "Cloud"
   - name: "Azure"
-    level: 80
+    level: 43
     category: "Cloud"
-  - name: "Prometheus / Grafana"
-    level: 78
-    category: "Observability"
-  - name: "Terraform / Ansible"
-    level: 76
-    category: "Automation"
 
 tech_stack:
   - category: "Cloud & Infrastructure"

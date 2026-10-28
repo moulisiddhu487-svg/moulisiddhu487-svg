@@ -6,6 +6,7 @@ Includes radar polygon expansion, rotating radar beam, vertex pulse, and animate
 """
 
 import math
+import random
 import os
 import html
 import yaml
@@ -127,25 +128,41 @@ def generate_skills_svg(config_path="config.yml", output_path="assets/skills.svg
         bezel_svg.append(f'    <line x1="{bx:.1f}" y1="{by - 1.6:.1f}" x2="{bx:.1f}" y2="{by + 1.6:.1f}" stroke="#1c2128" stroke-width="0.7" stroke-linecap="round"/>')
         bezel_svg.append(f'    <circle cx="{bx - 0.9:.1f}" cy="{by - 0.9:.1f}" r="0.9" fill="#ffffff" opacity="0.8"/>')
 
-    # Spotted contacts: each blip is ONE glowing light, nothing else.
-    # Small (r=3) with a soft blur halo (dotGlow filter), so it reads
-    # as a light, not a sharp dot. When the slow 30s green sweep
-    # reaches it, the light comes on screen INSTANTLY — full size, full
-    # brightness, no fade-in — then it increases in size while losing
-    # opacity, smoothly swelling to 6x (18px) and vanishing completely
-    # once the sweep has passed over it (the 90-degree beam covers a
-    # point for 7.5s). No rings, no hollow circles, no separate power
-    # element. Each blip reappears on a different rhythm (every pass,
-    # every 2nd pass, every 3rd pass), so lights show up at random,
-    # unpredictable moments. Sweep starts pointing up and rotates
+    # Spotted contacts: MANY glowing lights, not the same few dots in
+    # the same places. 10 lights are scattered at RANDOM positions
+    # (seeded, so the repo's auto-regeneration reproduces the same dots
+    # instead of shuffling them on every workflow run), each on a mixed
+    # rhythm (every pass / 2nd / 3rd / 4th), so which lights pop up
+    # keeps changing and never settles into an obvious pattern. Periods
+    # stay multiples of the 30s sweep so every light still fires exactly
+    # when the beam reaches it. Radius capped at 78 so the 18px swell
+    # stays inside the r=97 face; lights kept 28px apart so none overlap.
+    # Each light is ONE glowing dot (r=3, dotGlow halo): it comes on
+    # screen INSTANTLY at full brightness when the sweep reaches it,
+    # then increases in size while losing opacity, swelling to 6x
+    # (18px) and vanishing once the beam has passed (the 90-degree beam
+    # covers a point for 7.5s). Sweep starts pointing up and rotates
     # clockwise, so a contact at sweep-angle a (clockwise from 12
     # o'clock) is hit at a/360*30 seconds.
-    contacts = [
-        {"sweep_deg": 65, "radius": 70, "period_mult": 1},
-        {"sweep_deg": 205, "radius": 55, "period_mult": 2},
-        {"sweep_deg": 140, "radius": 62, "period_mult": 3},
-        {"sweep_deg": 250, "radius": 48, "period_mult": 2},
-    ]
+    rng = random.Random(20261028)
+    contacts = []
+    placed = []
+    tries = 0
+    while len(contacts) < 10 and tries < 500:
+        tries += 1
+        bearing = rng.uniform(0, 360)
+        radius = rng.uniform(30, 78)
+        a = math.radians(bearing)
+        px = radius * math.sin(a)
+        py = -radius * math.cos(a)
+        if any((px - qx) ** 2 + (py - qy) ** 2 < 28 ** 2 for qx, qy in placed):
+            continue
+        placed.append((px, py))
+        contacts.append({
+            "sweep_deg": bearing,
+            "radius": radius,
+            "period_mult": rng.choice([1, 2, 3, 4]),
+        })
     contacts_svg = []
     for c in contacts:
         a = math.radians(c["sweep_deg"])
@@ -275,6 +292,14 @@ def generate_skills_svg(config_path="config.yml", output_path="assets/skills.svg
         8.33% {{ transform: scale(6); opacity: 0; }}
         100% {{ transform: scale(6); opacity: 0; }}
       }}
+      @keyframes lightBloom4 {{
+        0% {{ transform: scale(1); opacity: 1; }}
+        1.56% {{ transform: scale(2); opacity: 0.7; }}
+        3.13% {{ transform: scale(3); opacity: 0.45; }}
+        4.69% {{ transform: scale(4.5); opacity: 0.2; }}
+        6.25% {{ transform: scale(6); opacity: 0; }}
+        100% {{ transform: scale(6); opacity: 0; }}
+      }}
       .radar-poly {{
         transform-origin: {rcx}px {rcy}px;
         animation: radarExpand 1.0s cubic-bezier(0.16, 1, 0.3, 1) forwards;
@@ -310,6 +335,12 @@ def generate_skills_svg(config_path="config.yml", output_path="assets/skills.svg
         transform-origin: center;
         opacity: 0;
         animation: lightBloom3 90s linear infinite;
+      }}
+      .light4 {{
+        transform-box: fill-box;
+        transform-origin: center;
+        opacity: 0;
+        animation: lightBloom4 120s linear infinite;
       }}
     </style>
     <filter id="dotGlow" x="-150%" y="-150%" width="400%" height="400%">
